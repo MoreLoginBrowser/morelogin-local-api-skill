@@ -1,0 +1,28 @@
+{
+  "name": "morelogin-cli",
+  "version": "1.0.0",
+  "description": "Morelogin browser automation CLI tool",
+  "main": "bin/morelogin.js",
+  "bin": {
+    "morelogin": "./bin/morelogin.js"
+  },
+  "scripts": {
+    "start": "node bin/morelogin.js",
+    "example:puppeteer": "node examples/puppeteer-example.js",
+    "example:playwright": "node examples/playwright-example.js"
+  },
+  "keywords": [
+    "morelogin",
+    "browser",
+    "automation",
+    "cdp",
+    "puppeteer",
+    "playwright"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "playwright": "^1.40.0",
+    "puppeteer-core": "^21.11.0"
+  }
+}
