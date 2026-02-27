@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-const { spawnSync } = require('child_process');
+const fs = require('fs');
+const http = require('http');
+const path = require('path');
+const { spawn, spawnSync } = require('child_process');
 const {
   DEFAULT_BASE_URL,
   parseArgs,
@@ -11,6 +14,7 @@ const {
   toInt,
   unwrapApiResult,
 } = require('./common');
+
 
 function fail(message, code = 1) {
   console.error(`❌ ${message}`);
@@ -74,6 +78,7 @@ CloudPhone:
   app-installed           Installed apps list (/api/cloudphone/app/installedList)
   app-start|app-stop|app-restart|app-uninstall
 
+
 Proxy:
   list                    Query proxy list (/api/proxyInfo/page)
   add                     Add proxy (/api/proxyInfo/add)
@@ -119,6 +124,55 @@ function runAdb(args, allowFailure = false) {
   return result;
 }
 
+function validateCloudPhoneCreatePayload(body) {
+  const errors = [];
+  if (!body || typeof body !== 'object') errors.push('payload must be an object');
+  if (!body?.skuId) errors.push('skuId is required');
+  if (body?.quantity === undefined || body?.quantity === null) {
+    errors.push('quantity is required');
+  } else if (!Number.isInteger(Number(body.quantity)) || Number(body.quantity) < 1 || Number(body.quantity) > 10) {
+    errors.push('quantity must be an integer between 1 and 10');
+  }
+  if (errors.length > 0) {
+    fail(`cloudphone create validation failed: ${errors.join('; ')}`);
+  }
+}
+
+function validateProxyAddPayload(body) {
+  const errors = [];
+  if (!body?.proxyIp) errors.push('proxyIp is required');
+  if (body?.proxyPort === undefined || body?.proxyPort === null) errors.push('proxyPort is required');
+  if (body?.proxyProvider === undefined || body?.proxyProvider === null) errors.push('proxyProvider is required');
+  if (errors.length > 0) {
+    fail(`proxy add validation failed: ${errors.join('; ')}`);
+  }
+}
+
+function validateProxyUpdatePayload(body) {
+  const errors = [];
+  if (body?.id === undefined || body?.id === null) errors.push('id is required');
+  if (!body?.proxyIp) errors.push('proxyIp is required');
+  if (body?.proxyPort === undefined || body?.proxyPort === null) errors.push('proxyPort is required');
+  if (body?.proxyProvider === undefined || body?.proxyProvider === null) errors.push('proxyProvider is required');
+  if (errors.length > 0) {
+    fail(`proxy update validation failed: ${errors.join('; ')}`);
+  }
+}
+
+function validateGroupCreatePayload(body) {
+  if (!body?.groupName || !String(body.groupName).trim()) {
+    fail('group create validation failed: groupName is required');
+  }
+}
+
+function validateTagCreatePayload(body) {
+  if (!body?.tagName || !String(body.tagName).trim()) {
+    fail('tag create validation failed: tagName is required');
+  }
+}
+
+
+
 function toCloudPhoneNumericId(idValue) {
   const n = Number(idValue);
   return Number.isNaN(n) ? idValue : n;
@@ -127,12 +181,12 @@ function toCloudPhoneNumericId(idValue) {
 async function findCloudPhoneById(id) {
   const targetId = String(id);
   const first = await callApi('/api/cloudphone/page', {
-    body: { keyword: targetId, page: 1, pageSize: 20 },
+    body: { keyword: targetId, pageNo: 1, pageSize: 20 },
   });
   const fromFirst = (first.dataList || []).find((item) => String(item.id) === targetId);
   if (fromFirst) return fromFirst;
 
-  const fallback = await callApi('/api/cloudphone/page', { body: { page: 1, pageSize: 100 } });
+  const fallback = await callApi('/api/cloudphone/page', { body: { pageNo: 1, pageSize: 100 } });
   const fromFallback = (fallback.dataList || []).find((item) => String(item.id) === targetId);
   if (!fromFallback) {
     throw new Error(`Cloud phone not found: ${targetId}`);
@@ -311,9 +365,9 @@ async function handleBrowser(command, options) {
     case 'list': {
       const payload =
         parseJsonInput(options.payload, '--payload') || {
-          page: toInt(options.page, 1),
+          pageNo: toInt(options.page, 1),
           pageSize: toInt(options['page-size'], 20),
-          name: options.name || '',
+          envName: options.name || '',
         };
       const data = await callApi('/api/env/page', { body: payload });
       printObject(data);
@@ -427,13 +481,14 @@ CloudPhone subcommands:
 `);
       return;
     case 'list': {
-      const body = payload || { page: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
+      const body = payload || { pageNo: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
       const data = await callApi('/api/cloudphone/page', { body });
       printObject(data);
       return;
     }
     case 'create': {
       if (!payload) fail('create: use --payload to pass full parameters');
+      validateCloudPhoneCreatePayload(payload);
       const data = await callApi('/api/cloudphone/create', { body: payload });
       console.log('✅ Cloud phone created successfully');
       printObject(data);
@@ -564,19 +619,21 @@ async function handleProxy(command, options) {
   const payload = parseJsonInput(options.payload, '--payload');
   switch (command) {
     case 'list': {
-      const body = payload || { page: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
+      const body = payload || { pageNo: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
       const data = await callApi('/api/proxyInfo/page', { body });
       printObject(data);
       return;
     }
     case 'add': {
       if (!payload) fail('proxy add: use --payload to pass full parameters');
+      validateProxyAddPayload(payload);
       const data = await callApi('/api/proxyInfo/add', { body: payload });
       printObject(data);
       return;
     }
     case 'update': {
       if (!payload) fail('proxy update: use --payload to pass full parameters');
+      validateProxyUpdatePayload(payload);
       const data = await callApi('/api/proxyInfo/update', { body: payload });
       printObject(data);
       return;
@@ -617,7 +674,7 @@ async function handleGroup(command, options) {
   const payload = parseJsonInput(options.payload, '--payload');
   switch (command) {
     case 'list': {
-      const body = payload || { page: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
+      const body = payload || { groupName: options.name || '', pageNo: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
       const data = await callApi('/api/envgroup/page', { body });
       printObject(data);
       return;
@@ -625,6 +682,7 @@ async function handleGroup(command, options) {
     case 'create': {
       const body = payload || (options.name ? { groupName: options.name } : null);
       if (!body) fail('group create requires --name or --payload');
+      validateGroupCreatePayload(body);
       const data = await callApi('/api/envgroup/create', { body });
       printObject(data);
       return;
@@ -670,6 +728,7 @@ async function handleTag(command, options) {
     case 'create': {
       const body = payload || (options.name ? { tagName: options.name } : null);
       if (!body) fail('tag create requires --name or --payload');
+      validateTagCreatePayload(body);
       const data = await callApi('/api/envtag/create', { body });
       printObject(data);
       return;
@@ -728,7 +787,7 @@ async function main() {
 
   if (legacyMap[scope]) {
     [effectiveScope, effectiveCommand] = legacyMap[scope];
-    optionsSource = [command, ...rest];
+    optionsSource = [command, ...rest].filter((item) => item !== undefined);
   }
   if (effectiveScope === 'api') {
     optionsSource = command ? [command, ...rest] : rest;
@@ -753,6 +812,7 @@ async function main() {
       await handleCloudPhone(effectiveCommand, options);
       return;
     }
+
     if (effectiveScope === 'api') {
       await handleApi(options);
       return;
