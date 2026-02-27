@@ -1,3 +1,159 @@
+# MoreLogin Skill Usage
+
+This guide is aligned with the current implementation in:
+- `bin/morelogin.js`
+- `index.js`
+
+## 1) Entrypoints
+
+Both entrypoints are equivalent (same args, behavior, and exit code):
+
+```bash
+openclaw morelogin ...
+node bin/morelogin.js ...
+```
+
+## 2) Prerequisites
+
+- MoreLogin desktop app is running and logged in
+- Local API is available at `http://127.0.0.1:40000`
+- Node.js installed
+- For CloudPhone ADB: `adb` and `expect`
+
+## 3) Browser Profile Commands
+
+```bash
+node bin/morelogin.js browser list --page 1 --page-size 20
+node bin/morelogin.js browser start --env-id <envId>
+node bin/morelogin.js browser status --env-id <envId>
+node bin/morelogin.js browser detail --env-id <envId>
+node bin/morelogin.js browser refresh-fingerprint --env-id <envId>
+node bin/morelogin.js browser close --env-id <envId>
+```
+
+Cache operations:
+
+```bash
+node bin/morelogin.js browser clear-cache --env-id <envId> --cookie true
+node bin/morelogin.js browser clean-cloud-cache --env-id <envId> --cookie true --others true
+```
+
+Delete:
+
+```bash
+node bin/morelogin.js browser delete --env-ids "<id1,id2>"
+```
+
+## 4) CloudPhone Commands
+
+Lifecycle:
+
+```bash
+node bin/morelogin.js cloudphone list --page 1 --page-size 20
+node bin/morelogin.js cloudphone create --payload '{"skuId":"10005","proxyId":"<proxyId>","quantity":1}'
+node bin/morelogin.js cloudphone start --id <cloudPhoneId>
+node bin/morelogin.js cloudphone stop --id <cloudPhoneId>
+node bin/morelogin.js cloudphone info --id <cloudPhoneId>
+```
+
+Command execution:
+
+```bash
+node bin/morelogin.js cloudphone exec --id <cloudPhoneId> --command "ls /sdcard"
+```
+
+ADB:
+
+```bash
+node bin/morelogin.js cloudphone adb-info --id <cloudPhoneId>
+node bin/morelogin.js cloudphone update-adb --id <cloudPhoneId> --enable true
+node bin/morelogin.js cloudphone adb-connect --id <cloudPhoneId> --wait-seconds 90
+node bin/morelogin.js cloudphone adb-devices
+node bin/morelogin.js cloudphone adb-disconnect --id <cloudPhoneId>
+```
+
+App operations:
+
+```bash
+node bin/morelogin.js cloudphone app-installed --id <cloudPhoneId>
+node bin/morelogin.js cloudphone app-start --id <cloudPhoneId> --package-name com.android.chrome
+node bin/morelogin.js cloudphone app-stop --id <cloudPhoneId> --package-name com.android.chrome
+node bin/morelogin.js cloudphone app-restart --id <cloudPhoneId> --package-name com.android.chrome
+node bin/morelogin.js cloudphone app-uninstall --id <cloudPhoneId> --package-name com.example.app
+```
+
+## 5) Proxy / Group / Tag Commands
+
+Proxy:
+
+```bash
+node bin/morelogin.js proxy list --page 1 --page-size 20
+node bin/morelogin.js proxy add --payload '{"proxyIp":"1.2.3.4","proxyPort":8000,"proxyType":0,"proxyProvider":"0"}'
+node bin/morelogin.js proxy update --payload '{"id":"<proxyId>","proxyIp":"5.6.7.8","proxyPort":9000}'
+node bin/morelogin.js proxy delete --ids "<id1,id2>"
+```
+
+Group:
+
+```bash
+node bin/morelogin.js group list --page 1 --page-size 20
+node bin/morelogin.js group create --name "My Group"
+node bin/morelogin.js group edit --id "<groupId>" --name "My Group V2"
+node bin/morelogin.js group delete --ids "<id1,id2>"
+```
+
+Tag:
+
+```bash
+node bin/morelogin.js tag list
+node bin/morelogin.js tag create --name "vip"
+node bin/morelogin.js tag edit --id "<tagId>" --name "vip-new"
+node bin/morelogin.js tag delete --ids "<id1,id2>"
+```
+
+## 6) Generic API Mode
+
+Use API mode when a dedicated subcommand is not yet implemented:
+
+```bash
+node bin/morelogin.js api --endpoint /api/env/page --method POST --data '{"page":1,"pageSize":20}'
+```
+
+CloudPhone remark batch edit example:
+
+```bash
+node bin/morelogin.js api \
+  --endpoint /api/cloudphone/edit/batch \
+  --method POST \
+  --data '{"id":[1685965493158051,1682923785306426],"envRemark":"11"}'
+```
+
+## 7) Smoke Test Checklist
+
+```bash
+node bin/test-api.js
+node bin/morelogin.js browser list --page 1 --page-size 1
+node bin/morelogin.js cloudphone list --page 1 --page-size 1
+node bin/morelogin.js tag list
+```
+
+## 8) Troubleshooting
+
+- `Request timeout after 10000ms` on `browser start`:
+  - Re-run `browser status --env-id <envId>`; profile may already be running asynchronously.
+- `cloudphone create validation failed`:
+  - Current CLI follows `local-api.yaml` strict fields (`skuId`, `quantity`).
+  - Add missing fields or use `--payload` with full body.
+
+
+## 9) Related Files
+
+- `bin/morelogin.js` (main CLI)
+- `index.js` (entrypoint passthrough)
+- `bin/common.js` (API helpers)
+- `local-api.yaml` (official OpenAPI source used in this repo)
+- `API-CONTRACT.md` (CLI-aligned parameter contract)
+- `SKILL.md`, `QUICKSTART.md`, `README.md`
 # MoreLogin CLI Usage Guide
 
 This document is regenerated from the current implementation in:

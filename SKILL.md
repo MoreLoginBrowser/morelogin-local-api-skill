@@ -49,6 +49,8 @@ Before any operation:
 
 ## Execution Principles
 
+- Treat `local-api.yaml` + `API-CONTRACT.md` as the canonical parameter source before constructing payloads.
+- Do not infer field names from memory; verify required keys/types first (especially `id` vs `ids`, object vs array bodies).
 - Use `POST` by default (except tag query `GET /api/envtag/all`).
 - Uniform request header: `Content-Type: application/json`.
 - Check `code` first: `0` means success, non-zero use `msg` for error handling.
@@ -180,7 +182,6 @@ openclaw morelogin cloudphone list
 openclaw morelogin cloudphone start --id <cloudPhoneId>
 openclaw morelogin cloudphone info --id <cloudPhoneId>
 openclaw morelogin cloudphone exec --id <cloudPhoneId> --command "ls /sdcard"
-```
 
 ## Response & Error Handling
 
@@ -219,4 +220,6 @@ Handling rules:
 - `bin/morelogin.js`
 - `bin/cloudphone.js`
 - `lib/api.js`
+- `local-api.yaml`
+- `API-CONTRACT.md`
 - `README-OFFICIAL-API.md`

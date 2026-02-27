@@ -121,6 +121,7 @@ node bin/morelogin.js group delete --ids "<groupId1>,<groupId2>"
 node bin/morelogin.js tag create --name "vip"
 node bin/morelogin.js tag edit --id "<tagId>" --name "vip-new"
 node bin/morelogin.js tag delete --ids "<tagId1>,<tagId2>"
+
 ```
 
 ---
@@ -146,7 +147,6 @@ node bin/morelogin.js browser status --env-id <envId>
 # View cloud phone details and current status
 node bin/morelogin.js cloudphone info --id <cloudPhoneId>
 ```
-
 ---
 
 ## 📝 Next Steps
