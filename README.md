@@ -648,7 +648,7 @@ page.on('response', response => {
 
 ## Changelog
 
-### v1.0.0 (2024-02-26)
+### v1.0.0
 - Initial release
 - Profile management support
 - CDP connection support
