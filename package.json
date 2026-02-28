@@ -1,6 +1,6 @@
 {
   "name": "morelogin-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Morelogin browser automation CLI tool - Local API only",
   "main": "bin/morelogin.js",
   "bin": {
