@@ -1,6 +1,7 @@
 const http = require('http');
 
 const DEFAULT_BASE_URL = process.env.MORELOGIN_LOCAL_API_URL || 'http://127.0.0.1:40000';
+const DEFAULT_TIMEOUT_MS = Number.parseInt(process.env.MORELOGIN_LOCAL_API_TIMEOUT_MS || '10000', 10);
 
 function parseArgs(argv) {
   const options = {};
@@ -56,7 +57,7 @@ function splitCsv(value) {
     .filter(Boolean);
 }
 
-function requestApi(endpoint, { method = 'POST', body, baseUrl = DEFAULT_BASE_URL, timeoutMs = 10000 } = {}) {
+function requestApi(endpoint, { method = 'POST', body, baseUrl = DEFAULT_BASE_URL, timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
   return new Promise((resolve, reject) => {
     const url = new URL(endpoint, baseUrl);
     const payload = body === undefined ? undefined : JSON.stringify(body);

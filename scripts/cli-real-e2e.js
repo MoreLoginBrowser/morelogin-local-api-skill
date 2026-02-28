@@ -5,8 +5,11 @@ const { requestApi, unwrapApiResult } = require('../bin/common');
 
 const CLI_PATH = path.join(__dirname, '..', 'bin', 'morelogin.js');
 
-function runCli(args) {
-  const res = spawnSync(process.execPath, [CLI_PATH, ...args], { encoding: 'utf8' });
+function runCli(args, envOverrides = {}) {
+  const res = spawnSync(process.execPath, [CLI_PATH, ...args], {
+    encoding: 'utf8',
+    env: { ...process.env, ...envOverrides },
+  });
   return {
     ok: res.status === 0,
     code: res.status,
@@ -79,9 +82,44 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+async function runCliWithRetry(stepName, args, {
+  attempts = 1,
+  intervalMs = 1500,
+  required = true,
+  envOverrides = {},
+} = {}) {
+  let last = null;
+  for (let i = 1; i <= attempts; i += 1) {
+    const result = runCli(args, envOverrides);
+    if (result.ok) {
+      return { pass: logStep(stepName, result, required), result };
+    }
+    last = result;
+    if (i < attempts) {
+      console.log(`RETRY ${stepName} (attempt ${i + 1}/${attempts})`);
+      await sleep(intervalMs);
+    }
+  }
+  return { pass: logStep(stepName, last || { ok: false, code: 1, stdout: '', stderr: 'unknown error' }, required), result: last };
+}
+
+function parseStrictOptions(argv) {
+  const strict = argv.includes('--strict');
+  const attemptsArg = argv.find((item) => item.startsWith('--start-attempts='));
+  const timeoutArg = argv.find((item) => item.startsWith('--start-timeout-ms='));
+  const attempts = attemptsArg ? Number.parseInt(attemptsArg.split('=')[1], 10) : 3;
+  const timeoutMs = timeoutArg ? Number.parseInt(timeoutArg.split('=')[1], 10) : 30000;
+  return {
+    strict,
+    startAttempts: Number.isInteger(attempts) && attempts > 0 ? attempts : 3,
+    startTimeoutMs: Number.isInteger(timeoutMs) && timeoutMs > 0 ? timeoutMs : 30000,
+  };
+}
+
 async function main() {
+  const { strict, startAttempts, startTimeoutMs } = parseStrictOptions(process.argv.slice(2));
   const checks = [];
-  console.log('Running real E2E against local MoreLogin API...\n');
+  console.log(`Running real E2E against local MoreLogin API (${strict ? 'STRICT' : 'STANDARD'})...\n`);
 
   checks.push(logStep('browser list', runCli(['browser', 'list', '--page', '1', '--page-size', '5'])));
   checks.push(logStep('proxy list', runCli(['proxy', 'list', '--page', '1', '--page-size', '5'])));
@@ -92,15 +130,18 @@ async function main() {
   const envId = await getFirstEnvId();
   if (envId) {
     checks.push(logStep(`browser detail (${envId})`, runCli(['browser', 'detail', '--env-id', String(envId)])));
-    const startResult = runCli(['browser', 'start', '--env-id', String(envId)]);
-    checks.push(logStep(`browser start (${envId})`, startResult, false));
-    if (!startResult.ok) {
-      await sleep(1500);
-    }
+    const startRun = await runCliWithRetry(`browser start (${envId})`, ['browser', 'start', '--env-id', String(envId)], {
+      attempts: strict ? startAttempts : 1,
+      intervalMs: 2000,
+      required: strict,
+      envOverrides: strict ? { MORELOGIN_LOCAL_API_TIMEOUT_MS: String(startTimeoutMs) } : {},
+    });
+    checks.push(startRun.pass);
     checks.push(logStep(`browser status (${envId})`, runCli(['browser', 'status', '--env-id', String(envId)])));
-    checks.push(logStep(`browser close (${envId})`, runCli(['browser', 'close', '--env-id', String(envId)]), false));
+    checks.push(logStep(`browser close (${envId})`, runCli(['browser', 'close', '--env-id', String(envId)]), strict));
   } else {
-    console.log('SKIP browser detail/start/status/close (no profile found)');
+    console.log(`${strict ? 'FAIL' : 'SKIP'} browser detail/start/status/close (no profile found)`);
+    if (strict) checks.push(false);
   }
 
   const cloudId = await getFirstCloudphoneId();
@@ -141,7 +182,7 @@ async function main() {
 
   const passed = checks.filter(Boolean).length;
   const total = checks.length;
-  console.log(`\nE2E summary: ${passed}/${total} steps passed`);
+  console.log(`\nE2E summary: ${passed}/${total} steps passed (${strict ? 'STRICT' : 'STANDARD'})`);
   process.exit(passed === total ? 0 : 1);
 }
 
