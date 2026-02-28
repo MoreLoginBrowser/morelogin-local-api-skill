@@ -71,9 +71,6 @@ paths:
                   example: false
             example:
               envId: "1993244721490239488"
-              encryptKey: "xxx"
-              isHeadless: false
-              uniqueId: 1
               cdpEvasion: false
       responses:
         "200":
@@ -859,9 +856,6 @@ paths:
                   maximum: 100
                   example: 10
             example:
-              envName: ""
-              groupId: 0
-              envId: "1869988538611834880"
               pageNo: 1
               pageSize: 10
       responses:

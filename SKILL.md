@@ -209,6 +209,22 @@ Handling rules:
 - Do not expose account, proxy passwords, ADB keys, or other sensitive data in logs or code.
 - Double-check target ID lists before batch delete, cache clear, or app uninstall.
 
+## Security Notice
+
+This skill invokes limited local system commands for cloud phone connectivity:
+
+- `adb`: local Android Debug Bridge connectivity and session checks.
+- `expect` + `ssh`: automated SSH tunnel establishment for device models that require tunnel mode.
+- `sleep`: optional local wait before retrying ADB connect.
+
+Command execution safeguards:
+
+- Restricted to local automation context (localhost workflows and local API).
+- Core browser/profile/proxy/group/tag commands do not load cloud phone system-command handlers.
+- SSH tunnel commands are validated before execution (no shell metacharacters, `ssh` only).
+- No `sh -c` execution path for tunnel setup.
+- Cloud phone command execution is optional and only used in cloud phone workflows.
+
 ## When Not to Use This Skill
 
 - MoreLogin is not installed, not running, or not logged in.

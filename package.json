@@ -1,7 +1,7 @@
 {
   "name": "morelogin-cli",
-  "version": "1.0.0",
-  "description": "Morelogin browser automation CLI tool",
+  "version": "1.0.1",
+  "description": "Morelogin browser automation CLI tool - Local API only",
   "main": "bin/morelogin.js",
   "bin": {
     "morelogin": "./bin/morelogin.js"
@@ -20,8 +20,7 @@
     "browser",
     "automation",
     "cdp",
-    "puppeteer",
-    "playwright"
+    "local-api"
   ],
   "author": "",
   "license": "MIT",

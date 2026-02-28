@@ -141,11 +141,94 @@ function printObject(value) {
   console.log(JSON.stringify(value, null, 2));
 }
 
+function isPlainObject(value) {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function requirePlainObject(value, fieldName) {
+  if (!isPlainObject(value)) {
+    throw new Error(`${fieldName} must be an object`);
+  }
+  return value;
+}
+
+function requireNonEmptyString(value, fieldName) {
+  if (value === undefined || value === null || typeof value === 'boolean' || typeof value === 'object') {
+    throw new Error(`${fieldName} is required`);
+  }
+  const normalized = String(value ?? '').trim();
+  if (!normalized) {
+    throw new Error(`${fieldName} is required`);
+  }
+  return normalized;
+}
+
+function parseRequiredInt(value, fieldName, { min, max } = {}) {
+  const normalized = String(value ?? '').trim();
+  if (!normalized) {
+    throw new Error(`${fieldName} is required`);
+  }
+  if (!/^-?\d+$/.test(normalized)) {
+    throw new Error(`${fieldName} must be an integer`);
+  }
+  const intValue = Number.parseInt(normalized, 10);
+  if (min !== undefined && intValue < min) {
+    throw new Error(`${fieldName} must be >= ${min}`);
+  }
+  if (max !== undefined && intValue > max) {
+    throw new Error(`${fieldName} must be <= ${max}`);
+  }
+  return intValue;
+}
+
+function parseOptionalInt(value, fieldName, { min, max } = {}) {
+  if (value === undefined || value === null || String(value).trim() === '') {
+    return undefined;
+  }
+  return parseRequiredInt(value, fieldName, { min, max });
+}
+
+function requireNonEmptyArray(value, fieldName) {
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new Error(`${fieldName} must be a non-empty array`);
+  }
+  return value;
+}
+
+function normalizeStringArray(value, fieldName) {
+  const arr = requireNonEmptyArray(value, fieldName);
+  const normalized = arr
+    .map((item) => String(item ?? '').trim())
+    .filter(Boolean);
+  if (normalized.length === 0) {
+    throw new Error(`${fieldName} must include at least one non-empty item`);
+  }
+  return normalized;
+}
+
+function parsePageOptions(options, { defaultPageNo = 1, defaultPageSize = 20, maxPageSize = 200 } = {}) {
+  const pageNo = options.page !== undefined
+    ? parseRequiredInt(options.page, '--page', { min: 1 })
+    : defaultPageNo;
+  const pageSize = options['page-size'] !== undefined
+    ? parseRequiredInt(options['page-size'], '--page-size', { min: 1, max: maxPageSize })
+    : defaultPageSize;
+  return { pageNo, pageSize };
+}
+
 module.exports = {
   DEFAULT_BASE_URL,
+  isPlainObject,
   parseArgs,
+  parseOptionalInt,
+  parsePageOptions,
+  parseRequiredInt,
   parseJsonInput,
   printObject,
+  normalizeStringArray,
+  requireNonEmptyArray,
+  requireNonEmptyString,
+  requirePlainObject,
   requestApi,
   splitCsv,
   toBoolean,

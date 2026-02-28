@@ -70,7 +70,10 @@ async function main() {
     console.log('\n🖱️  Waiting for element...');
     try {
       await page.waitForSelector('h1', { timeout: 5000 });
-      const h1Text = await page.$eval('h1', el => el.textContent);
+      const h1Element = await page.$('h1');
+      const h1Text = h1Element
+        ? await page.evaluate((el) => el.textContent, h1Element)
+        : null;
       console.log(`H1 text: ${h1Text}`);
     } catch (e) {
       console.log('H1 element not found');

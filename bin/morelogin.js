@@ -2,16 +2,19 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
-const { spawn, spawnSync } = require('child_process');
 const {
   DEFAULT_BASE_URL,
+  normalizeStringArray,
   parseArgs,
   parseJsonInput,
+  parsePageOptions,
+  parseRequiredInt,
   printObject,
   requestApi,
+  requireNonEmptyString,
+  requirePlainObject,
   splitCsv,
   toBoolean,
-  toInt,
   unwrapApiResult,
 } = require('./common');
 
@@ -31,8 +34,10 @@ async function callApi(endpoint, { method = 'POST', body } = {}) {
 }
 
 function ensureProfileIdentity(options) {
-  if (options['env-id']) return { envId: options['env-id'] };
-  if (options['unique-id']) return { uniqueId: toInt(options['unique-id']) };
+  if (options['env-id']) return { envId: requireNonEmptyString(options['env-id'], '--env-id') };
+  if (options['unique-id'] !== undefined) {
+    return { uniqueId: parseRequiredInt(options['unique-id'], '--unique-id', { min: 1 }) };
+  }
   fail('Please provide --env-id or --unique-id');
   return null;
 }
@@ -112,223 +117,33 @@ function showConnectTips(data) {
   console.log(`Playwright: chromium.connectOverCDP("${browserUrl}")`);
 }
 
-function runAdb(args, allowFailure = false) {
-  const result = spawnSync('adb', args, { encoding: 'utf8' });
-  if (result.error) {
-    if (allowFailure) return result;
-    throw result.error;
-  }
-  if (result.status !== 0 && !allowFailure) {
-    throw new Error((result.stderr || result.stdout || 'adb command failed').trim());
-  }
-  return result;
-}
-
-function validateCloudPhoneCreatePayload(body) {
-  const errors = [];
-  if (!body || typeof body !== 'object') errors.push('payload must be an object');
-  if (!body?.skuId) errors.push('skuId is required');
-  if (body?.quantity === undefined || body?.quantity === null) {
-    errors.push('quantity is required');
-  } else if (!Number.isInteger(Number(body.quantity)) || Number(body.quantity) < 1 || Number(body.quantity) > 10) {
-    errors.push('quantity must be an integer between 1 and 10');
-  }
-  if (errors.length > 0) {
-    fail(`cloudphone create validation failed: ${errors.join('; ')}`);
-  }
-}
-
 function validateProxyAddPayload(body) {
-  const errors = [];
-  if (!body?.proxyIp) errors.push('proxyIp is required');
-  if (body?.proxyPort === undefined || body?.proxyPort === null) errors.push('proxyPort is required');
-  if (body?.proxyProvider === undefined || body?.proxyProvider === null) errors.push('proxyProvider is required');
-  if (errors.length > 0) {
-    fail(`proxy add validation failed: ${errors.join('; ')}`);
-  }
+  requirePlainObject(body, 'proxy add payload');
+  requireNonEmptyString(body.proxyIp, 'proxyIp');
+  parseRequiredInt(body.proxyPort, 'proxyPort', { min: 1, max: 65535 });
+  requireNonEmptyString(body.proxyProvider, 'proxyProvider');
 }
 
 function validateProxyUpdatePayload(body) {
-  const errors = [];
-  if (body?.id === undefined || body?.id === null) errors.push('id is required');
-  if (!body?.proxyIp) errors.push('proxyIp is required');
-  if (body?.proxyPort === undefined || body?.proxyPort === null) errors.push('proxyPort is required');
-  if (body?.proxyProvider === undefined || body?.proxyProvider === null) errors.push('proxyProvider is required');
-  if (errors.length > 0) {
-    fail(`proxy update validation failed: ${errors.join('; ')}`);
-  }
+  requirePlainObject(body, 'proxy update payload');
+  requireNonEmptyString(body.id, 'id');
+  requireNonEmptyString(body.proxyIp, 'proxyIp');
+  parseRequiredInt(body.proxyPort, 'proxyPort', { min: 1, max: 65535 });
+  requireNonEmptyString(body.proxyProvider, 'proxyProvider');
 }
 
 function validateGroupCreatePayload(body) {
-  if (!body?.groupName || !String(body.groupName).trim()) {
-    fail('group create validation failed: groupName is required');
-  }
+  requirePlainObject(body, 'group create payload');
+  requireNonEmptyString(body.groupName, 'groupName');
 }
 
 function validateTagCreatePayload(body) {
-  if (!body?.tagName || !String(body.tagName).trim()) {
-    fail('tag create validation failed: tagName is required');
-  }
+  requirePlainObject(body, 'tag create payload');
+  requireNonEmptyString(body.tagName, 'tagName');
 }
 
 
 
-function toCloudPhoneNumericId(idValue) {
-  const n = Number(idValue);
-  return Number.isNaN(n) ? idValue : n;
-}
-
-async function findCloudPhoneById(id) {
-  const targetId = String(id);
-  const first = await callApi('/api/cloudphone/page', {
-    body: { keyword: targetId, pageNo: 1, pageSize: 20 },
-  });
-  const fromFirst = (first.dataList || []).find((item) => String(item.id) === targetId);
-  if (fromFirst) return fromFirst;
-
-  const fallback = await callApi('/api/cloudphone/page', { body: { pageNo: 1, pageSize: 100 } });
-  const fromFallback = (fallback.dataList || []).find((item) => String(item.id) === targetId);
-  if (!fromFallback) {
-    throw new Error(`Cloud phone not found: ${targetId}`);
-  }
-  return fromFallback;
-}
-
-async function getCloudPhoneInfoById(id) {
-  return callApi('/api/cloudphone/info', {
-    body: { id: toCloudPhoneNumericId(id) },
-  });
-}
-
-function normalizeAdbInfo(phone) {
-  const adbInfo = phone?.adbInfo || {};
-  return {
-    supportAdb: Boolean(phone?.supportAdb),
-    enableAdb: Boolean(phone?.enableAdb),
-    osVersion: phone?.osVersion || phone?.device?.osVersion || '',
-    adbIp: String(adbInfo.adbIp || '').trim(),
-    adbPort: String(adbInfo.adbPort || '').trim(),
-    adbPassword: String(adbInfo.adbPassword || ''),
-    sshCommand: String(adbInfo.command || '').trim(),
-  };
-}
-
-function establishTunnelWithExpect(sshCommand, sshPassword) {
-  const script = `
-set timeout 45
-set cmd $env(ML_SSH_CMD)
-set pwd $env(ML_SSH_PWD)
-spawn sh -c $cmd
-expect {
-  -re "yes/no" { send "yes\\r"; exp_continue }
-  -re "\\\\[Pp\\\\]assword:" { send "$pwd\\r"; exp_continue }
-  eof {}
-  timeout { exit 1 }
-}
-`;
-  const result = spawnSync('expect', ['-c', script], {
-    env: { ...process.env, ML_SSH_CMD: sshCommand, ML_SSH_PWD: sshPassword || '' },
-    encoding: 'utf8',
-  });
-  if (result.error) throw result.error;
-  if (result.status !== 0) {
-    throw new Error((result.stderr || result.stdout || 'SSH tunnel failed').trim());
-  }
-}
-
-async function connectCloudPhoneAdb(id, options) {
-  const cloudphoneId = toCloudPhoneNumericId(id);
-  const enableAdb = toBoolean(options.enable, true);
-
-  if (enableAdb) {
-    await callApi('/api/cloudphone/updateAdb', {
-      body: {
-        ids: [cloudphoneId],
-        enableAdb: true,
-      },
-    });
-  }
-
-  const waitSeconds = toInt(options['wait-seconds'], 0);
-  if (waitSeconds > 0) {
-    runAdb(['start-server'], true);
-    spawnSync('sleep', [String(waitSeconds)], { encoding: 'utf8' });
-  }
-
-  const phone = await findCloudPhoneById(cloudphoneId);
-  const info = await getCloudPhoneInfoById(cloudphoneId);
-  const adb = normalizeAdbInfo(phone);
-  if (!adb.supportAdb) {
-    throw new Error('This cloud phone does not support ADB');
-  }
-  if (!adb.enableAdb) {
-    throw new Error('ADB is not enabled. Please retry later or check power-on status');
-  }
-  if (!adb.adbPort) {
-    throw new Error('ADB port info not obtained');
-  }
-
-  let address = '';
-  let method = '';
-  if (adb.sshCommand) {
-    method = 'android13-14-15a-ssh-tunnel';
-    establishTunnelWithExpect(adb.sshCommand, adb.adbPassword);
-    address = `localhost:${adb.adbPort}`;
-  } else {
-    method = 'android12-15-direct';
-    if (!adb.adbIp) throw new Error('ADB IP info not obtained');
-    address = `${adb.adbIp}:${adb.adbPort}`;
-  }
-
-  const connectResult = runAdb(['connect', address], true);
-  const connectText = `${connectResult.stdout || ''}${connectResult.stderr || ''}`;
-  if (
-    connectResult.status !== 0 &&
-    !connectText.includes('connected to') &&
-    !connectText.includes('already connected')
-  ) {
-    throw new Error(connectText.trim() || 'adb connect failed');
-  }
-
-  const devices = runAdb(['devices'], true);
-  const devicesText = devices.stdout || '';
-  const hasConnectedDevice = devicesText
-    .split('\n')
-    .some((line) => line.trim().startsWith(address));
-  if (!hasConnectedDevice) {
-    throw new Error(`adb connect did not establish device session: ${address}`);
-  }
-  return {
-    id: String(cloudphoneId),
-    method,
-    address,
-    osVersion: adb.osVersion || info?.device?.osVersion || '',
-    sshCommand: adb.sshCommand || null,
-    devices: devicesText.trim(),
-  };
-}
-
-async function disconnectCloudPhoneAdb(id, options) {
-  const cloudphoneId = toCloudPhoneNumericId(id);
-  const phone = await findCloudPhoneById(cloudphoneId);
-  const adb = normalizeAdbInfo(phone);
-  const address = options.address
-    ? String(options.address).trim()
-    : adb.sshCommand
-      ? `localhost:${adb.adbPort}`
-      : `${adb.adbIp}:${adb.adbPort}`;
-
-  const disconnect = runAdb(['disconnect', address], true);
-  if (adb.sshCommand) {
-    // Try to close tunnel process for this exact command.
-    spawnSync('pkill', ['-f', adb.sshCommand], { encoding: 'utf8' });
-  }
-  return {
-    id: String(cloudphoneId),
-    address,
-    output: `${disconnect.stdout || ''}${disconnect.stderr || ''}`.trim(),
-  };
-}
 
 function buildLocalCachePayload(options) {
   const body = ensureProfileIdentity(options);
@@ -360,21 +175,75 @@ function buildCloudCachePayload(options) {
   };
 }
 
+function normalizeProfileIdentityPayload(payload, options, actionName) {
+  const body = payload || ensureProfileIdentity(options);
+  requirePlainObject(body, `${actionName} payload`);
+  if (body.envId !== undefined) {
+    body.envId = requireNonEmptyString(body.envId, 'envId');
+    return body;
+  }
+  if (body.uniqueId !== undefined) {
+    body.uniqueId = parseRequiredInt(body.uniqueId, 'uniqueId', { min: 1 });
+    return body;
+  }
+  fail(`${actionName} requires envId or uniqueId`);
+  return null;
+}
+
+function validateLocalCachePayload(payload) {
+  requirePlainObject(payload, 'clear-cache payload');
+  const localStorage = toBoolean(payload.localStorage, false);
+  const indexedDB = toBoolean(payload.indexedDB, false);
+  const cookie = toBoolean(payload.cookie, false);
+  const extension = toBoolean(payload.extension, false);
+  const extensionFile = toBoolean(payload.extensionFile, false);
+  if (!localStorage && !indexedDB && !cookie && !extension && !extensionFile) {
+    fail('clear-cache payload must include at least one cache flag');
+  }
+  const body = normalizeProfileIdentityPayload(payload, {}, 'clear-cache');
+  return { ...body, localStorage, indexedDB, cookie, extension, extensionFile };
+}
+
+function validateCloudCachePayload(payload) {
+  requirePlainObject(payload, 'clean-cloud-cache payload');
+  if (payload.cookie === undefined && payload.others === undefined) {
+    fail('clean-cloud-cache payload must include cookie or others');
+  }
+  const body = normalizeProfileIdentityPayload(payload, {}, 'clean-cloud-cache');
+  return {
+    ...body,
+    cookie: toBoolean(payload.cookie, false),
+    others: toBoolean(payload.others, false),
+  };
+}
+
+function validatePagePayload(payload, { defaultPageNo = 1, defaultPageSize = 20 } = {}) {
+  requirePlainObject(payload, 'payload');
+  const pageNo = payload.pageNo === undefined
+    ? defaultPageNo
+    : parseRequiredInt(payload.pageNo, 'pageNo', { min: 1 });
+  const pageSize = payload.pageSize === undefined
+    ? defaultPageSize
+    : parseRequiredInt(payload.pageSize, 'pageSize', { min: 1, max: 200 });
+  return { ...payload, pageNo, pageSize };
+}
+
 async function handleBrowser(command, options) {
   switch (command) {
     case 'list': {
-      const payload =
-        parseJsonInput(options.payload, '--payload') || {
-          pageNo: toInt(options.page, 1),
-          pageSize: toInt(options['page-size'], 20),
-          envName: options.name || '',
-        };
+      const inputPayload = parseJsonInput(options.payload, '--payload');
+      const payload = inputPayload
+        ? validatePagePayload(inputPayload)
+        : {
+            ...parsePageOptions(options),
+            envName: options.name ? String(options.name).trim() : '',
+          };
       const data = await callApi('/api/env/page', { body: payload });
       printObject(data);
       return;
     }
     case 'start': {
-      const payload = parseJsonInput(options.payload, '--payload') || ensureProfileIdentity(options);
+      const payload = normalizeProfileIdentityPayload(parseJsonInput(options.payload, '--payload'), options, 'start');
       const data = await callApi('/api/env/start', { body: payload });
       console.log('✅ Profile started');
       printObject(data);
@@ -382,65 +251,68 @@ async function handleBrowser(command, options) {
       return;
     }
     case 'close': {
-      const payload = parseJsonInput(options.payload, '--payload') || ensureProfileIdentity(options);
+      const payload = normalizeProfileIdentityPayload(parseJsonInput(options.payload, '--payload'), options, 'close');
       const data = await callApi('/api/env/close', { body: payload });
       console.log('✅ Profile closed');
       printObject(data);
       return;
     }
     case 'status': {
-      const payload = parseJsonInput(options.payload, '--payload') || ensureProfileIdentity(options);
+      const payload = normalizeProfileIdentityPayload(parseJsonInput(options.payload, '--payload'), options, 'status');
       const data = await callApi('/api/env/status', { body: payload });
       printObject(data);
       showConnectTips(data);
       return;
     }
     case 'detail': {
-      const payload = parseJsonInput(options.payload, '--payload');
-      const body = payload || (options['env-id'] ? { envId: options['env-id'] } : null);
-      if (!body) fail('detail requires --env-id or --payload');
+      const body = normalizeProfileIdentityPayload(parseJsonInput(options.payload, '--payload'), options, 'detail');
       const data = await callApi('/api/env/detail', { body });
       printObject(data);
       return;
     }
     case 'create-quick': {
-      const payload =
-        parseJsonInput(options.payload, '--payload') || {
-          browserTypeId: toInt(options['browser-type-id'], 1),
-          operatorSystemId: toInt(options['operator-system-id'], 1),
-          quantity: toInt(options.quantity, 1),
-        };
+      const inputPayload = parseJsonInput(options.payload, '--payload');
+      const payload = inputPayload || {
+        browserTypeId: options['browser-type-id'] ?? 1,
+        operatorSystemId: options['operator-system-id'] ?? 1,
+        quantity: options.quantity ?? 1,
+      };
+      requirePlainObject(payload, 'create-quick payload');
+      payload.browserTypeId = parseRequiredInt(payload.browserTypeId, 'browserTypeId', { min: 1 });
+      payload.operatorSystemId = parseRequiredInt(payload.operatorSystemId, 'operatorSystemId', { min: 1 });
+      payload.quantity = parseRequiredInt(payload.quantity, 'quantity', { min: 1, max: 100 });
       const data = await callApi('/api/env/create/quick', { body: payload });
       console.log('✅ Profile created successfully');
       printObject(data);
       return;
     }
     case 'refresh-fingerprint': {
-      const payload = parseJsonInput(options.payload, '--payload') || ensureProfileIdentity(options);
+      const payload = normalizeProfileIdentityPayload(parseJsonInput(options.payload, '--payload'), options, 'refresh-fingerprint');
       const data = await callApi('/api/env/fingerprint/refresh', { body: payload });
       console.log('✅ Fingerprint refresh completed');
       printObject(data);
       return;
     }
     case 'clear-cache': {
-      const payload = parseJsonInput(options.payload, '--payload') || buildLocalCachePayload(options);
+      const inputPayload = parseJsonInput(options.payload, '--payload');
+      const payload = inputPayload ? validateLocalCachePayload(inputPayload) : buildLocalCachePayload(options);
       const data = await callApi('/api/env/removeLocalCache', { body: payload });
       console.log('✅ Cache cleared');
       printObject(data);
       return;
     }
     case 'clean-cloud-cache': {
-      const payload = parseJsonInput(options.payload, '--payload') || buildCloudCachePayload(options);
+      const inputPayload = parseJsonInput(options.payload, '--payload');
+      const payload = inputPayload ? validateCloudCachePayload(inputPayload) : buildCloudCachePayload(options);
       const data = await callApi('/api/env/cache/cleanCloud', { body: payload });
       console.log('✅ Cloud cache cleared');
       printObject(data);
       return;
     }
     case 'delete': {
-      const payload =
-        parseJsonInput(options.payload, '--payload') || {
-          envIds: splitCsv(options['env-ids']),
-        };
+      const payload = parseJsonInput(options.payload, '--payload') || { envIds: splitCsv(options['env-ids']) };
+      requirePlainObject(payload, 'delete payload');
+      payload.envIds = normalizeStringArray(payload.envIds, 'envIds');
       if (!payload.envIds || payload.envIds.length === 0) {
         fail('delete requires --env-ids "<id1,id2>" or --payload');
       }
@@ -454,162 +326,16 @@ async function handleBrowser(command, options) {
   }
 }
 
-async function handleCloudPhone(command, options) {
-  const payload = parseJsonInput(options.payload, '--payload');
-
-  switch (command) {
-    case 'help':
-      console.log(`
-CloudPhone subcommands:
-  list --page 1 --page-size 20
-  create --payload '{"skuId":"10002", ...}'
-  start --id <cloudPhoneId>
-  stop --id <cloudPhoneId>
-  info --id <cloudPhoneId>
-  adb-info --id <cloudPhoneId>
-  adb-connect --id <cloudPhoneId> [--wait-seconds 90]
-  adb-disconnect --id <cloudPhoneId> [--address host:port]
-  adb-devices
-  exec --id <cloudPhoneId> --command "ls /sdcard"
-  update-adb --id <cloudPhoneId> --enable true
-  new-machine --id <cloudPhoneId>
-  app-installed --id <cloudPhoneId>
-  app-start --id <cloudPhoneId> --package-name com.example.app
-  app-stop --id <cloudPhoneId> --package-name com.example.app
-  app-restart --id <cloudPhoneId> --package-name com.example.app
-  app-uninstall --id <cloudPhoneId> --package-name com.example.app
-`);
-      return;
-    case 'list': {
-      const body = payload || { pageNo: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
-      const data = await callApi('/api/cloudphone/page', { body });
-      printObject(data);
-      return;
-    }
-    case 'create': {
-      if (!payload) fail('create: use --payload to pass full parameters');
-      validateCloudPhoneCreatePayload(payload);
-      const data = await callApi('/api/cloudphone/create', { body: payload });
-      console.log('✅ Cloud phone created successfully');
-      printObject(data);
-      return;
-    }
-    case 'start': {
-      const body = payload || { id: options.id };
-      if (!body.id) fail('start requires --id or --payload');
-      const data = await callApi('/api/cloudphone/powerOn', { body });
-      console.log('✅ Cloud phone started');
-      printObject(data);
-      return;
-    }
-    case 'stop': {
-      const body = payload || { id: options.id };
-      if (!body.id) fail('stop requires --id or --payload');
-      const data = await callApi('/api/cloudphone/powerOff', { body });
-      console.log('✅ Cloud phone stopped');
-      printObject(data);
-      return;
-    }
-    case 'info': {
-      const body = payload || { id: options.id };
-      if (!body.id) fail('info requires --id or --payload');
-      const data = await callApi('/api/cloudphone/info', { body });
-      printObject(data);
-      return;
-    }
-    case 'adb-info': {
-      const cloudphoneId = payload?.id || options.id;
-      if (!cloudphoneId) fail('adb-info requires --id or --payload');
-      const phone = await findCloudPhoneById(cloudphoneId);
-      const info = await getCloudPhoneInfoById(cloudphoneId);
-      printObject({
-        id: String(phone.id),
-        osVersion: info?.device?.osVersion || phone.osVersion || '',
-        supportAdb: phone.supportAdb,
-        enableAdb: phone.enableAdb,
-        adbInfo: phone.adbInfo || null,
-      });
-      return;
-    }
-    case 'adb-connect': {
-      const cloudphoneId = payload?.id || options.id;
-      if (!cloudphoneId) fail('adb-connect requires --id or --payload');
-      const data = await connectCloudPhoneAdb(cloudphoneId, options);
-      console.log('✅ ADB connected');
-      printObject(data);
-      return;
-    }
-    case 'adb-disconnect': {
-      const cloudphoneId = payload?.id || options.id;
-      if (!cloudphoneId) fail('adb-disconnect requires --id or --payload');
-      const data = await disconnectCloudPhoneAdb(cloudphoneId, options);
-      console.log('✅ ADB disconnected');
-      printObject(data);
-      return;
-    }
-    case 'adb-devices': {
-      const devices = runAdb(['devices'], true);
-      console.log((devices.stdout || devices.stderr || '').trim());
-      return;
-    }
-    case 'exec': {
-      const body = payload || { id: options.id, command: options.command };
-      if (!body.id || !body.command) fail('exec requires --id and --command, or use --payload');
-      const data = await callApi('/api/cloudphone/exeCommand', { body });
-      printObject(data);
-      return;
-    }
-    case 'update-adb': {
-      const body = payload || {
-        ids: [toCloudPhoneNumericId(options.id)],
-        enableAdb: toBoolean(options.enable, true),
-      };
-      if (!Array.isArray(body.ids) || body.ids.length === 0) {
-        fail('update-adb requires --id (or ids in payload)');
-      }
-      const data = await callApi('/api/cloudphone/updateAdb', { body });
-      printObject(data);
-      return;
-    }
-    case 'new-machine': {
-      const body = payload || { id: options.id };
-      if (!body.id) fail('new-machine requires --id or --payload');
-      const data = await callApi('/api/cloudphone/newMachine', { body });
-      printObject(data);
-      return;
-    }
-    case 'app-installed': {
-      const body = payload || { id: options.id };
-      if (!body.id) fail('app-installed requires --id or --payload');
-      const data = await callApi('/api/cloudphone/app/installedList', { body });
-      printObject(data);
-      return;
-    }
-    case 'app-start':
-    case 'app-stop':
-    case 'app-restart':
-    case 'app-uninstall': {
-      const endpointMap = {
-        'app-start': '/api/cloudphone/app/start',
-        'app-stop': '/api/cloudphone/app/stop',
-        'app-restart': '/api/cloudphone/app/restart',
-        'app-uninstall': '/api/cloudphone/app/uninstall',
-      };
-      const body = payload || { id: options.id, packageName: options['package-name'] };
-      if (!body.id || !body.packageName) fail(`${command} requires --id and --package-name, or --payload`);
-      const data = await callApi(endpointMap[command], { body });
-      printObject(data);
-      return;
-    }
-    default:
-      fail(`Unknown cloudphone command: ${command}`);
-  }
-}
-
 async function handleApi(options) {
-  const endpoint = options.endpoint;
+  const endpoint = requireNonEmptyString(options.endpoint, '--endpoint');
+  if (!endpoint.startsWith('/api/')) {
+    fail('api mode requires --endpoint to start with /api/');
+  }
   if (!endpoint) fail('api mode requires --endpoint');
   const method = String(options.method || 'POST').toUpperCase();
+  if (!['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+    fail(`Unsupported --method: ${method}`);
+  }
   const body = parseJsonInput(options.data, '--data');
   const response = await requestApi(endpoint, { method, body });
   printObject(response.body);
@@ -619,7 +345,9 @@ async function handleProxy(command, options) {
   const payload = parseJsonInput(options.payload, '--payload');
   switch (command) {
     case 'list': {
-      const body = payload || { pageNo: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
+      const body = payload
+        ? validatePagePayload(payload)
+        : parsePageOptions(options);
       const data = await callApi('/api/proxyInfo/page', { body });
       printObject(data);
       return;
@@ -649,9 +377,10 @@ async function handleProxy(command, options) {
           body = body.proxyIds;
         }
       }
-      if (!Array.isArray(body) || body.length === 0) {
+      if (!Array.isArray(body)) {
         fail('proxy delete requires --ids "<id1,id2>" or --payload');
       }
+      body = normalizeStringArray(body, 'ids');
       const data = await callApi('/api/proxyInfo/delete', { body });
       printObject(data);
       return;
@@ -674,7 +403,9 @@ async function handleGroup(command, options) {
   const payload = parseJsonInput(options.payload, '--payload');
   switch (command) {
     case 'list': {
-      const body = payload || { groupName: options.name || '', pageNo: toInt(options.page, 1), pageSize: toInt(options['page-size'], 20) };
+      const body = payload
+        ? validatePagePayload(payload)
+        : { ...parsePageOptions(options), groupName: options.name ? String(options.name).trim() : '' };
       const data = await callApi('/api/envgroup/page', { body });
       printObject(data);
       return;
@@ -689,13 +420,17 @@ async function handleGroup(command, options) {
     }
     case 'edit': {
       const body = payload || { id: options.id, groupName: options.name };
-      if (!body.id || !body.groupName) fail('group edit requires --id and --name, or --payload');
+      requirePlainObject(body, 'group edit payload');
+      body.id = requireNonEmptyString(body.id, 'id');
+      body.groupName = requireNonEmptyString(body.groupName, 'groupName');
       const data = await callApi('/api/envgroup/edit', { body });
       printObject(data);
       return;
     }
     case 'delete': {
       const body = payload || { ids: splitCsv(options.ids) };
+      requirePlainObject(body, 'group delete payload');
+      body.ids = normalizeStringArray(body.ids, 'ids');
       if (!Array.isArray(body.ids) || body.ids.length === 0) {
         fail('group delete requires --ids "<id1,id2>" or --payload');
       }
@@ -735,13 +470,17 @@ async function handleTag(command, options) {
     }
     case 'edit': {
       const body = payload || { id: options.id, tagName: options.name };
-      if (!body.id || !body.tagName) fail('tag edit requires --id and --name, or --payload');
+      requirePlainObject(body, 'tag edit payload');
+      body.id = requireNonEmptyString(body.id, 'id');
+      body.tagName = requireNonEmptyString(body.tagName, 'tagName');
       const data = await callApi('/api/envtag/edit', { body });
       printObject(data);
       return;
     }
     case 'delete': {
       const body = payload || { ids: splitCsv(options.ids) };
+      requirePlainObject(body, 'tag delete payload');
+      body.ids = normalizeStringArray(body.ids, 'ids');
       if (!Array.isArray(body.ids) || body.ids.length === 0) {
         fail('tag delete requires --ids "<id1,id2>" or --payload');
       }
@@ -763,8 +502,7 @@ Tag subcommands:
   }
 }
 
-async function main() {
-  const argv = process.argv.slice(2);
+async function main(argv = process.argv.slice(2)) {
   const [scope, command, ...rest] = argv;
 
   if (!scope || scope === 'help' || scope === '--help') {
@@ -809,6 +547,8 @@ async function main() {
     }
     if (effectiveScope === 'cloudphone') {
       if (!effectiveCommand) fail('Missing cloudphone subcommand');
+      const { createCloudPhoneHandler } = require('./cloudphone-commands');
+      const handleCloudPhone = createCloudPhoneHandler({ callApi, fail });
       await handleCloudPhone(effectiveCommand, options);
       return;
     }
@@ -838,4 +578,8 @@ async function main() {
   }
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = { main };

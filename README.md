@@ -558,7 +558,7 @@ openclaw morelogin proxy list --page 1 --page-size 20
 const profileIds = ['id1', 'id2', 'id3'];
 
 for (const id of profileIds) {
-  await spawn('node', ['bin/morelogin.js', 'browser', 'start', '--env-id', id]);
+  await callApi('/api/env/start', { envId: id });
   await sleep(2000); // Wait 2 seconds
 }
 ```
