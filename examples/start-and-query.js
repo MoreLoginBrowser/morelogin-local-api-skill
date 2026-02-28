@@ -25,10 +25,18 @@ async function startProfile(profileId) {
       let body = '';
       res.on('data', chunk => body += chunk);
       res.on('end', () => {
+        let parsed = null;
+        try {
+          parsed = JSON.parse(body);
+        } catch (e) {
+          parsed = null;
+        }
+        const profileData = parsed && parsed.data ? parsed.data : {};
         resolve({ 
           statusCode: res.statusCode, 
           body: body.substring(0, 1000),
-          success: res.statusCode === 200
+          success: res.statusCode === 200 && parsed && parsed.code === 0,
+          debugPort: profileData.debugPort || profileData.port || null
         });
       });
     });
@@ -41,40 +49,6 @@ async function startProfile(profileId) {
     
     req.write(data);
     req.end();
-  });
-}
-
-// Find CDP port
-async function findCDPPort(profileId) {
-  const { exec } = require('child_process');
-  
-  return new Promise((resolve) => {
-    exec('ps aux | grep -i morelogin | grep remote-debugging-port | grep -v grep', (error, stdout) => {
-      if (error) {
-        resolve(null);
-        return;
-      }
-      
-      // Find the process containing profileId
-      const lines = stdout.split('\n');
-      for (const line of lines) {
-        if (line.includes(profileId)) {
-          const portMatch = line.match(/--remote-debugging-port=(\d+)/);
-          if (portMatch) {
-            resolve(portMatch[1]);
-            return;
-          }
-        }
-      }
-      
-      // If no match is found, return the first port
-      const portMatch = stdout.match(/--remote-debugging-port=(\d+)/);
-      if (portMatch) {
-        resolve(portMatch[1]);
-      } else {
-        resolve(null);
-      }
-    });
   });
 }
 
@@ -167,11 +141,10 @@ async function main() {
   console.log('\n⏳ Waiting for the configuration file to start...\n');
   await new Promise(resolve => setTimeout(resolve, 10000));
   
-  // Find CDP port
-  const cdpPort = await findCDPPort(profileId);
+  const cdpPort = startResult.debugPort;
   
   if (!cdpPort) {
-    console.log('⚠️ CDP port for configuration file not found, use already running port 59840\n');
+    console.log('⚠️ CDP port not returned by API, use fallback port 59840\n');
   }
   
   // Query BTC price

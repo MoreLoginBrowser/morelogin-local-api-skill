@@ -584,7 +584,8 @@ await page.click('button[type="submit"]');
 
 // Wait and extract data
 await page.waitForSelector('.result');
-const data = await page.$eval('.result', el => el.textContent);
+const resultEl = await page.$('.result');
+const data = resultEl ? await page.evaluate((el) => el.textContent, resultEl) : null;
 
 //Execute JavaScript
 const html = await page.evaluate(() => document.body.innerHTML);
