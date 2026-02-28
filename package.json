@@ -8,6 +8,10 @@
   },
   "scripts": {
     "start": "node bin/morelogin.js",
+    "example:basic": "node examples/basic-example.js",
+    "example:form": "node examples/form-example.js",
+    "example:scraping": "node examples/scraping-example.js",
+    "example:multi-tab": "node examples/multi-tab-example.js",
     "example:puppeteer": "node examples/puppeteer-example.js",
     "example:playwright": "node examples/playwright-example.js"
   },
