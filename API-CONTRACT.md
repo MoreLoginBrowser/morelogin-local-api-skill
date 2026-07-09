@@ -93,6 +93,10 @@ This contract focuses on endpoints currently wrapped by `bin/morelogin.js`.
 - Body:
   - `id` (int64) required
 
+### `POST /api/cloudphone/brand/models`
+- Body:
+  - `skuId` (string) required
+
 ### `POST /api/cloudphone/exeCommand`
 - Body:
   - `id` (int64) required

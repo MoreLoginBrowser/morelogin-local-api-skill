@@ -39,7 +39,6 @@
 | `POST /api/cloudphone/powerOn` | Start cloud phone | `morelogin cloudphone start --id <ID>` |
 | `POST /api/cloudphone/powerOff` | Stop cloud phone | `morelogin cloudphone stop --id <ID>` |
 | `POST /api/cloudphone/info` | Get detail | `morelogin cloudphone info --id <ID>` |
-| `POST /api/cloudphone/exeCommand` | Execute ADB command | `morelogin cloudphone exec --id <ID> --command <CMD>` |
 | `POST /api/cloudphone/updateAdb` | Update ADB status | Auto-handled |
 
 ---
@@ -138,17 +137,15 @@ Cloud phone detail:
   Location: US
 ```
 
-### 4. Connect ADB
+### 4. Query ADB Metadata
 
 ```bash
-node bin/morelogin.js cloudphone adb-connect --id <cloudphone_id>
+node bin/morelogin.js cloudphone adb-info --id <cloudphone_id>
 ```
 
 ### 5. Execute ADB Command
 
-```bash
-node bin/morelogin.js cloudphone exec --id <cloudphone_id> --command "ls /sdcard"
-```
+This skill no longer exposes a direct `cloudphone exec` command.
 
 ---
 
@@ -261,7 +258,6 @@ skills/morelogin/
 ├── package.json             # Node.js config
 ├── bin/
 │   ├── morelogin.js        # CLI main program (updated to official API)
-│   ├── start-profile.js    # Start profile tool
 │   └── test-api.js         # API test tool
 ├── examples/
 │   ├── puppeteer-example.js

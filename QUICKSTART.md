@@ -51,15 +51,6 @@ node bin/morelogin.js cloudphone adb-info --id <cloudPhoneId>
 
 # Enable ADB
 node bin/morelogin.js cloudphone update-adb --id <cloudPhoneId> --enable true
-
-# Auto-connect ADB by official device rules (recommend waiting 1-2 min after boot)
-node bin/morelogin.js cloudphone adb-connect --id <cloudPhoneId> --wait-seconds 90
-
-# Check device connection
-node bin/morelogin.js cloudphone adb-devices
-
-# Disconnect
-node bin/morelogin.js cloudphone adb-disconnect --id <cloudPhoneId>
 ```
 
 ### 5) Proxy/Group/Tag Quick Verification
@@ -101,10 +92,6 @@ node bin/morelogin.js cloudphone stop --id <cloudPhoneId>
 node bin/morelogin.js cloudphone info --id <cloudPhoneId>
 node bin/morelogin.js cloudphone adb-info --id <cloudPhoneId>
 node bin/morelogin.js cloudphone update-adb --id <cloudPhoneId> --enable true
-node bin/morelogin.js cloudphone adb-connect --id <cloudPhoneId> --wait-seconds 90
-node bin/morelogin.js cloudphone adb-devices
-node bin/morelogin.js cloudphone adb-disconnect --id <cloudPhoneId>
-node bin/morelogin.js cloudphone exec --id <cloudPhoneId> --command "ls /sdcard"
 
 # Proxy
 node bin/morelogin.js proxy list
@@ -130,7 +117,7 @@ node bin/morelogin.js tag delete --ids "<tagId1>,<tagId2>"
 
 **Local API connection failed?**
 ```bash
-node bin/test-api.js
+node bin/morelogin.js browser list --page 1 --page-size 1
 ```
 
 **Browser profile failed to start?**

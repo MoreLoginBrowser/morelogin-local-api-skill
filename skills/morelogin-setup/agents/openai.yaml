@@ -1,0 +1,7 @@
+interface:
+  display_name: "MoreLogin Setup"
+  short_description: "Install and verify MoreLogin Client and CLI"
+  default_prompt: "Use $morelogin-setup to prepare MoreLogin Client and MoreLogin CLI on this machine."
+
+policy:
+  allow_implicit_invocation: true

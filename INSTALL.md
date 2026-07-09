@@ -101,7 +101,7 @@ npx playwright install chromium
 node bin/morelogin.js help
 
 # Test API connection
-node bin/test-api.js
+node bin/morelogin.js browser list --page 1 --page-size 1
 
 # List profiles
 node bin/morelogin.js list
@@ -375,7 +375,7 @@ After installation, you can:
 
 ```bash
 # Test API connection
-node bin/test-api.js
+node bin/morelogin.js browser list --page 1 --page-size 1
 
 # View detailed logs
 DEBUG=* node bin/morelogin.js start --profile-id <ID>

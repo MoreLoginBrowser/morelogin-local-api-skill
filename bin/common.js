@@ -138,8 +138,33 @@ function unwrapApiResult(response) {
   };
 }
 
-function printObject(value) {
-  console.log(JSON.stringify(value, null, 2));
+const SENSITIVE_KEYS = new Set([
+  'password',
+  'adbPassword',
+  'phoneNumber',
+  'imei',
+  'proxyInfo',
+]);
+
+function redactSensitive(value) {
+  if (Array.isArray(value)) {
+    return value.map(redactSensitive);
+  }
+  if (!isPlainObject(value)) {
+    return value;
+  }
+
+  const redacted = {};
+  for (const [key, child] of Object.entries(value)) {
+    redacted[key] = SENSITIVE_KEYS.has(key) && child !== null && child !== undefined
+      ? '[REDACTED]'
+      : redactSensitive(child);
+  }
+  return redacted;
+}
+
+function printObject(value, { redact = false } = {}) {
+  console.log(JSON.stringify(redact ? redactSensitive(value) : value, null, 2));
 }
 
 function isPlainObject(value) {
@@ -226,6 +251,7 @@ module.exports = {
   parseRequiredInt,
   parseJsonInput,
   printObject,
+  redactSensitive,
   normalizeStringArray,
   requireNonEmptyArray,
   requireNonEmptyString,

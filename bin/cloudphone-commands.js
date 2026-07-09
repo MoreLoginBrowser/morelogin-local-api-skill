@@ -1,8 +1,6 @@
-const { spawnSync } = require('child_process');
 const {
   normalizeStringArray,
   parseJsonInput,
-  parseOptionalInt,
   parsePageOptions,
   parseRequiredInt,
   printObject,
@@ -10,42 +8,6 @@ const {
   requirePlainObject,
   toBoolean,
 } = require('./common');
-
-function runAdb(args, allowFailure = false) {
-  const result = spawnSync('adb', args, { encoding: 'utf8' });
-  if (result.error) {
-    if (allowFailure) return result;
-    throw result.error;
-  }
-  if (result.status !== 0 && !allowFailure) {
-    throw new Error((result.stderr || result.stdout || 'adb command failed').trim());
-  }
-  return result;
-}
-
-function parseAndValidateSshCommand(command) {
-  const raw = String(command || '').trim();
-  if (!raw) {
-    throw new Error('SSH command is empty');
-  }
-  // Block shell metacharacters to avoid command injection.
-  if (/[`$;&|<>]/.test(raw)) {
-    throw new Error('SSH command contains blocked shell characters');
-  }
-  const tokens = raw.split(/\s+/).filter(Boolean);
-  if (tokens[0] !== 'ssh') {
-    throw new Error('Only ssh command is allowed for tunnel mode');
-  }
-  for (const token of tokens.slice(1)) {
-    if (!/^[\w@.:,/+=-]+$/.test(token)) {
-      throw new Error(`SSH argument contains unsupported characters: ${token}`);
-    }
-  }
-  return {
-    binary: tokens[0],
-    args: tokens.slice(1),
-  };
-}
 
 function toCloudPhoneNumericId(idValue) {
   const n = Number(idValue);
@@ -59,49 +21,6 @@ function validateCloudPhoneCreatePayload(body, fail) {
     body.quantity = parseRequiredInt(body.quantity, 'quantity', { min: 1, max: 10 });
   } catch (error) {
     fail(error.message);
-  }
-}
-
-function normalizeAdbInfo(phone) {
-  const adbInfo = phone?.adbInfo || {};
-  return {
-    supportAdb: Boolean(phone?.supportAdb),
-    enableAdb: Boolean(phone?.enableAdb),
-    osVersion: phone?.osVersion || phone?.device?.osVersion || '',
-    adbIp: String(adbInfo.adbIp || '').trim(),
-    adbPort: String(adbInfo.adbPort || '').trim(),
-    adbPassword: String(adbInfo.adbPassword || ''),
-    sshCommand: String(adbInfo.command || '').trim(),
-  };
-}
-
-function establishTunnelWithExpect(sshCommand, sshPassword) {
-  const parsed = parseAndValidateSshCommand(sshCommand);
-  const script = `
-set timeout 45
-set bin $env(ML_SSH_BIN)
-set argv [split $env(ML_SSH_ARGS)]
-set pwd $env(ML_SSH_PWD)
-spawn $bin {*}$argv
-expect {
-  -re "yes/no" { send "yes\\r"; exp_continue }
-  -re "\\\\[Pp\\\\]assword:" { send "$pwd\\r"; exp_continue }
-  eof {}
-  timeout { exit 1 }
-}
-`;
-  const result = spawnSync('expect', ['-c', script], {
-    env: {
-      ...process.env,
-      ML_SSH_BIN: parsed.binary,
-      ML_SSH_ARGS: parsed.args.join(' '),
-      ML_SSH_PWD: sshPassword || '',
-    },
-    encoding: 'utf8',
-  });
-  if (result.error) throw result.error;
-  if (result.status !== 0) {
-    throw new Error((result.stderr || result.stdout || 'SSH tunnel failed').trim());
   }
 }
 
@@ -128,96 +47,6 @@ function createCloudPhoneHandler({ callApi, fail }) {
     });
   }
 
-  async function connectCloudPhoneAdb(id, options) {
-    const cloudphoneId = toCloudPhoneNumericId(id);
-    const enableAdb = toBoolean(options.enable, true);
-
-    if (enableAdb) {
-      await callApi('/api/cloudphone/updateAdb', {
-        body: {
-          ids: [cloudphoneId],
-          enableAdb: true,
-        },
-      });
-    }
-
-    const waitSeconds = parseOptionalInt(options['wait-seconds'], '--wait-seconds', { min: 0, max: 600 }) ?? 0;
-    if (waitSeconds > 0) {
-      runAdb(['start-server'], true);
-      spawnSync('sleep', [String(waitSeconds)], { encoding: 'utf8' });
-    }
-
-    const phone = await findCloudPhoneById(cloudphoneId);
-    const info = await getCloudPhoneInfoById(cloudphoneId);
-    const adb = normalizeAdbInfo(phone);
-    if (!adb.supportAdb) {
-      throw new Error('This cloud phone does not support ADB');
-    }
-    if (!adb.enableAdb) {
-      throw new Error('ADB is not enabled. Please retry later or check power-on status');
-    }
-    if (!adb.adbPort) {
-      throw new Error('ADB port info not obtained');
-    }
-
-    let address = '';
-    let method = '';
-    if (adb.sshCommand) {
-      method = 'android13-14-15a-ssh-tunnel';
-      establishTunnelWithExpect(adb.sshCommand, adb.adbPassword);
-      address = `localhost:${adb.adbPort}`;
-    } else {
-      method = 'android12-15-direct';
-      if (!adb.adbIp) throw new Error('ADB IP info not obtained');
-      address = `${adb.adbIp}:${adb.adbPort}`;
-    }
-
-    const connectResult = runAdb(['connect', address], true);
-    const connectText = `${connectResult.stdout || ''}${connectResult.stderr || ''}`;
-    if (
-      connectResult.status !== 0 &&
-      !connectText.includes('connected to') &&
-      !connectText.includes('already connected')
-    ) {
-      throw new Error(connectText.trim() || 'adb connect failed');
-    }
-
-    const devices = runAdb(['devices'], true);
-    const devicesText = devices.stdout || '';
-    const hasConnectedDevice = devicesText
-      .split('\n')
-      .some((line) => line.trim().startsWith(address));
-    if (!hasConnectedDevice) {
-      throw new Error(`adb connect did not establish device session: ${address}`);
-    }
-    return {
-      id: String(cloudphoneId),
-      method,
-      address,
-      osVersion: adb.osVersion || info?.device?.osVersion || '',
-      sshCommand: adb.sshCommand || null,
-      devices: devicesText.trim(),
-    };
-  }
-
-  async function disconnectCloudPhoneAdb(id, options) {
-    const cloudphoneId = toCloudPhoneNumericId(id);
-    const phone = await findCloudPhoneById(cloudphoneId);
-    const adb = normalizeAdbInfo(phone);
-    const address = options.address
-      ? String(options.address).trim()
-      : adb.sshCommand
-        ? `localhost:${adb.adbPort}`
-        : `${adb.adbIp}:${adb.adbPort}`;
-
-    const disconnect = runAdb(['disconnect', address], true);
-    return {
-      id: String(cloudphoneId),
-      address,
-      output: `${disconnect.stdout || ''}${disconnect.stderr || ''}`.trim(),
-    };
-  }
-
   return async function handleCloudPhone(command, options) {
     const payload = parseJsonInput(options.payload, '--payload');
 
@@ -231,10 +60,6 @@ CloudPhone subcommands:
   stop --id <cloudPhoneId>
   info --id <cloudPhoneId>
   adb-info --id <cloudPhoneId>
-  adb-connect --id <cloudPhoneId> [--wait-seconds 90]
-  adb-disconnect --id <cloudPhoneId> [--address host:port]
-  adb-devices
-  exec --id <cloudPhoneId> --command "ls /sdcard"
   update-adb --id <cloudPhoneId> --enable true
   new-machine --id <cloudPhoneId>
   app-installed --id <cloudPhoneId>
@@ -257,7 +82,7 @@ CloudPhone subcommands:
           body = parsePageOptions(options);
         }
         const data = await callApi('/api/cloudphone/page', { body });
-        printObject(data);
+        printObject(data, { redact: !options['raw-output'] });
         return;
       }
       case 'create': {
@@ -291,7 +116,7 @@ CloudPhone subcommands:
         requirePlainObject(body, 'info payload');
         body.id = requireNonEmptyString(body.id, 'id');
         const data = await callApi('/api/cloudphone/info', { body });
-        printObject(data);
+        printObject(data, { redact: !options['raw-output'] });
         return;
       }
       case 'adb-info': {
@@ -305,49 +130,7 @@ CloudPhone subcommands:
           supportAdb: phone.supportAdb,
           enableAdb: phone.enableAdb,
           adbInfo: phone.adbInfo || null,
-        });
-        return;
-      }
-      case 'adb-connect': {
-        const cloudphoneId = payload?.id || options.id;
-        requireNonEmptyString(cloudphoneId, 'id');
-        if (options['wait-seconds'] !== undefined) {
-          parseRequiredInt(options['wait-seconds'], '--wait-seconds', { min: 0, max: 600 });
-        }
-        const data = await connectCloudPhoneAdb(cloudphoneId, options);
-        console.log('✅ ADB connected');
-        printObject(data);
-        return;
-      }
-      case 'adb-disconnect': {
-        const cloudphoneId = payload?.id || options.id;
-        requireNonEmptyString(cloudphoneId, 'id');
-        if (options.address !== undefined) {
-          const address = requireNonEmptyString(options.address, '--address');
-          if (!/^[\w.-]+:\d{1,5}$/.test(address)) {
-            fail('--address must be host:port');
-          }
-        }
-        const data = await disconnectCloudPhoneAdb(cloudphoneId, options);
-        console.log('✅ ADB disconnected');
-        printObject(data);
-        return;
-      }
-      case 'adb-devices': {
-        const devices = runAdb(['devices'], true);
-        console.log((devices.stdout || devices.stderr || '').trim());
-        return;
-      }
-      case 'exec': {
-        const body = payload || { id: options.id, command: options.command };
-        requirePlainObject(body, 'exec payload');
-        body.id = requireNonEmptyString(body.id, 'id');
-        body.command = requireNonEmptyString(body.command, 'command');
-        if (body.command.length > 300) {
-          fail('command is too long (max 300 chars)');
-        }
-        const data = await callApi('/api/cloudphone/exeCommand', { body });
-        printObject(data);
+        }, { redact: !options['raw-output'] });
         return;
       }
       case 'update-adb': {

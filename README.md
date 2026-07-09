@@ -28,6 +28,10 @@ Morelogin is a fingerprint browser that supports multi-account management and br
 
 ## Installation
 
+### Agent Setup Skill
+
+This project includes `skills/morelogin-setup/SKILL.md` for agent-assisted setup of MoreLogin Client and MoreLogin CLI. Use that skill when preparing, installing, updating, or verifying MoreLogin on a machine before using the Local API skill.
+
 ### 1. Install Morelogin Desktop App
 
 **macOS:**
@@ -163,25 +167,11 @@ node bin/morelogin.js cloudphone stop --id <cloudPhoneId>
 # Get details (includes ADB info)
 node bin/morelogin.js cloudphone info --id <cloudPhoneId>
 
-# Execute cloud phone command
-node bin/morelogin.js cloudphone exec --id <cloudPhoneId> --command "ls /sdcard"
-
 # Query ADB connection info (for identifying connection method)
 node bin/morelogin.js cloudphone adb-info --id <cloudPhoneId>
 
 # Enable ADB (official fields: ids + enableAdb)
 node bin/morelogin.js cloudphone update-adb --id <cloudPhoneId> --enable true
-
-# Auto-connect ADB by device model:
-# - Android 12 / 15: Direct connect to adbIp:adbPort
-# - Android 13 / 14 / 15A: Auto-create SSH tunnel, then connect to localhost:adbPort
-node bin/morelogin.js cloudphone adb-connect --id <cloudPhoneId> --wait-seconds 90
-
-# View current ADB devices
-node bin/morelogin.js cloudphone adb-devices
-
-# Disconnect ADB (including tunnel cleanup)
-node bin/morelogin.js cloudphone adb-disconnect --id <cloudPhoneId>
 ```
 
 ### Proxy: Proxy Management

@@ -53,7 +53,7 @@ Usage:
   morelogin proxy <command> [options]
   morelogin group <command> [options]
   morelogin tag <command> [options]
-  morelogin api --endpoint <path> [--method POST] [--data '{"k":"v"}']
+  morelogin api --endpoint <path> [--method POST] [--data '{}']
 
 Browser:
   list                    List profiles (/api/env/page)
@@ -74,10 +74,6 @@ CloudPhone:
   stop                    Power off (/api/cloudphone/powerOff)
   info                    Details (/api/cloudphone/info)
   adb-info                Get ADB params (device model)
-  adb-connect             Auto-connect ADB by device model
-  adb-disconnect          Disconnect ADB and clean tunnel
-  adb-devices             List local adb devices
-  exec                    Execute command (/api/cloudphone/exeCommand)
   update-adb              Update ADB status (/api/cloudphone/updateAdb)
   new-machine             New machine one-click (/api/cloudphone/newMachine)
   app-installed           Installed apps list (/api/cloudphone/app/installedList)
@@ -102,9 +98,16 @@ Tag:
   edit                    Edit tag (/api/envtag/edit)
   delete                  Delete tag (/api/envtag/delete)
 
+API:
+  api                     Generic Local API passthrough for documented endpoints
+
 Legacy commands (backward compatible):
   morelogin list/start/stop/info/connect
   Equivalent to browser subcommands.
+
+Security defaults:
+  - cloudphone exec command is removed
+  - proxy and cloud phone outputs are redacted by default; pass --raw-output to print original data
 `);
 }
 
@@ -326,21 +329,6 @@ async function handleBrowser(command, options) {
   }
 }
 
-async function handleApi(options) {
-  const endpoint = requireNonEmptyString(options.endpoint, '--endpoint');
-  if (!endpoint.startsWith('/api/')) {
-    fail('api mode requires --endpoint to start with /api/');
-  }
-  if (!endpoint) fail('api mode requires --endpoint');
-  const method = String(options.method || 'POST').toUpperCase();
-  if (!['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
-    fail(`Unsupported --method: ${method}`);
-  }
-  const body = parseJsonInput(options.data, '--data');
-  const response = await requestApi(endpoint, { method, body });
-  printObject(response.body);
-}
-
 async function handleProxy(command, options) {
   const payload = parseJsonInput(options.payload, '--payload');
   switch (command) {
@@ -349,7 +337,7 @@ async function handleProxy(command, options) {
         ? validatePagePayload(payload)
         : parsePageOptions(options);
       const data = await callApi('/api/proxyInfo/page', { body });
-      printObject(data);
+      printObject(data, { redact: !options['raw-output'] });
       return;
     }
     case 'add': {
@@ -502,6 +490,29 @@ Tag subcommands:
   }
 }
 
+async function handleApi(options) {
+  const endpoint = requireNonEmptyString(options.endpoint, '--endpoint');
+  if (!endpoint.startsWith('/')) {
+    fail('--endpoint must start with /');
+  }
+  if (endpoint !== '/status' && !endpoint.startsWith('/api/')) {
+    fail('--endpoint must be /status or start with /api/');
+  }
+
+  const method = String(options.method || 'POST').toUpperCase();
+  if (!['GET', 'POST'].includes(method)) {
+    fail('--method must be GET or POST');
+  }
+
+  const rawData = options.data !== undefined ? options.data : options.payload;
+  const body = rawData === undefined ? undefined : parseJsonInput(rawData, '--data');
+  const response = await requestApi(endpoint, { method, body });
+  printObject(response.body, { redact: !options['raw-output'] });
+  if (!response.ok || (response.body && typeof response.body.code === 'number' && response.body.code !== 0)) {
+    process.exit(1);
+  }
+}
+
 async function main(argv = process.argv.slice(2)) {
   const [scope, command, ...rest] = argv;
 
@@ -526,11 +537,9 @@ async function main(argv = process.argv.slice(2)) {
   if (legacyMap[scope]) {
     [effectiveScope, effectiveCommand] = legacyMap[scope];
     optionsSource = [command, ...rest].filter((item) => item !== undefined);
+  } else if (scope === 'api') {
+    optionsSource = [command, ...rest].filter((item) => item !== undefined);
   }
-  if (effectiveScope === 'api') {
-    optionsSource = command ? [command, ...rest] : rest;
-  }
-
   const { options } = parseArgs(optionsSource);
   if (options['profile-id'] && !options['env-id']) {
     options['env-id'] = options['profile-id'];
@@ -553,10 +562,6 @@ async function main(argv = process.argv.slice(2)) {
       return;
     }
 
-    if (effectiveScope === 'api') {
-      await handleApi(options);
-      return;
-    }
     if (effectiveScope === 'proxy') {
       if (!effectiveCommand) fail('Missing proxy subcommand');
       await handleProxy(effectiveCommand, options);
@@ -570,6 +575,10 @@ async function main(argv = process.argv.slice(2)) {
     if (effectiveScope === 'tag') {
       if (!effectiveCommand) fail('Missing tag subcommand');
       await handleTag(effectiveCommand, options);
+      return;
+    }
+    if (effectiveScope === 'api') {
+      await handleApi(options);
       return;
     }
     fail(`Unknown command scope: ${effectiveScope}`);

@@ -58,18 +58,13 @@ node bin/morelogin.js cloudphone info --id <cloudPhoneId>
 
 Command execution:
 
-```bash
-node bin/morelogin.js cloudphone exec --id <cloudPhoneId> --command "ls /sdcard"
-```
+`cloudphone exec` has been removed from this skill.
 
 ADB:
 
 ```bash
 node bin/morelogin.js cloudphone adb-info --id <cloudPhoneId>
 node bin/morelogin.js cloudphone update-adb --id <cloudPhoneId> --enable true
-node bin/morelogin.js cloudphone adb-connect --id <cloudPhoneId> --wait-seconds 90
-node bin/morelogin.js cloudphone adb-devices
-node bin/morelogin.js cloudphone adb-disconnect --id <cloudPhoneId>
 ```
 
 App operations:
@@ -116,8 +111,10 @@ node bin/morelogin.js tag delete --ids "<id1,id2>"
 Use API mode when a dedicated subcommand is not yet implemented:
 
 ```bash
-node bin/morelogin.js api --endpoint /api/env/page --method POST --data '{"page":1,"pageSize":20}'
+node bin/morelogin.js api --endpoint /api/env/page --method POST --data '{"pageNo":1,"pageSize":20}'
 ```
+
+Proxy and cloud phone responses are redacted by default for credential and device identifiers. Pass `--raw-output` only when the original Local API response is required.
 
 CloudPhone remark batch edit example:
 
@@ -131,7 +128,6 @@ node bin/morelogin.js api \
 ## 7) Smoke Test Checklist
 
 ```bash
-node bin/test-api.js
 node bin/morelogin.js browser list --page 1 --page-size 1
 node bin/morelogin.js cloudphone list --page 1 --page-size 1
 node bin/morelogin.js tag list
@@ -193,9 +189,8 @@ node bin/morelogin.js browser list --page 1 --page-size 20
 - MoreLogin desktop app is running and logged in
 - Local API is reachable at `http://127.0.0.1:40000`
 - Node.js installed
-- For cloud phone ADB workflows:
-  - `adb` installed
-  - `expect` installed (required when SSH tunnel mode is used by some Android models)
+- For cloud phone operations in this skill:
+  - No local ADB/SSH tooling is required
 
 ## 4) Global Help
 
@@ -274,9 +269,7 @@ node bin/morelogin.js cloudphone info --id <cloudPhoneId>
 
 ### 6.2 Device Command Execution
 
-```bash
-node bin/morelogin.js cloudphone exec --id <cloudPhoneId> --command "ls /sdcard"
-```
+`cloudphone exec` has been removed from this skill.
 
 ### 6.3 ADB Management
 
@@ -293,22 +286,9 @@ node bin/morelogin.js cloudphone update-adb --id <cloudPhoneId> --enable true
 node bin/morelogin.js cloudphone update-adb --id <cloudPhoneId> --enable false
 ```
 
-Auto-connect ADB by device model:
-
-```bash
-node bin/morelogin.js cloudphone adb-connect --id <cloudPhoneId> --wait-seconds 90
-```
-
-Connection strategy used by the current implementation:
-- If `adbInfo.command` exists: SSH tunnel mode (`android13-14-15a-ssh-tunnel`)
-- Otherwise: direct `adbIp:adbPort` mode (`android12-15-direct`)
-
-Show and disconnect:
-
-```bash
-node bin/morelogin.js cloudphone adb-devices
-node bin/morelogin.js cloudphone adb-disconnect --id <cloudPhoneId>
-```
+ADB connection strategy:
+- Local ADB/SSH connection methods are removed in this skill.
+- `adb-info` is retained only for metadata visibility.
 
 ### 6.4 New Machine and App Operations
 
@@ -353,7 +333,7 @@ node bin/morelogin.js tag delete --ids "<tagId1,tagId2>"
 Use this when a dedicated CLI subcommand is not available yet.
 
 ```bash
-node bin/morelogin.js api --endpoint /api/env/page --method POST --data '{"page":1,"pageSize":20}'
+node bin/morelogin.js api --endpoint /api/env/page --method POST --data '{"pageNo":1,"pageSize":20}'
 ```
 
 ### 10.1 Example: Batch edit cloud phone remark
@@ -386,7 +366,6 @@ node bin/morelogin.js api \
 ## 13) Quick Smoke Test
 
 ```bash
-node bin/test-api.js
 node bin/morelogin.js browser list --page 1 --page-size 1
 node bin/morelogin.js cloudphone list --page 1 --page-size 1
 node bin/morelogin.js tag list
@@ -533,7 +512,7 @@ node bin/morelogin.js config
 node bin/morelogin.js setup
 
 # Test API connection
-node bin/test-api.js
+node bin/morelogin.js browser list --page 1 --page-size 1
 
 # Show help
 node bin/morelogin.js help
@@ -748,7 +727,7 @@ try {
 
 ```bash
 # Test API connection
-node bin/test-api.js
+node bin/morelogin.js browser list --page 1 --page-size 1
 
 # Check the running status
 node bin/morelogin.js config
@@ -809,7 +788,7 @@ DEBUG=* node bin/morelogin.js start --profile-id <ID>
 Having a problem? Try these methods:
 
 1. **View document**: `cat README.md`
-2. **Run test**: `node bin/test-api.js`
+2. **Run test**: `node bin/morelogin.js browser list --page 1 --page-size 1`
 3. **Check configuration**: `node bin/morelogin.js config`
 4. **View log**: Enable DEBUG mode
 5. **Contact Support**: Morelogin Official Support or OpenClaw Community

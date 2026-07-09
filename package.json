@@ -1,6 +1,6 @@
 {
   "name": "morelogin-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Morelogin browser automation CLI tool - Local API only",
   "main": "bin/morelogin.js",
   "bin": {
@@ -8,9 +8,6 @@
   },
   "scripts": {
     "start": "node bin/morelogin.js",
-    "test:validate": "node scripts/cli-validation-smoke.js",
-    "test:e2e": "node scripts/cli-real-e2e.js",
-    "test:e2e:strict": "node scripts/cli-real-e2e.js --strict --start-attempts=3 --start-timeout-ms=30000",
     "example:basic": "node examples/basic-example.js",
     "example:form": "node examples/form-example.js",
     "example:scraping": "node examples/scraping-example.js",
