@@ -26,6 +26,6 @@
   "license": "MIT",
   "devDependencies": {
     "playwright": "^1.40.0",
-    "puppeteer-core": "^21.11.0"
+    "puppeteer-core": "^25.3.0"
   }
 }

@@ -169,6 +169,11 @@ Cloud phone app routes:
 | `POST` | `/api/cloudphone/app/setHideAccessibilityApp` | Hide accessibility app |
 
 Cloud phone power-on can take 30-90 seconds. Use longer request timeouts for power-on/open workflows.
+Treat `powerOn` success as an accepted startup request, not as proof that the device is ready for shell, app, reset, or file operations. After `powerOn`, poll `/api/cloudphone/info` every 10 seconds until `data.envStatus === 4` before calling `/api/cloudphone/exeCommand`, `/api/cloudphone/newMachine`, app start/stop/restart, upload/download, or other in-device actions. If a follow-up call returns `33301` with "The Cloud Phone has not been started up.", continue polling instead of failing immediately.
+
+For `/api/cloudphone/edit/batch`, start with the smallest payload that satisfies the requested change. For example, remark-only edits should send `{ "id": [<cloudPhoneId>], "envRemark": "..." }`. If a combined edit containing `groupId`, `tags`, `proxyId`, geo, language, and remark fields returns HTTP 400, retry by splitting the edit into smaller calls and only include fields required for the current user request.
+
+`/api/cloudphone/newMachine` is asynchronous. After it returns success, the cloud phone can report a resetting state and reject `powerOff` or `delete` with codes such as `33331` ("Cloud phone resetting, unable to shut down.") or `33327` ("Other members are using cloud phones and cannot be deactivated."). Do not stop at that response. Poll `/api/cloudphone/info` until the reset finishes, then retry `powerOff` and `delete` with a bounded wait.
 
 Require explicit user confirmation before cloud phone delete, reset, power off, shell command execution, app uninstall, or other destructive/state-changing operations.
 

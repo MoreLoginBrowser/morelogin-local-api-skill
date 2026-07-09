@@ -84,6 +84,9 @@ This contract focuses on endpoints currently wrapped by `bin/morelogin.js`.
 - Body:
   - `id` (int64) required
   - Optional: `headless`, `disableMoneySavingMode`
+- Runtime behavior:
+  - `code === 0` means startup was accepted. Poll `/api/cloudphone/info` until `data.envStatus === 4` before in-device operations.
+  - If a subsequent in-device call returns `33301` ("The Cloud Phone has not been started up."), keep polling instead of treating it as terminal.
 
 ### `POST /api/cloudphone/powerOff`
 - Body:
@@ -111,6 +114,8 @@ This contract focuses on endpoints currently wrapped by `bin/morelogin.js`.
 - Body:
   - `id` recommended
   - Optional: `brand`, `modelId`
+- Runtime behavior:
+  - The reset is asynchronous. If immediate `powerOff` or `delete` returns `33331` (resetting) or `33327` (in use), poll `/api/cloudphone/info` and retry after the reset completes.
 
 ### App endpoints
 - `POST /api/cloudphone/app/installedList` -> `{ id }`
@@ -124,6 +129,9 @@ This contract focuses on endpoints currently wrapped by `bin/morelogin.js`.
 - Body:
   - `id` (array<int64>) required
   - Optional: `envRemark`, `proxyId`, geo/language/location fields, `tags`, `groupId`
+- Runtime best practice:
+  - Use the minimal payload for the requested edit, e.g. `{ "id": [123], "envRemark": "..." }`.
+  - If a combined payload returns HTTP 400, split the edit into smaller requests and retry only the needed fields.
 
 ## 4) Proxy
 

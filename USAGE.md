@@ -56,6 +56,21 @@ node bin/morelogin.js cloudphone stop --id <cloudPhoneId>
 node bin/morelogin.js cloudphone info --id <cloudPhoneId>
 ```
 
+After `cloudphone start` or `/api/cloudphone/powerOn`, poll `cloudphone info` until `envStatus` is `4` before running shell commands, app operations, reset, upload, or download. If an operation returns `33301` ("The Cloud Phone has not been started up."), wait and poll again instead of treating it as a terminal failure.
+
+When editing cloud phones through generic API mode, prefer minimal payloads. For a remark-only edit:
+
+```bash
+node bin/morelogin.js api \
+  --endpoint /api/cloudphone/edit/batch \
+  --method POST \
+  --data '{"id":[1234567890],"envRemark":"new remark"}'
+```
+
+If a combined edit payload returns HTTP 400, split it into smaller requests and retry only the fields required for the current change.
+
+After `/api/cloudphone/newMachine` succeeds, the device may be resetting. If immediate stop/delete returns `33331` or `33327`, poll `cloudphone info` until reset finishes, then retry stop/delete.
+
 Command execution:
 
 `cloudphone exec` has been removed from this skill.
