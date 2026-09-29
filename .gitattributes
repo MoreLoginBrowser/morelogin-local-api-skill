@@ -1,0 +1,4 @@
+# Keep upstream Markdown hard breaks in OpenAPI descriptions byte-for-byte.
+# Two trailing spaces in these YAML strings are content, not code whitespace.
+specs/*.yaml whitespace=-blank-at-eol
+local-api.yaml whitespace=-blank-at-eol

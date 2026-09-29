@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer-core');
 
-const CDP_URL = process.env.CDP_URL || 'http://127.0.0.1:9222';
+const CDP_URL = process.env.CDP_URL;
+if (!CDP_URL) throw new Error('Set CDP_URL to the actual running profile debug URL');
 
 async function main() {
   const browser = await puppeteer.connect({
@@ -22,7 +23,7 @@ async function main() {
 
     console.log('Screenshots completed');
   } finally {
-    await browser.close();
+    await browser.disconnect();
   }
 }
 

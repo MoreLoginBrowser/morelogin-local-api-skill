@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer-core');
 
-const CDP_URL = process.env.CDP_URL || 'http://127.0.0.1:9222';
+const CDP_URL = process.env.CDP_URL;
+if (!CDP_URL) throw new Error('Set CDP_URL to the actual running profile debug URL');
 const FORM_URL = process.env.FORM_URL || 'https://example.com/login';
 
 async function main() {
@@ -22,7 +23,7 @@ async function main() {
     const isLoggedIn = await page.$('.user-profile');
     console.log('Login successful:', Boolean(isLoggedIn));
   } finally {
-    await browser.close();
+    await browser.disconnect();
   }
 }
 

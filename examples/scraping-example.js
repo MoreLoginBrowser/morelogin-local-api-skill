@@ -1,7 +1,8 @@
 const fs = require('fs');
 const puppeteer = require('puppeteer-core');
 
-const CDP_URL = process.env.CDP_URL || 'http://127.0.0.1:9222';
+const CDP_URL = process.env.CDP_URL;
+if (!CDP_URL) throw new Error('Set CDP_URL to the actual running profile debug URL');
 const TARGET_URL = process.env.SCRAPE_URL || 'https://example.com/products';
 
 async function main() {
@@ -25,7 +26,7 @@ async function main() {
     fs.writeFileSync('products.json', `${JSON.stringify(products, null, 2)}\n`, 'utf8');
     console.log(`Scraped ${products.length} products`);
   } finally {
-    await browser.close();
+    await browser.disconnect();
   }
 }
 

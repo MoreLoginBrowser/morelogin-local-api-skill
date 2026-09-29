@@ -1,0 +1,590 @@
+{"type":"test:pass","name":"transport POST /api/env/start :: success","skip":false,"todo":false,"durationMs":47.981083}
+{"type":"test:pass","name":"transport POST /api/env/start :: business","skip":false,"todo":false,"durationMs":45.065}
+{"type":"test:pass","name":"transport POST /api/env/start :: http","skip":false,"todo":false,"durationMs":44.775166}
+{"type":"test:pass","name":"POST /api/env/start: generic transport","skip":false,"todo":false,"durationMs":138.754541}
+{"type":"test:pass","name":"transport POST /api/env/close :: success","skip":false,"todo":false,"durationMs":43.659291}
+{"type":"test:pass","name":"transport POST /api/env/close :: business","skip":false,"todo":false,"durationMs":42.772417}
+{"type":"test:pass","name":"transport POST /api/env/close :: http","skip":false,"todo":false,"durationMs":43.377458}
+{"type":"test:pass","name":"POST /api/env/close: generic transport","skip":false,"todo":false,"durationMs":130.272042}
+{"type":"test:pass","name":"transport POST /api/env/create/quick :: success","skip":false,"todo":false,"durationMs":43.676709}
+{"type":"test:pass","name":"transport POST /api/env/create/quick :: business","skip":false,"todo":false,"durationMs":43.688666}
+{"type":"test:pass","name":"transport POST /api/env/create/quick :: http","skip":false,"todo":false,"durationMs":44.664375}
+{"type":"test:pass","name":"POST /api/env/create/quick: generic transport","skip":false,"todo":false,"durationMs":132.880917}
+{"type":"test:pass","name":"transport POST /api/env/create/advanced :: success","skip":false,"todo":false,"durationMs":43.006834}
+{"type":"test:pass","name":"transport POST /api/env/create/advanced :: business","skip":false,"todo":false,"durationMs":41.537042}
+{"type":"test:pass","name":"transport POST /api/env/create/advanced :: http","skip":false,"todo":false,"durationMs":42.993666}
+{"type":"test:pass","name":"POST /api/env/create/advanced: generic transport","skip":false,"todo":false,"durationMs":128.122166}
+{"type":"test:pass","name":"transport POST /api/env/update :: success","skip":false,"todo":false,"durationMs":44.553417}
+{"type":"test:pass","name":"transport POST /api/env/update :: business","skip":false,"todo":false,"durationMs":42.686}
+{"type":"test:pass","name":"transport POST /api/env/update :: http","skip":false,"todo":false,"durationMs":42.676541}
+{"type":"test:pass","name":"POST /api/env/update: generic transport","skip":false,"todo":false,"durationMs":130.488292}
+{"type":"test:pass","name":"transport POST /api/env/removeToRecycleBin/batch :: success","skip":false,"todo":false,"durationMs":44.095875}
+{"type":"test:pass","name":"transport POST /api/env/removeToRecycleBin/batch :: business","skip":false,"todo":false,"durationMs":44.423708}
+{"type":"test:pass","name":"transport POST /api/env/removeToRecycleBin/batch :: http","skip":false,"todo":false,"durationMs":43.831042}
+{"type":"test:pass","name":"transport POST /api/env/removeToRecycleBin/batch :: confirmation","skip":false,"todo":false,"durationMs":38.805542}
+{"type":"test:pass","name":"POST /api/env/removeToRecycleBin/batch: generic transport","skip":false,"todo":false,"durationMs":171.669667}
+{"type":"test:pass","name":"transport POST /api/env/page :: success","skip":false,"todo":false,"durationMs":44.735959}
+{"type":"test:pass","name":"transport POST /api/env/page :: business","skip":false,"todo":false,"durationMs":44.133625}
+{"type":"test:pass","name":"transport POST /api/env/page :: http","skip":false,"todo":false,"durationMs":44.939542}
+{"type":"test:pass","name":"POST /api/env/page: generic transport","skip":false,"todo":false,"durationMs":134.101333}
+{"type":"test:pass","name":"transport POST /api/env/detail :: success","skip":false,"todo":false,"durationMs":44.456959}
+{"type":"test:pass","name":"transport POST /api/env/detail :: business","skip":false,"todo":false,"durationMs":43.140209}
+{"type":"test:pass","name":"transport POST /api/env/detail :: http","skip":false,"todo":false,"durationMs":42.861541}
+{"type":"test:pass","name":"POST /api/env/detail: generic transport","skip":false,"todo":false,"durationMs":130.853917}
+{"type":"test:pass","name":"transport GET /api/env/advanced/ua/versions :: success","skip":false,"todo":false,"durationMs":43.1955}
+{"type":"test:pass","name":"transport GET /api/env/advanced/ua/versions :: business","skip":false,"todo":false,"durationMs":42.552208}
+{"type":"test:pass","name":"transport GET /api/env/advanced/ua/versions :: http","skip":false,"todo":false,"durationMs":42.528042}
+{"type":"test:pass","name":"GET /api/env/advanced/ua/versions: generic transport","skip":false,"todo":false,"durationMs":128.610417}
+{"type":"test:pass","name":"transport POST /api/env/advanced/ua/get :: success","skip":false,"todo":false,"durationMs":45.234125}
+{"type":"test:pass","name":"transport POST /api/env/advanced/ua/get :: business","skip":false,"todo":false,"durationMs":44.866417}
+{"type":"test:pass","name":"transport POST /api/env/advanced/ua/get :: http","skip":false,"todo":false,"durationMs":43.326125}
+{"type":"test:pass","name":"POST /api/env/advanced/ua/get: generic transport","skip":false,"todo":false,"durationMs":133.826209}
+{"type":"test:pass","name":"transport POST /api/env/base/resolution/list :: success","skip":false,"todo":false,"durationMs":43.042792}
+{"type":"test:pass","name":"transport POST /api/env/base/resolution/list :: business","skip":false,"todo":false,"durationMs":40.715125}
+{"type":"test:pass","name":"transport POST /api/env/base/resolution/list :: http","skip":false,"todo":false,"durationMs":41.17975}
+{"type":"test:pass","name":"POST /api/env/base/resolution/list: generic transport","skip":false,"todo":false,"durationMs":125.258541}
+{"type":"test:pass","name":"transport GET /api/system/platform/list :: success","skip":false,"todo":false,"durationMs":43.218834}
+{"type":"test:pass","name":"transport GET /api/system/platform/list :: business","skip":false,"todo":false,"durationMs":43.5655}
+{"type":"test:pass","name":"transport GET /api/system/platform/list :: http","skip":false,"todo":false,"durationMs":41.08325}
+{"type":"test:pass","name":"GET /api/system/platform/list: generic transport","skip":false,"todo":false,"durationMs":128.089542}
+{"type":"test:pass","name":"transport POST /api/env/lock/query :: success","skip":false,"todo":false,"durationMs":42.186708}
+{"type":"test:pass","name":"transport POST /api/env/lock/query :: business","skip":false,"todo":false,"durationMs":40.453792}
+{"type":"test:pass","name":"transport POST /api/env/lock/query :: http","skip":false,"todo":false,"durationMs":42.222667}
+{"type":"test:pass","name":"POST /api/env/lock/query: generic transport","skip":false,"todo":false,"durationMs":125.141917}
+{"type":"test:pass","name":"transport POST /api/env/base/list :: success","skip":false,"todo":false,"durationMs":42.777084}
+{"type":"test:pass","name":"transport POST /api/env/base/list :: business","skip":false,"todo":false,"durationMs":42.803875}
+{"type":"test:pass","name":"transport POST /api/env/base/list :: http","skip":false,"todo":false,"durationMs":41.964458}
+{"type":"test:pass","name":"POST /api/env/base/list: generic transport","skip":false,"todo":false,"durationMs":127.842}
+{"type":"test:pass","name":"transport POST /api/env/removeLocalCache :: success","skip":false,"todo":false,"durationMs":41.801042}
+{"type":"test:pass","name":"transport POST /api/env/removeLocalCache :: business","skip":false,"todo":false,"durationMs":40.3945}
+{"type":"test:pass","name":"transport POST /api/env/removeLocalCache :: http","skip":false,"todo":false,"durationMs":40.60825}
+{"type":"test:pass","name":"transport POST /api/env/removeLocalCache :: confirmation","skip":false,"todo":false,"durationMs":35.942166}
+{"type":"test:pass","name":"POST /api/env/removeLocalCache: generic transport","skip":false,"todo":false,"durationMs":159.115333}
+{"type":"test:pass","name":"transport POST /api/env/cache/cleanCloud :: success","skip":false,"todo":false,"durationMs":39.935208}
+{"type":"test:pass","name":"transport POST /api/env/cache/cleanCloud :: business","skip":false,"todo":false,"durationMs":42.721667}
+{"type":"test:pass","name":"transport POST /api/env/cache/cleanCloud :: http","skip":false,"todo":false,"durationMs":40.788917}
+{"type":"test:pass","name":"transport POST /api/env/cache/cleanCloud :: confirmation","skip":false,"todo":false,"durationMs":37.734458}
+{"type":"test:pass","name":"POST /api/env/cache/cleanCloud: generic transport","skip":false,"todo":false,"durationMs":161.500084}
+{"type":"test:pass","name":"transport POST /api/env/fingerprint/refresh :: success","skip":false,"todo":false,"durationMs":42.106875}
+{"type":"test:pass","name":"transport POST /api/env/fingerprint/refresh :: business","skip":false,"todo":false,"durationMs":42.255291}
+{"type":"test:pass","name":"transport POST /api/env/fingerprint/refresh :: http","skip":false,"todo":false,"durationMs":41.501166}
+{"type":"test:pass","name":"POST /api/env/fingerprint/refresh: generic transport","skip":false,"todo":false,"durationMs":126.152}
+{"type":"test:pass","name":"transport POST /api/env/status :: success","skip":false,"todo":false,"durationMs":42.610083}
+{"type":"test:pass","name":"transport POST /api/env/status :: business","skip":false,"todo":false,"durationMs":41.327042}
+{"type":"test:pass","name":"transport POST /api/env/status :: http","skip":false,"todo":false,"durationMs":39.416916}
+{"type":"test:pass","name":"POST /api/env/status: generic transport","skip":false,"todo":false,"durationMs":123.608458}
+{"type":"test:pass","name":"transport POST /api/env/getAllScreen :: success","skip":false,"todo":false,"durationMs":40.284417}
+{"type":"test:pass","name":"transport POST /api/env/getAllScreen :: business","skip":false,"todo":false,"durationMs":39.836459}
+{"type":"test:pass","name":"transport POST /api/env/getAllScreen :: http","skip":false,"todo":false,"durationMs":40.788792}
+{"type":"test:pass","name":"POST /api/env/getAllScreen: generic transport","skip":false,"todo":false,"durationMs":121.142333}
+{"type":"test:pass","name":"transport POST /api/env/arrangeWindows :: success","skip":false,"todo":false,"durationMs":40.638958}
+{"type":"test:pass","name":"transport POST /api/env/arrangeWindows :: business","skip":false,"todo":false,"durationMs":41.449709}
+{"type":"test:pass","name":"transport POST /api/env/arrangeWindows :: http","skip":false,"todo":false,"durationMs":41.721459}
+{"type":"test:pass","name":"POST /api/env/arrangeWindows: generic transport","skip":false,"todo":false,"durationMs":124.086}
+{"type":"test:pass","name":"transport POST /api/env/setGroup/batch :: success","skip":false,"todo":false,"durationMs":42.110833}
+{"type":"test:pass","name":"transport POST /api/env/setGroup/batch :: business","skip":false,"todo":false,"durationMs":42.856958}
+{"type":"test:pass","name":"transport POST /api/env/setGroup/batch :: http","skip":false,"todo":false,"durationMs":43.67025}
+{"type":"test:pass","name":"POST /api/env/setGroup/batch: generic transport","skip":false,"todo":false,"durationMs":128.905875}
+{"type":"test:pass","name":"transport POST /api/env/setProxy/batch :: success","skip":false,"todo":false,"durationMs":43.530833}
+{"type":"test:pass","name":"transport POST /api/env/setProxy/batch :: business","skip":false,"todo":false,"durationMs":43.978875}
+{"type":"test:pass","name":"transport POST /api/env/setProxy/batch :: http","skip":false,"todo":false,"durationMs":42.33525}
+{"type":"test:pass","name":"transport POST /api/env/setProxy/batch :: confirmation","skip":false,"todo":false,"durationMs":38.187167}
+{"type":"test:pass","name":"POST /api/env/setProxy/batch: generic transport","skip":false,"todo":false,"durationMs":168.470959}
+{"type":"test:pass","name":"transport POST /api/env/setRemark/batch :: success","skip":false,"todo":false,"durationMs":42.58075}
+{"type":"test:pass","name":"transport POST /api/env/setRemark/batch :: business","skip":false,"todo":false,"durationMs":41.816208}
+{"type":"test:pass","name":"transport POST /api/env/setRemark/batch :: http","skip":false,"todo":false,"durationMs":43.686167}
+{"type":"test:pass","name":"POST /api/env/setRemark/batch: generic transport","skip":false,"todo":false,"durationMs":128.380916}
+{"type":"test:pass","name":"transport POST /api/env/closeAll :: success","skip":false,"todo":false,"durationMs":48.735}
+{"type":"test:pass","name":"transport POST /api/env/closeAll :: business","skip":false,"todo":false,"durationMs":49.74875}
+{"type":"test:pass","name":"transport POST /api/env/closeAll :: http","skip":false,"todo":false,"durationMs":44.61625}
+{"type":"test:pass","name":"transport POST /api/env/closeAll :: confirmation","skip":false,"todo":false,"durationMs":39.464708}
+{"type":"test:pass","name":"POST /api/env/closeAll: generic transport","skip":false,"todo":false,"durationMs":182.901791}
+{"type":"test:pass","name":"transport POST /api/env/getAllProcessIds :: success","skip":false,"todo":false,"durationMs":44.002333}
+{"type":"test:pass","name":"transport POST /api/env/getAllProcessIds :: business","skip":false,"todo":false,"durationMs":41.896375}
+{"type":"test:pass","name":"transport POST /api/env/getAllProcessIds :: http","skip":false,"todo":false,"durationMs":42.671917}
+{"type":"test:pass","name":"POST /api/env/getAllProcessIds: generic transport","skip":false,"todo":false,"durationMs":128.840833}
+{"type":"test:pass","name":"transport POST /api/env/getAllDebugInfo :: success","skip":false,"todo":false,"durationMs":41.575291}
+{"type":"test:pass","name":"transport POST /api/env/getAllDebugInfo :: business","skip":false,"todo":false,"durationMs":39.611958}
+{"type":"test:pass","name":"transport POST /api/env/getAllDebugInfo :: http","skip":false,"todo":false,"durationMs":40.51025}
+{"type":"test:pass","name":"POST /api/env/getAllDebugInfo: generic transport","skip":false,"todo":false,"durationMs":121.964459}
+{"type":"test:pass","name":"transport POST /api/env/base/mobile/devices :: success","skip":false,"todo":false,"durationMs":42.03}
+{"type":"test:pass","name":"transport POST /api/env/base/mobile/devices :: business","skip":false,"todo":false,"durationMs":40.824917}
+{"type":"test:pass","name":"transport POST /api/env/base/mobile/devices :: http","skip":false,"todo":false,"durationMs":40.586541}
+{"type":"test:pass","name":"POST /api/env/base/mobile/devices: generic transport","skip":false,"todo":false,"durationMs":123.642083}
+{"type":"test:pass","name":"transport POST /api/env/core/download :: success","skip":false,"todo":false,"durationMs":41.531667}
+{"type":"test:pass","name":"transport POST /api/env/core/download :: business","skip":false,"todo":false,"durationMs":41.990208}
+{"type":"test:pass","name":"transport POST /api/env/core/download :: http","skip":false,"todo":false,"durationMs":41.983833}
+{"type":"test:pass","name":"POST /api/env/core/download: generic transport","skip":false,"todo":false,"durationMs":125.835041}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/start :: success","skip":false,"todo":false,"durationMs":43.455292}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/start :: business","skip":false,"todo":false,"durationMs":42.990417}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/start :: http","skip":false,"todo":false,"durationMs":40.82425}
+{"type":"test:pass","name":"POST /api/cloudbrowser/start: generic transport","skip":false,"todo":false,"durationMs":127.599208}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/stop :: success","skip":false,"todo":false,"durationMs":39.632917}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/stop :: business","skip":false,"todo":false,"durationMs":38.369125}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/stop :: http","skip":false,"todo":false,"durationMs":38.515583}
+{"type":"test:pass","name":"POST /api/cloudbrowser/stop: generic transport","skip":false,"todo":false,"durationMs":116.796042}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/page :: success","skip":false,"todo":false,"durationMs":40.970459}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/page :: business","skip":false,"todo":false,"durationMs":41.04825}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/page :: http","skip":false,"todo":false,"durationMs":41.074333}
+{"type":"test:pass","name":"POST /api/cloudbrowser/page: generic transport","skip":false,"todo":false,"durationMs":123.460083}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/connect :: success","skip":false,"todo":false,"durationMs":42.331833}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/connect :: business","skip":false,"todo":false,"durationMs":40.237875}
+{"type":"test:pass","name":"transport POST /api/cloudbrowser/connect :: http","skip":false,"todo":false,"durationMs":40.406458}
+{"type":"test:pass","name":"POST /api/cloudbrowser/connect: generic transport","skip":false,"todo":false,"durationMs":123.271375}
+{"type":"test:pass","name":"transport GET /api/balance :: success","skip":false,"todo":false,"durationMs":42.269042}
+{"type":"test:pass","name":"transport GET /api/balance :: business","skip":false,"todo":false,"durationMs":40.408333}
+{"type":"test:pass","name":"transport GET /api/balance :: http","skip":false,"todo":false,"durationMs":40.450708}
+{"type":"test:pass","name":"GET /api/balance: generic transport","skip":false,"todo":false,"durationMs":123.341542}
+{"type":"test:pass","name":"transport GET /api/cloudphone/monthly/skus :: success","skip":false,"todo":false,"durationMs":40.340708}
+{"type":"test:pass","name":"transport GET /api/cloudphone/monthly/skus :: business","skip":false,"todo":false,"durationMs":39.075083}
+{"type":"test:pass","name":"transport GET /api/cloudphone/monthly/skus :: http","skip":false,"todo":false,"durationMs":39.838042}
+{"type":"test:pass","name":"GET /api/cloudphone/monthly/skus: generic transport","skip":false,"todo":false,"durationMs":119.432292}
+{"type":"test:pass","name":"transport POST /api/cloudphone/monthly/activate :: success","skip":false,"todo":false,"durationMs":40.44525}
+{"type":"test:pass","name":"transport POST /api/cloudphone/monthly/activate :: business","skip":false,"todo":false,"durationMs":40.201416}
+{"type":"test:pass","name":"transport POST /api/cloudphone/monthly/activate :: http","skip":false,"todo":false,"durationMs":39.9525}
+{"type":"test:pass","name":"transport POST /api/cloudphone/monthly/activate :: confirmation","skip":false,"todo":false,"durationMs":36.44525}
+{"type":"test:pass","name":"POST /api/cloudphone/monthly/activate: generic transport","skip":false,"todo":false,"durationMs":157.421042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/start :: success","skip":false,"todo":false,"durationMs":42.060209}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/start :: business","skip":false,"todo":false,"durationMs":41.721042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/start :: http","skip":false,"todo":false,"durationMs":43.311333}
+{"type":"test:pass","name":"POST /api/cloudphone/live/start: generic transport","skip":false,"todo":false,"durationMs":127.397083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/status :: success","skip":false,"todo":false,"durationMs":42.92125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/status :: business","skip":false,"todo":false,"durationMs":42.385625}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/status :: http","skip":false,"todo":false,"durationMs":41.068583}
+{"type":"test:pass","name":"POST /api/cloudphone/live/status: generic transport","skip":false,"todo":false,"durationMs":126.652333}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/end :: success","skip":false,"todo":false,"durationMs":41.378417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/end :: business","skip":false,"todo":false,"durationMs":40.3885}
+{"type":"test:pass","name":"transport POST /api/cloudphone/live/end :: http","skip":false,"todo":false,"durationMs":40.499}
+{"type":"test:pass","name":"POST /api/cloudphone/live/end: generic transport","skip":false,"todo":false,"durationMs":122.6055}
+{"type":"test:pass","name":"transport POST /api/cloudphone/uploadFile :: success","skip":false,"todo":false,"durationMs":44.838334}
+{"type":"test:pass","name":"transport POST /api/cloudphone/uploadFile :: business","skip":false,"todo":false,"durationMs":43.12}
+{"type":"test:pass","name":"transport POST /api/cloudphone/uploadFile :: http","skip":false,"todo":false,"durationMs":41.773792}
+{"type":"test:pass","name":"POST /api/cloudphone/uploadFile: generic transport","skip":false,"todo":false,"durationMs":129.997333}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file/signedUrl :: success","skip":false,"todo":false,"durationMs":39.383334}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file/signedUrl :: business","skip":false,"todo":false,"durationMs":40.995792}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file/signedUrl :: http","skip":false,"todo":false,"durationMs":40.030875}
+{"type":"test:pass","name":"POST /api/cloudphone/upload/file/signedUrl: generic transport","skip":false,"todo":false,"durationMs":120.65675}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file :: success","skip":false,"todo":false,"durationMs":40.48725}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file :: business","skip":false,"todo":false,"durationMs":41.645042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file :: http","skip":false,"todo":false,"durationMs":40.428125}
+{"type":"test:pass","name":"POST /api/cloudphone/upload/file: generic transport","skip":false,"todo":false,"durationMs":122.836875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file/result :: success","skip":false,"todo":false,"durationMs":41.415125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file/result :: business","skip":false,"todo":false,"durationMs":41.67325}
+{"type":"test:pass","name":"transport POST /api/cloudphone/upload/file/result :: http","skip":false,"todo":false,"durationMs":41.726625}
+{"type":"test:pass","name":"POST /api/cloudphone/upload/file/result: generic transport","skip":false,"todo":false,"durationMs":125.111333}
+{"type":"test:pass","name":"transport POST /api/cloudphone/download :: success","skip":false,"todo":false,"durationMs":43.365083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/download :: business","skip":false,"todo":false,"durationMs":43.556084}
+{"type":"test:pass","name":"transport POST /api/cloudphone/download :: http","skip":false,"todo":false,"durationMs":44.637208}
+{"type":"test:pass","name":"POST /api/cloudphone/download: generic transport","skip":false,"todo":false,"durationMs":131.854792}
+{"type":"test:pass","name":"transport POST /api/cloudphone/download/result :: success","skip":false,"todo":false,"durationMs":44.315875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/download/result :: business","skip":false,"todo":false,"durationMs":41.576875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/download/result :: http","skip":false,"todo":false,"durationMs":40.882042}
+{"type":"test:pass","name":"POST /api/cloudphone/download/result: generic transport","skip":false,"todo":false,"durationMs":127.112416}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setKeyBox :: success","skip":false,"todo":false,"durationMs":42.434208}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setKeyBox :: business","skip":false,"todo":false,"durationMs":43.256208}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setKeyBox :: http","skip":false,"todo":false,"durationMs":42.269083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setKeyBox :: confirmation","skip":false,"todo":false,"durationMs":37.376083}
+{"type":"test:pass","name":"POST /api/cloudphone/setKeyBox: generic transport","skip":false,"todo":false,"durationMs":165.64675}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/install :: success","skip":false,"todo":false,"durationMs":41.590417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/install :: business","skip":false,"todo":false,"durationMs":40.657417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/install :: http","skip":false,"todo":false,"durationMs":43.178541}
+{"type":"test:pass","name":"POST /api/cloudphone/app/install: generic transport","skip":false,"todo":false,"durationMs":125.7395}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/page :: success","skip":false,"todo":false,"durationMs":42.282917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/page :: business","skip":false,"todo":false,"durationMs":43.115625}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/page :: http","skip":false,"todo":false,"durationMs":41.974792}
+{"type":"test:pass","name":"POST /api/cloudphone/app/page: generic transport","skip":false,"todo":false,"durationMs":127.643958}
+{"type":"test:pass","name":"transport POST /api/cloudphone/team/app/page :: success","skip":false,"todo":false,"durationMs":41.44425}
+{"type":"test:pass","name":"transport POST /api/cloudphone/team/app/page :: business","skip":false,"todo":false,"durationMs":40.324125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/team/app/page :: http","skip":false,"todo":false,"durationMs":41.422084}
+{"type":"test:pass","name":"POST /api/cloudphone/team/app/page: generic transport","skip":false,"todo":false,"durationMs":123.486292}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/installedList :: success","skip":false,"todo":false,"durationMs":42.189791}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/installedList :: business","skip":false,"todo":false,"durationMs":40.759875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/installedList :: http","skip":false,"todo":false,"durationMs":41.060625}
+{"type":"test:pass","name":"POST /api/cloudphone/app/installedList: generic transport","skip":false,"todo":false,"durationMs":124.26325}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/start :: success","skip":false,"todo":false,"durationMs":39.275666}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/start :: business","skip":false,"todo":false,"durationMs":39.458917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/start :: http","skip":false,"todo":false,"durationMs":39.624584}
+{"type":"test:pass","name":"POST /api/cloudphone/app/start: generic transport","skip":false,"todo":false,"durationMs":118.588292}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/restart :: success","skip":false,"todo":false,"durationMs":39.638584}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/restart :: business","skip":false,"todo":false,"durationMs":38.808417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/restart :: http","skip":false,"todo":false,"durationMs":39.026541}
+{"type":"test:pass","name":"POST /api/cloudphone/app/restart: generic transport","skip":false,"todo":false,"durationMs":117.703791}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/stop :: success","skip":false,"todo":false,"durationMs":40.913458}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/stop :: business","skip":false,"todo":false,"durationMs":41.161792}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/stop :: http","skip":false,"todo":false,"durationMs":39.770333}
+{"type":"test:pass","name":"POST /api/cloudphone/app/stop: generic transport","skip":false,"todo":false,"durationMs":122.080917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/uninstall :: success","skip":false,"todo":false,"durationMs":41.518416}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/uninstall :: business","skip":false,"todo":false,"durationMs":40.352584}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/uninstall :: http","skip":false,"todo":false,"durationMs":39.373417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/uninstall :: confirmation","skip":false,"todo":false,"durationMs":36.950916}
+{"type":"test:pass","name":"POST /api/cloudphone/app/uninstall: generic transport","skip":false,"todo":false,"durationMs":158.45725}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/openRoot :: success","skip":false,"todo":false,"durationMs":40.602458}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/openRoot :: business","skip":false,"todo":false,"durationMs":39.165292}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/openRoot :: http","skip":false,"todo":false,"durationMs":39.568042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/openRoot :: confirmation","skip":false,"todo":false,"durationMs":35.481875}
+{"type":"test:pass","name":"POST /api/cloudphone/app/openRoot: generic transport","skip":false,"todo":false,"durationMs":155.131708}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/setHideAccessibilityApp :: success","skip":false,"todo":false,"durationMs":39.871333}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/setHideAccessibilityApp :: business","skip":false,"todo":false,"durationMs":40.082416}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/setHideAccessibilityApp :: http","skip":false,"todo":false,"durationMs":39.807541}
+{"type":"test:pass","name":"transport POST /api/cloudphone/app/setHideAccessibilityApp :: confirmation","skip":false,"todo":false,"durationMs":37.017666}
+{"type":"test:pass","name":"POST /api/cloudphone/app/setHideAccessibilityApp: generic transport","skip":false,"todo":false,"durationMs":157.080375}
+{"type":"test:pass","name":"transport POST /api/cloudphone/page :: success","skip":false,"todo":false,"durationMs":40.623167}
+{"type":"test:pass","name":"transport POST /api/cloudphone/page :: business","skip":false,"todo":false,"durationMs":41.260959}
+{"type":"test:pass","name":"transport POST /api/cloudphone/page :: http","skip":false,"todo":false,"durationMs":39.758167}
+{"type":"test:pass","name":"POST /api/cloudphone/page: generic transport","skip":false,"todo":false,"durationMs":121.946625}
+{"type":"test:pass","name":"transport POST /api/cloudphone/create :: success","skip":false,"todo":false,"durationMs":40.167416}
+{"type":"test:pass","name":"transport POST /api/cloudphone/create :: business","skip":false,"todo":false,"durationMs":39.678917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/create :: http","skip":false,"todo":false,"durationMs":39.605833}
+{"type":"test:pass","name":"POST /api/cloudphone/create: generic transport","skip":false,"todo":false,"durationMs":119.814417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/powerOn :: success","skip":false,"todo":false,"durationMs":40.4075}
+{"type":"test:pass","name":"transport POST /api/cloudphone/powerOn :: business","skip":false,"todo":false,"durationMs":38.737458}
+{"type":"test:pass","name":"transport POST /api/cloudphone/powerOn :: http","skip":false,"todo":false,"durationMs":39.665833}
+{"type":"test:pass","name":"POST /api/cloudphone/powerOn: generic transport","skip":false,"todo":false,"durationMs":119.054792}
+{"type":"test:pass","name":"transport POST /api/cloudphone/restart :: success","skip":false,"todo":false,"durationMs":40.206458}
+{"type":"test:pass","name":"transport POST /api/cloudphone/restart :: business","skip":false,"todo":false,"durationMs":40.380167}
+{"type":"test:pass","name":"transport POST /api/cloudphone/restart :: http","skip":false,"todo":false,"durationMs":42.233834}
+{"type":"test:pass","name":"POST /api/cloudphone/restart: generic transport","skip":false,"todo":false,"durationMs":123.068208}
+{"type":"test:pass","name":"transport POST /api/cloudphone/reset :: success","skip":false,"todo":false,"durationMs":40.079625}
+{"type":"test:pass","name":"transport POST /api/cloudphone/reset :: business","skip":false,"todo":false,"durationMs":40.098709}
+{"type":"test:pass","name":"transport POST /api/cloudphone/reset :: http","skip":false,"todo":false,"durationMs":43.065208}
+{"type":"test:pass","name":"transport POST /api/cloudphone/reset :: confirmation","skip":false,"todo":false,"durationMs":35.106042}
+{"type":"test:pass","name":"POST /api/cloudphone/reset: generic transport","skip":false,"todo":false,"durationMs":158.609542}
+{"type":"test:pass","name":"transport POST /api/cloudphone/powerOff :: success","skip":false,"todo":false,"durationMs":40.726792}
+{"type":"test:pass","name":"transport POST /api/cloudphone/powerOff :: business","skip":false,"todo":false,"durationMs":41.059625}
+{"type":"test:pass","name":"transport POST /api/cloudphone/powerOff :: http","skip":false,"todo":false,"durationMs":41.575792}
+{"type":"test:pass","name":"transport POST /api/cloudphone/powerOff :: confirmation","skip":false,"todo":false,"durationMs":38.535958}
+{"type":"test:pass","name":"POST /api/cloudphone/powerOff: generic transport","skip":false,"todo":false,"durationMs":162.198625}
+{"type":"test:pass","name":"transport POST /api/cloudphone/edit/batch :: success","skip":false,"todo":false,"durationMs":42.233042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/edit/batch :: business","skip":false,"todo":false,"durationMs":41.180708}
+{"type":"test:pass","name":"transport POST /api/cloudphone/edit/batch :: http","skip":false,"todo":false,"durationMs":41.998459}
+{"type":"test:pass","name":"POST /api/cloudphone/edit/batch: generic transport","skip":false,"todo":false,"durationMs":125.846125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setProxy :: success","skip":false,"todo":false,"durationMs":41.983875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setProxy :: business","skip":false,"todo":false,"durationMs":40.9165}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setProxy :: http","skip":false,"todo":false,"durationMs":41.231875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/setProxy :: confirmation","skip":false,"todo":false,"durationMs":37.894916}
+{"type":"test:pass","name":"POST /api/cloudphone/setProxy: generic transport","skip":false,"todo":false,"durationMs":162.432958}
+{"type":"test:pass","name":"transport POST /api/cloudphone/delete/batch :: success","skip":false,"todo":false,"durationMs":41.629875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/delete/batch :: business","skip":false,"todo":false,"durationMs":40.755042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/delete/batch :: http","skip":false,"todo":false,"durationMs":39.880083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/delete/batch :: confirmation","skip":false,"todo":false,"durationMs":36.369208}
+{"type":"test:pass","name":"POST /api/cloudphone/delete/batch: generic transport","skip":false,"todo":false,"durationMs":158.938791}
+{"type":"test:pass","name":"transport POST /api/cloudphone/newMachine :: success","skip":false,"todo":false,"durationMs":41.278375}
+{"type":"test:pass","name":"transport POST /api/cloudphone/newMachine :: business","skip":false,"todo":false,"durationMs":39.70675}
+{"type":"test:pass","name":"transport POST /api/cloudphone/newMachine :: http","skip":false,"todo":false,"durationMs":40.574125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/newMachine :: confirmation","skip":false,"todo":false,"durationMs":36.971292}
+{"type":"test:pass","name":"POST /api/cloudphone/newMachine: generic transport","skip":false,"todo":false,"durationMs":158.849375}
+{"type":"test:pass","name":"transport POST /api/cloudphone/info :: success","skip":false,"todo":false,"durationMs":43.250083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/info :: business","skip":false,"todo":false,"durationMs":40.108209}
+{"type":"test:pass","name":"transport POST /api/cloudphone/info :: http","skip":false,"todo":false,"durationMs":40.121583}
+{"type":"test:pass","name":"POST /api/cloudphone/info: generic transport","skip":false,"todo":false,"durationMs":123.763417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/queryByAndroidId :: success","skip":false,"todo":false,"durationMs":41.672834}
+{"type":"test:pass","name":"transport POST /api/cloudphone/queryByAndroidId :: business","skip":false,"todo":false,"durationMs":40.89}
+{"type":"test:pass","name":"transport POST /api/cloudphone/queryByAndroidId :: http","skip":false,"todo":false,"durationMs":40.499625}
+{"type":"test:pass","name":"POST /api/cloudphone/queryByAndroidId: generic transport","skip":false,"todo":false,"durationMs":123.301916}
+{"type":"test:pass","name":"transport POST /api/cloudphone/enableRoot :: success","skip":false,"todo":false,"durationMs":41.519042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/enableRoot :: business","skip":false,"todo":false,"durationMs":38.652125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/enableRoot :: http","skip":false,"todo":false,"durationMs":39.017458}
+{"type":"test:pass","name":"transport POST /api/cloudphone/enableRoot :: confirmation","skip":false,"todo":false,"durationMs":34.97575}
+{"type":"test:pass","name":"POST /api/cloudphone/enableRoot: generic transport","skip":false,"todo":false,"durationMs":154.455}
+{"type":"test:pass","name":"transport POST /api/cloudphone/screenCap :: success","skip":false,"todo":false,"durationMs":37.808917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/screenCap :: business","skip":false,"todo":false,"durationMs":37.941}
+{"type":"test:pass","name":"transport POST /api/cloudphone/screenCap :: http","skip":false,"todo":false,"durationMs":38.81575}
+{"type":"test:pass","name":"POST /api/cloudphone/screenCap: generic transport","skip":false,"todo":false,"durationMs":114.782958}
+{"type":"test:pass","name":"transport POST /api/cloudphone/screenCapBase64 :: success","skip":false,"todo":false,"durationMs":40.437083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/screenCapBase64 :: business","skip":false,"todo":false,"durationMs":39.405792}
+{"type":"test:pass","name":"transport POST /api/cloudphone/screenCapBase64 :: http","skip":false,"todo":false,"durationMs":39.486416}
+{"type":"test:pass","name":"POST /api/cloudphone/screenCapBase64: generic transport","skip":false,"todo":false,"durationMs":119.56825}
+{"type":"test:pass","name":"transport POST /api/cloudphone/brand/models :: success","skip":false,"todo":false,"durationMs":40.863708}
+{"type":"test:pass","name":"transport POST /api/cloudphone/brand/models :: business","skip":false,"todo":false,"durationMs":38.193958}
+{"type":"test:pass","name":"transport POST /api/cloudphone/brand/models :: http","skip":false,"todo":false,"durationMs":37.846209}
+{"type":"test:pass","name":"POST /api/cloudphone/brand/models: generic transport","skip":false,"todo":false,"durationMs":117.122}
+{"type":"test:pass","name":"transport POST /api/cloudphone/updateAdb :: success","skip":false,"todo":false,"durationMs":38.14125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/updateAdb :: business","skip":false,"todo":false,"durationMs":37.806125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/updateAdb :: http","skip":false,"todo":false,"durationMs":38.579375}
+{"type":"test:pass","name":"transport POST /api/cloudphone/updateAdb :: confirmation","skip":false,"todo":false,"durationMs":35.290709}
+{"type":"test:pass","name":"POST /api/cloudphone/updateAdb: generic transport","skip":false,"todo":false,"durationMs":150.076584}
+{"type":"test:pass","name":"transport POST /api/cloudphone/batchAdbInfo :: success","skip":false,"todo":false,"durationMs":38.124417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/batchAdbInfo :: business","skip":false,"todo":false,"durationMs":37.797042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/batchAdbInfo :: http","skip":false,"todo":false,"durationMs":38.825417}
+{"type":"test:pass","name":"POST /api/cloudphone/batchAdbInfo: generic transport","skip":false,"todo":false,"durationMs":114.966458}
+{"type":"test:pass","name":"transport POST /api/cloudphone/exeCommand :: success","skip":false,"todo":false,"durationMs":40.654292}
+{"type":"test:pass","name":"transport POST /api/cloudphone/exeCommand :: business","skip":false,"todo":false,"durationMs":39.207542}
+{"type":"test:pass","name":"transport POST /api/cloudphone/exeCommand :: http","skip":false,"todo":false,"durationMs":39.430708}
+{"type":"test:pass","name":"transport POST /api/cloudphone/exeCommand :: confirmation","skip":false,"todo":false,"durationMs":36.27275}
+{"type":"test:pass","name":"POST /api/cloudphone/exeCommand: generic transport","skip":false,"todo":false,"durationMs":155.850125}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/template/market/page :: success","skip":false,"todo":false,"durationMs":39.113542}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/template/market/page :: business","skip":false,"todo":false,"durationMs":38.398}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/template/market/page :: http","skip":false,"todo":false,"durationMs":37.715333}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/template/market/page: generic transport","skip":false,"todo":false,"durationMs":115.4575}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/template/personal/page :: success","skip":false,"todo":false,"durationMs":38.293292}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/template/personal/page :: business","skip":false,"todo":false,"durationMs":37.631375}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/template/personal/page :: http","skip":false,"todo":false,"durationMs":38.026958}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/template/personal/page: generic transport","skip":false,"todo":false,"durationMs":114.165167}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/page :: success","skip":false,"todo":false,"durationMs":38.591375}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/page :: business","skip":false,"todo":false,"durationMs":37.71525}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/page :: http","skip":false,"todo":false,"durationMs":38.862334}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/task/page: generic transport","skip":false,"todo":false,"durationMs":115.413}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/save :: success","skip":false,"todo":false,"durationMs":40.851875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/save :: business","skip":false,"todo":false,"durationMs":39.771083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/save :: http","skip":false,"todo":false,"durationMs":40.266416}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/save :: confirmation","skip":false,"todo":false,"durationMs":36.732375}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/task/save: generic transport","skip":false,"todo":false,"durationMs":157.976458}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/onceTask/save :: success","skip":false,"todo":false,"durationMs":38.737917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/onceTask/save :: business","skip":false,"todo":false,"durationMs":38.564083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/onceTask/save :: http","skip":false,"todo":false,"durationMs":39.556875}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/onceTask/save :: confirmation","skip":false,"todo":false,"durationMs":37.13375}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/onceTask/save: generic transport","skip":false,"todo":false,"durationMs":154.298667}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/cancel :: success","skip":false,"todo":false,"durationMs":40.741084}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/cancel :: business","skip":false,"todo":false,"durationMs":40.209542}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/cancel :: http","skip":false,"todo":false,"durationMs":40.201791}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/task/cancel :: confirmation","skip":false,"todo":false,"durationMs":36.109708}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/task/cancel: generic transport","skip":false,"todo":false,"durationMs":157.5455}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/page :: success","skip":false,"todo":false,"durationMs":40.899917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/page :: business","skip":false,"todo":false,"durationMs":40.186167}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/page :: http","skip":false,"todo":false,"durationMs":40.192042}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/subTask/page: generic transport","skip":false,"todo":false,"durationMs":121.615834}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/detail/{id} :: success","skip":false,"todo":false,"durationMs":40.54}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/detail/{id} :: business","skip":false,"todo":false,"durationMs":40.911834}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/detail/{id} :: http","skip":false,"todo":false,"durationMs":40.129375}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/subTask/detail/{id}: generic transport","skip":false,"todo":false,"durationMs":121.902917}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: success","skip":false,"todo":false,"durationMs":39.180833}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: business","skip":false,"todo":false,"durationMs":38.39175}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: http","skip":false,"todo":false,"durationMs":38.555625}
+{"type":"test:pass","name":"transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: confirmation","skip":false,"todo":false,"durationMs":34.781375}
+{"type":"test:pass","name":"POST /api/cloudphone/rpa/subTask/cancel/{id}: generic transport","skip":false,"todo":false,"durationMs":151.18475}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/click :: success","skip":false,"todo":false,"durationMs":38.922334}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/click :: business","skip":false,"todo":false,"durationMs":37.658167}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/click :: http","skip":false,"todo":false,"durationMs":38.756041}
+{"type":"test:pass","name":"POST /api/cloudphone/touch/click: generic transport","skip":false,"todo":false,"durationMs":115.607583}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/doubleClick :: success","skip":false,"todo":false,"durationMs":40.870084}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/doubleClick :: business","skip":false,"todo":false,"durationMs":41.508042}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/doubleClick :: http","skip":false,"todo":false,"durationMs":41.087333}
+{"type":"test:pass","name":"POST /api/cloudphone/touch/doubleClick: generic transport","skip":false,"todo":false,"durationMs":123.759333}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/longClick :: success","skip":false,"todo":false,"durationMs":42.144417}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/longClick :: business","skip":false,"todo":false,"durationMs":39.5375}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/longClick :: http","skip":false,"todo":false,"durationMs":39.800417}
+{"type":"test:pass","name":"POST /api/cloudphone/touch/longClick: generic transport","skip":false,"todo":false,"durationMs":121.7795}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/swipe :: success","skip":false,"todo":false,"durationMs":40.231167}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/swipe :: business","skip":false,"todo":false,"durationMs":38.823166}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/swipe :: http","skip":false,"todo":false,"durationMs":39.935542}
+{"type":"test:pass","name":"POST /api/cloudphone/touch/swipe: generic transport","skip":false,"todo":false,"durationMs":119.279083}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/drag :: success","skip":false,"todo":false,"durationMs":38.814833}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/drag :: business","skip":false,"todo":false,"durationMs":37.873791}
+{"type":"test:pass","name":"transport POST /api/cloudphone/touch/drag :: http","skip":false,"todo":false,"durationMs":39.119417}
+{"type":"test:pass","name":"POST /api/cloudphone/touch/drag: generic transport","skip":false,"todo":false,"durationMs":116.139834}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/page :: success","skip":false,"todo":false,"durationMs":41.500708}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/page :: business","skip":false,"todo":false,"durationMs":41.421458}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/page :: http","skip":false,"todo":false,"durationMs":41.655333}
+{"type":"test:pass","name":"POST /api/proxyInfo/page: generic transport","skip":false,"todo":false,"durationMs":124.897375}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/add :: success","skip":false,"todo":false,"durationMs":42.836791}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/add :: business","skip":false,"todo":false,"durationMs":41.404167}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/add :: http","skip":false,"todo":false,"durationMs":38.142458}
+{"type":"test:pass","name":"POST /api/proxyInfo/add: generic transport","skip":false,"todo":false,"durationMs":122.66875}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/update :: success","skip":false,"todo":false,"durationMs":38.303708}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/update :: business","skip":false,"todo":false,"durationMs":37.20275}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/update :: http","skip":false,"todo":false,"durationMs":37.751917}
+{"type":"test:pass","name":"POST /api/proxyInfo/update: generic transport","skip":false,"todo":false,"durationMs":113.52625}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/delete :: success","skip":false,"todo":false,"durationMs":38.794458}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/delete :: business","skip":false,"todo":false,"durationMs":39.127875}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/delete :: http","skip":false,"todo":false,"durationMs":38.568083}
+{"type":"test:pass","name":"transport POST /api/proxyInfo/delete :: confirmation","skip":false,"todo":false,"durationMs":35.563667}
+{"type":"test:pass","name":"POST /api/proxyInfo/delete: generic transport","skip":false,"todo":false,"durationMs":152.331667}
+{"type":"test:pass","name":"transport POST /api/envgroup/page :: success","skip":false,"todo":false,"durationMs":40.088542}
+{"type":"test:pass","name":"transport POST /api/envgroup/page :: business","skip":false,"todo":false,"durationMs":39.738375}
+{"type":"test:pass","name":"transport POST /api/envgroup/page :: http","skip":false,"todo":false,"durationMs":40.787333}
+{"type":"test:pass","name":"POST /api/envgroup/page: generic transport","skip":false,"todo":false,"durationMs":120.869541}
+{"type":"test:pass","name":"transport POST /api/envgroup/edit :: success","skip":false,"todo":false,"durationMs":42.243166}
+{"type":"test:pass","name":"transport POST /api/envgroup/edit :: business","skip":false,"todo":false,"durationMs":40.719167}
+{"type":"test:pass","name":"transport POST /api/envgroup/edit :: http","skip":false,"todo":false,"durationMs":39.7365}
+{"type":"test:pass","name":"POST /api/envgroup/edit: generic transport","skip":false,"todo":false,"durationMs":122.959708}
+{"type":"test:pass","name":"transport POST /api/envgroup/create :: success","skip":false,"todo":false,"durationMs":40.676667}
+{"type":"test:pass","name":"transport POST /api/envgroup/create :: business","skip":false,"todo":false,"durationMs":40.503}
+{"type":"test:pass","name":"transport POST /api/envgroup/create :: http","skip":false,"todo":false,"durationMs":40.538375}
+{"type":"test:pass","name":"POST /api/envgroup/create: generic transport","skip":false,"todo":false,"durationMs":121.968208}
+{"type":"test:pass","name":"transport POST /api/envgroup/delete :: success","skip":false,"todo":false,"durationMs":40.46725}
+{"type":"test:pass","name":"transport POST /api/envgroup/delete :: business","skip":false,"todo":false,"durationMs":40.5205}
+{"type":"test:pass","name":"transport POST /api/envgroup/delete :: http","skip":false,"todo":false,"durationMs":39.766792}
+{"type":"test:pass","name":"transport POST /api/envgroup/delete :: confirmation","skip":false,"todo":false,"durationMs":37.531167}
+{"type":"test:pass","name":"POST /api/envgroup/delete: generic transport","skip":false,"todo":false,"durationMs":158.603458}
+{"type":"test:pass","name":"transport GET /api/envtag/all :: success","skip":false,"todo":false,"durationMs":41.651667}
+{"type":"test:pass","name":"transport GET /api/envtag/all :: business","skip":false,"todo":false,"durationMs":40.686042}
+{"type":"test:pass","name":"transport GET /api/envtag/all :: http","skip":false,"todo":false,"durationMs":40.470458}
+{"type":"test:pass","name":"GET /api/envtag/all: generic transport","skip":false,"todo":false,"durationMs":123.015084}
+{"type":"test:pass","name":"transport POST /api/envtag/create :: success","skip":false,"todo":false,"durationMs":42.372375}
+{"type":"test:pass","name":"transport POST /api/envtag/create :: business","skip":false,"todo":false,"durationMs":40.330042}
+{"type":"test:pass","name":"transport POST /api/envtag/create :: http","skip":false,"todo":false,"durationMs":41.391917}
+{"type":"test:pass","name":"POST /api/envtag/create: generic transport","skip":false,"todo":false,"durationMs":124.382292}
+{"type":"test:pass","name":"transport POST /api/envtag/edit :: success","skip":false,"todo":false,"durationMs":41.028}
+{"type":"test:pass","name":"transport POST /api/envtag/edit :: business","skip":false,"todo":false,"durationMs":41.356583}
+{"type":"test:pass","name":"transport POST /api/envtag/edit :: http","skip":false,"todo":false,"durationMs":40.559417}
+{"type":"test:pass","name":"POST /api/envtag/edit: generic transport","skip":false,"todo":false,"durationMs":123.225917}
+{"type":"test:pass","name":"transport POST /api/envtag/delete :: success","skip":false,"todo":false,"durationMs":40.26725}
+{"type":"test:pass","name":"transport POST /api/envtag/delete :: business","skip":false,"todo":false,"durationMs":40.429292}
+{"type":"test:pass","name":"transport POST /api/envtag/delete :: http","skip":false,"todo":false,"durationMs":40.639709}
+{"type":"test:pass","name":"transport POST /api/envtag/delete :: confirmation","skip":false,"todo":false,"durationMs":37.301875}
+{"type":"test:pass","name":"POST /api/envtag/delete: generic transport","skip":false,"todo":false,"durationMs":158.973291}
+{"type":"test:pass","name":"transport POST /api/webhook/config :: success","skip":false,"todo":false,"durationMs":41.690041}
+{"type":"test:pass","name":"transport POST /api/webhook/config :: business","skip":false,"todo":false,"durationMs":40.338416}
+{"type":"test:pass","name":"transport POST /api/webhook/config :: http","skip":false,"todo":false,"durationMs":40.600125}
+{"type":"test:pass","name":"transport POST /api/webhook/config :: confirmation","skip":false,"todo":false,"durationMs":36.901834}
+{"type":"test:pass","name":"POST /api/webhook/config: generic transport","skip":false,"todo":false,"durationMs":159.835625}
+{"type":"test:pass","name":"transport GET /api/cloudstorage/info :: success","skip":false,"todo":false,"durationMs":39.87175}
+{"type":"test:pass","name":"transport GET /api/cloudstorage/info :: business","skip":false,"todo":false,"durationMs":37.891708}
+{"type":"test:pass","name":"transport GET /api/cloudstorage/info :: http","skip":false,"todo":false,"durationMs":37.639084}
+{"type":"test:pass","name":"GET /api/cloudstorage/info: generic transport","skip":false,"todo":false,"durationMs":115.569084}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/page :: success","skip":false,"todo":false,"durationMs":39.464}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/page :: business","skip":false,"todo":false,"durationMs":37.755292}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/page :: http","skip":false,"todo":false,"durationMs":38.6645}
+{"type":"test:pass","name":"POST /api/cloudstorage/file/page: generic transport","skip":false,"todo":false,"durationMs":116.15475}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/upload/init :: success","skip":false,"todo":false,"durationMs":39.534791}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/upload/init :: business","skip":false,"todo":false,"durationMs":38.862958}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/upload/init :: http","skip":false,"todo":false,"durationMs":40.129542}
+{"type":"test:pass","name":"POST /api/cloudstorage/upload/init: generic transport","skip":false,"todo":false,"durationMs":118.769042}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/upload/complete :: success","skip":false,"todo":false,"durationMs":40.451167}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/upload/complete :: business","skip":false,"todo":false,"durationMs":39.932666}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/upload/complete :: http","skip":false,"todo":false,"durationMs":40.094583}
+{"type":"test:pass","name":"POST /api/cloudstorage/upload/complete: generic transport","skip":false,"todo":false,"durationMs":120.723041}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/delete/batch :: success","skip":false,"todo":false,"durationMs":39.073958}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/delete/batch :: business","skip":false,"todo":false,"durationMs":37.805083}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/delete/batch :: http","skip":false,"todo":false,"durationMs":38.194416}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/delete/batch :: confirmation","skip":false,"todo":false,"durationMs":34.734917}
+{"type":"test:pass","name":"POST /api/cloudstorage/file/delete/batch: generic transport","skip":false,"todo":false,"durationMs":150.071458}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/set :: success","skip":false,"todo":false,"durationMs":37.762417}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/set :: business","skip":false,"todo":false,"durationMs":38.492541}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/set :: http","skip":false,"todo":false,"durationMs":37.968}
+{"type":"test:pass","name":"POST /api/cloudstorage/file/tag/set: generic transport","skip":false,"todo":false,"durationMs":114.449833}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/add :: success","skip":false,"todo":false,"durationMs":38.427334}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/add :: business","skip":false,"todo":false,"durationMs":39.440584}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/add :: http","skip":false,"todo":false,"durationMs":40.140959}
+{"type":"test:pass","name":"POST /api/cloudstorage/file/tag/add: generic transport","skip":false,"todo":false,"durationMs":118.240834}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/query :: success","skip":false,"todo":false,"durationMs":41.290833}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/query :: business","skip":false,"todo":false,"durationMs":40.495167}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/file/tag/query :: http","skip":false,"todo":false,"durationMs":40.772958}
+{"type":"test:pass","name":"POST /api/cloudstorage/file/tag/query: generic transport","skip":false,"todo":false,"durationMs":122.804917}
+{"type":"test:pass","name":"transport GET /api/cloudstorage/tag/all :: success","skip":false,"todo":false,"durationMs":38.01075}
+{"type":"test:pass","name":"transport GET /api/cloudstorage/tag/all :: business","skip":false,"todo":false,"durationMs":37.730958}
+{"type":"test:pass","name":"transport GET /api/cloudstorage/tag/all :: http","skip":false,"todo":false,"durationMs":36.953125}
+{"type":"test:pass","name":"GET /api/cloudstorage/tag/all: generic transport","skip":false,"todo":false,"durationMs":112.851167}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/create :: success","skip":false,"todo":false,"durationMs":39.334792}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/create :: business","skip":false,"todo":false,"durationMs":37.736792}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/create :: http","skip":false,"todo":false,"durationMs":37.935959}
+{"type":"test:pass","name":"POST /api/cloudstorage/tag/create: generic transport","skip":false,"todo":false,"durationMs":115.213917}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/edit :: success","skip":false,"todo":false,"durationMs":38.449583}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/edit :: business","skip":false,"todo":false,"durationMs":37.774333}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/edit :: http","skip":false,"todo":false,"durationMs":39.224166}
+{"type":"test:pass","name":"POST /api/cloudstorage/tag/edit: generic transport","skip":false,"todo":false,"durationMs":115.674542}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/delete/batch :: success","skip":false,"todo":false,"durationMs":40.57425}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/delete/batch :: business","skip":false,"todo":false,"durationMs":39.925709}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/delete/batch :: http","skip":false,"todo":false,"durationMs":39.952834}
+{"type":"test:pass","name":"transport POST /api/cloudstorage/tag/delete/batch :: confirmation","skip":false,"todo":false,"durationMs":36.23875}
+{"type":"test:pass","name":"POST /api/cloudstorage/tag/delete/batch: generic transport","skip":false,"todo":false,"durationMs":156.966541}
+{"type":"test:summary","success":true,"counts":{"tests":480,"failed":0,"passed":480,"cancelled":0,"skipped":0,"todo":0,"topLevel":113,"suites":0},"duration_ms":14915.265125,"file":"all-operations.test.js"}
+{"type":"test:pass","name":"new command families map to all newly documented endpoints","skip":false,"todo":false,"durationMs":4.436667}
+{"type":"test:pass","name":"paid activation requires an explicit confirmation flag","skip":false,"todo":false,"durationMs":0.255417}
+{"type":"test:pass","name":"webhook callback URL must use HTTPS","skip":false,"todo":false,"durationMs":0.084125}
+{"type":"test:pass","name":"browser kernel-download reaches the documented route","skip":false,"todo":false,"durationMs":0.2165}
+{"type":"test:summary","success":true,"counts":{"tests":4,"failed":0,"passed":4,"cancelled":0,"skipped":0,"todo":0,"topLevel":4,"suites":0},"duration_ms":8.284292,"file":"extended-commands.test.js"}
+{"type":"test:pass","name":"named browser list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":49.277083}
+{"type":"test:pass","name":"named browser start: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":45.464625}
+{"type":"test:pass","name":"named browser close: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.942333}
+{"type":"test:pass","name":"named browser status: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.405209}
+{"type":"test:pass","name":"named browser detail: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.388666}
+{"type":"test:pass","name":"named browser refresh-fingerprint: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.825583}
+{"type":"test:pass","name":"named browser create-quick: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.320958}
+{"type":"test:pass","name":"named browser clear-cache: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.34075}
+{"type":"test:pass","name":"named browser clean-cloud-cache: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.826333}
+{"type":"test:pass","name":"named browser delete: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.886959}
+{"type":"test:pass","name":"named browser kernel-download: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.194792}
+{"type":"test:pass","name":"named cloudbrowser start: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.1635}
+{"type":"test:pass","name":"named cloudbrowser connect: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.21275}
+{"type":"test:pass","name":"named cloudbrowser stop: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.221833}
+{"type":"test:pass","name":"named cloudbrowser list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.930709}
+{"type":"test:pass","name":"named cloudphone list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.586291}
+{"type":"test:pass","name":"named cloudphone create: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.784458}
+{"type":"test:pass","name":"named cloudphone start: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.372791}
+{"type":"test:pass","name":"named cloudphone stop: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.181084}
+{"type":"test:pass","name":"named cloudphone info: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":45.138709}
+{"type":"test:pass","name":"named cloudphone new-machine: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":46.593916}
+{"type":"test:pass","name":"named cloudphone app-installed: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.769042}
+{"type":"test:pass","name":"named cloudphone restart: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.661833}
+{"type":"test:pass","name":"named cloudphone reset: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.136417}
+{"type":"test:pass","name":"named cloudphone screenshot: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.651833}
+{"type":"test:pass","name":"named cloudphone screenshot-base64: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.363125}
+{"type":"test:pass","name":"named cloudphone update-adb: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":45.692208}
+{"type":"test:pass","name":"named cloudphone app-start: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.815125}
+{"type":"test:pass","name":"named cloudphone app-stop: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":46.710417}
+{"type":"test:pass","name":"named cloudphone app-restart: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":46.001833}
+{"type":"test:pass","name":"named cloudphone app-uninstall: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.786042}
+{"type":"test:pass","name":"named cloudphone monthly-skus: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.987292}
+{"type":"test:pass","name":"named cloudphone monthly-activate: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.293792}
+{"type":"test:pass","name":"named cloudphone live-start: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.885834}
+{"type":"test:pass","name":"named cloudphone live-status: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.889375}
+{"type":"test:pass","name":"named cloudphone live-stop: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.289667}
+{"type":"test:pass","name":"named cloudphone team-apps: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.510791}
+{"type":"test:pass","name":"named cloudphone app-root: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.852958}
+{"type":"test:pass","name":"named cloudphone set-proxy: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.048667}
+{"type":"test:pass","name":"named cloudphone find-android: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.4225}
+{"type":"test:pass","name":"named cloudphone root: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.813334}
+{"type":"test:pass","name":"named cloudphone adb-batch: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.695292}
+{"type":"test:pass","name":"named cloudphone tap: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.2165}
+{"type":"test:pass","name":"named cloudphone double-tap: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.826583}
+{"type":"test:pass","name":"named cloudphone long-press: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.967416}
+{"type":"test:pass","name":"named cloudphone swipe: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.592667}
+{"type":"test:pass","name":"named cloudphone drag: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.973416}
+{"type":"test:pass","name":"named cloudstorage info: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.410375}
+{"type":"test:pass","name":"named cloudstorage list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.391333}
+{"type":"test:pass","name":"named cloudstorage upload-init: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.815083}
+{"type":"test:pass","name":"named cloudstorage upload-complete: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.788208}
+{"type":"test:pass","name":"named cloudstorage delete: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.107}
+{"type":"test:pass","name":"named cloudstorage set-tags: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.135459}
+{"type":"test:pass","name":"named cloudstorage add-tags: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.253125}
+{"type":"test:pass","name":"named cloudstorage file-tags: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.197125}
+{"type":"test:pass","name":"named cloudstorage tag-list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":39.697333}
+{"type":"test:pass","name":"named cloudstorage tag-create: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":40.324}
+{"type":"test:pass","name":"named cloudstorage tag-edit: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":40.3505}
+{"type":"test:pass","name":"named cloudstorage tag-delete: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":41.109042}
+{"type":"test:pass","name":"named account balance: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":39.942709}
+{"type":"test:pass","name":"named webhook config: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.140625}
+{"type":"test:pass","name":"named proxy list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.345042}
+{"type":"test:pass","name":"named proxy add: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.4385}
+{"type":"test:pass","name":"named proxy update: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.019625}
+{"type":"test:pass","name":"named proxy delete: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.057875}
+{"type":"test:pass","name":"named group list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.653541}
+{"type":"test:pass","name":"named group create: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":44.104}
+{"type":"test:pass","name":"named group edit: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.237458}
+{"type":"test:pass","name":"named group delete: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.355084}
+{"type":"test:pass","name":"named tag list: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.011167}
+{"type":"test:pass","name":"named tag create: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":42.8015}
+{"type":"test:pass","name":"named tag edit: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":43.608375}
+{"type":"test:pass","name":"named tag delete: HTTP mapping and request contract","skip":false,"todo":false,"durationMs":50.570541}
+{"type":"test:pass","name":"every named command has an HTTP mapping case or explicit multi-request scenario","skip":false,"todo":false,"durationMs":0.284791}
+{"type":"test:pass","name":"invalid browser identity and pagination never reach HTTP","skip":false,"todo":false,"durationMs":200.557875}
+{"type":"test:summary","success":true,"counts":{"tests":75,"failed":0,"passed":75,"cancelled":0,"skipped":0,"todo":0,"topLevel":75,"suites":0},"duration_ms":3379.904875,"file":"named-commands.test.js"}
+{"type":"test:pass","name":"canonical paths and method allowlist reject confirmation bypasses before HTTP","skip":false,"todo":false,"durationMs":8.150292}
+{"type":"test:pass","name":"UTF-8 Chinese and emoji survive one-byte response chunks","skip":false,"todo":false,"durationMs":88.169333}
+{"type":"test:pass","name":"absolute deadline terminates a continuously trickling response without retry","skip":false,"todo":false,"durationMs":105.691375}
+{"type":"test:pass","name":"response limit aborts oversize results","skip":false,"todo":false,"durationMs":2.71975}
+{"type":"test:pass","name":"numeric int64 response IDs are preserved as exact decimal strings","skip":false,"todo":false,"durationMs":1.548667}
+{"type":"test:pass","name":"multipart uses streaming, exact Content-Length, and rejects oversized files before sending","skip":false,"todo":false,"durationMs":10.035542}
+{"type":"test:pass","name":"ambiguous, missing-value and unsupported options fail closed","skip":false,"todo":false,"durationMs":0.202708}
+{"type":"test:pass","name":"release matrix preserves failed, skipped and missing cases instead of manufacturing passes","skip":false,"todo":false,"durationMs":0.659375}
+{"type":"test:summary","success":true,"counts":{"tests":8,"failed":0,"passed":8,"cancelled":0,"skipped":0,"todo":0,"topLevel":8,"suites":0},"duration_ms":222.484333,"file":"release-regressions.test.js"}
+{"type":"test:pass","name":"strict booleans reject typo rather than silently disable resources","skip":false,"todo":false,"durationMs":0.491833}
+{"type":"test:pass","name":"desktop status accepts its special health envelope only at /status","skip":false,"todo":false,"durationMs":55.641917}
+{"type":"test:pass","name":"invalid and business failure envelopes never report success","skip":false,"todo":false,"durationMs":0.123375}
+{"type":"test:pass","name":"sensitive nested keys redacted without altering input or IDs","skip":false,"todo":false,"durationMs":0.444959}
+{"type":"test:pass","name":"reject unsafe numeric IDs and remote/non-HTTP transport","skip":false,"todo":false,"durationMs":1.335583}
+{"type":"test:pass","name":"defaults allow asynchronous startup and long kernel wait","skip":false,"todo":false,"durationMs":0.097792}
+{"type":"test:pass","name":"force stop and generic monthly activation cannot bypass confirmation","skip":false,"todo":false,"durationMs":0.147291}
+{"type":"test:pass","name":"named queries redact by default and false is not raw-output","skip":false,"todo":false,"durationMs":419.466333}
+{"type":"test:pass","name":"int64 strings preserved in ADB updates, including payload mode","skip":false,"todo":false,"durationMs":45.468417}
+{"type":"test:pass","name":"destructive named commands are blocked before HTTP","skip":false,"todo":false,"durationMs":197.984041}
+{"type":"test:pass","name":"malformed JSON, missing code and string codes fail CLI","skip":false,"todo":false,"durationMs":130.9085}
+{"type":"test:pass","name":"timeout produces unknown-outcome message and never retries automatically","skip":false,"todo":false,"durationMs":92.929667}
+{"type":"test:pass","name":"empty label replacement is supported","skip":false,"todo":false,"durationMs":44.911542}
+{"type":"test:summary","success":true,"counts":{"tests":13,"failed":0,"passed":13,"cancelled":0,"skipped":0,"todo":0,"topLevel":13,"suites":0},"duration_ms":999.144792,"file":"runtime.test.js"}
+{"type":"test:pass","name":"named cloudphone adb-info searches later pages and redacts credentials","skip":false,"todo":false,"durationMs":60.820584}
+{"type":"test:pass","name":"repeated pagination is an incomplete result, never a false not-found","skip":false,"todo":false,"durationMs":53.74}
+{"type":"test:pass","name":"async startup acceptance stays distinct from pending, ready and business failure","skip":false,"todo":false,"durationMs":192.107416}
+{"type":"test:summary","success":true,"counts":{"tests":3,"failed":0,"passed":3,"cancelled":0,"skipped":0,"todo":0,"topLevel":3,"suites":0},"duration_ms":317.218542,"file":"workflows.test.js"}
+{"type":"test:summary","success":true,"counts":{"tests":583,"failed":0,"passed":583,"cancelled":0,"skipped":0,"todo":0,"topLevel":216,"suites":0},"duration_ms":15222.105709}

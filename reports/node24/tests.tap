@@ -1,0 +1,3621 @@
+TAP version 13
+# Subtest: POST /api/env/start: generic transport
+    # Subtest: transport POST /api/env/start :: success
+    ok 1 - transport POST /api/env/start :: success
+      ---
+      duration_ms: 35.595542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/start :: business
+    ok 2 - transport POST /api/env/start :: business
+      ---
+      duration_ms: 32.474959
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/start :: http
+    ok 3 - transport POST /api/env/start :: http
+      ---
+      duration_ms: 30.916417
+      type: 'test'
+      ...
+    1..3
+ok 1 - POST /api/env/start: generic transport
+  ---
+  duration_ms: 100.09475
+  type: 'test'
+  ...
+# Subtest: POST /api/env/close: generic transport
+    # Subtest: transport POST /api/env/close :: success
+    ok 1 - transport POST /api/env/close :: success
+      ---
+      duration_ms: 32.687833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/close :: business
+    ok 2 - transport POST /api/env/close :: business
+      ---
+      duration_ms: 30.729125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/close :: http
+    ok 3 - transport POST /api/env/close :: http
+      ---
+      duration_ms: 29.489667
+      type: 'test'
+      ...
+    1..3
+ok 2 - POST /api/env/close: generic transport
+  ---
+  duration_ms: 93.434542
+  type: 'test'
+  ...
+# Subtest: POST /api/env/create/quick: generic transport
+    # Subtest: transport POST /api/env/create/quick :: success
+    ok 1 - transport POST /api/env/create/quick :: success
+      ---
+      duration_ms: 31.856709
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/create/quick :: business
+    ok 2 - transport POST /api/env/create/quick :: business
+      ---
+      duration_ms: 29.750542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/create/quick :: http
+    ok 3 - transport POST /api/env/create/quick :: http
+      ---
+      duration_ms: 33.602792
+      type: 'test'
+      ...
+    1..3
+ok 3 - POST /api/env/create/quick: generic transport
+  ---
+  duration_ms: 95.871125
+  type: 'test'
+  ...
+# Subtest: POST /api/env/create/advanced: generic transport
+    # Subtest: transport POST /api/env/create/advanced :: success
+    ok 1 - transport POST /api/env/create/advanced :: success
+      ---
+      duration_ms: 27.944083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/create/advanced :: business
+    ok 2 - transport POST /api/env/create/advanced :: business
+      ---
+      duration_ms: 28.637042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/create/advanced :: http
+    ok 3 - transport POST /api/env/create/advanced :: http
+      ---
+      duration_ms: 29.165166
+      type: 'test'
+      ...
+    1..3
+ok 4 - POST /api/env/create/advanced: generic transport
+  ---
+  duration_ms: 86.362625
+  type: 'test'
+  ...
+# Subtest: POST /api/env/update: generic transport
+    # Subtest: transport POST /api/env/update :: success
+    ok 1 - transport POST /api/env/update :: success
+      ---
+      duration_ms: 34.216959
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/update :: business
+    ok 2 - transport POST /api/env/update :: business
+      ---
+      duration_ms: 30.746292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/update :: http
+    ok 3 - transport POST /api/env/update :: http
+      ---
+      duration_ms: 31.495
+      type: 'test'
+      ...
+    1..3
+ok 5 - POST /api/env/update: generic transport
+  ---
+  duration_ms: 97.001708
+  type: 'test'
+  ...
+# Subtest: POST /api/env/removeToRecycleBin/batch: generic transport
+    # Subtest: transport POST /api/env/removeToRecycleBin/batch :: success
+    ok 1 - transport POST /api/env/removeToRecycleBin/batch :: success
+      ---
+      duration_ms: 32.793041
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/removeToRecycleBin/batch :: business
+    ok 2 - transport POST /api/env/removeToRecycleBin/batch :: business
+      ---
+      duration_ms: 30.415958
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/removeToRecycleBin/batch :: http
+    ok 3 - transport POST /api/env/removeToRecycleBin/batch :: http
+      ---
+      duration_ms: 30.068084
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/removeToRecycleBin/batch :: confirmation
+    ok 4 - transport POST /api/env/removeToRecycleBin/batch :: confirmation
+      ---
+      duration_ms: 26.277083
+      type: 'test'
+      ...
+    1..4
+ok 6 - POST /api/env/removeToRecycleBin/batch: generic transport
+  ---
+  duration_ms: 120.017125
+  type: 'test'
+  ...
+# Subtest: POST /api/env/page: generic transport
+    # Subtest: transport POST /api/env/page :: success
+    ok 1 - transport POST /api/env/page :: success
+      ---
+      duration_ms: 30.678458
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/page :: business
+    ok 2 - transport POST /api/env/page :: business
+      ---
+      duration_ms: 29.369042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/page :: http
+    ok 3 - transport POST /api/env/page :: http
+      ---
+      duration_ms: 30.371542
+      type: 'test'
+      ...
+    1..3
+ok 7 - POST /api/env/page: generic transport
+  ---
+  duration_ms: 90.744958
+  type: 'test'
+  ...
+# Subtest: POST /api/env/detail: generic transport
+    # Subtest: transport POST /api/env/detail :: success
+    ok 1 - transport POST /api/env/detail :: success
+      ---
+      duration_ms: 34.012833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/detail :: business
+    ok 2 - transport POST /api/env/detail :: business
+      ---
+      duration_ms: 32.342958
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/detail :: http
+    ok 3 - transport POST /api/env/detail :: http
+      ---
+      duration_ms: 29.838917
+      type: 'test'
+      ...
+    1..3
+ok 8 - POST /api/env/detail: generic transport
+  ---
+  duration_ms: 96.512708
+  type: 'test'
+  ...
+# Subtest: GET /api/env/advanced/ua/versions: generic transport
+    # Subtest: transport GET /api/env/advanced/ua/versions :: success
+    ok 1 - transport GET /api/env/advanced/ua/versions :: success
+      ---
+      duration_ms: 29.001334
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/env/advanced/ua/versions :: business
+    ok 2 - transport GET /api/env/advanced/ua/versions :: business
+      ---
+      duration_ms: 27.788292
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/env/advanced/ua/versions :: http
+    ok 3 - transport GET /api/env/advanced/ua/versions :: http
+      ---
+      duration_ms: 28.996125
+      type: 'test'
+      ...
+    1..3
+ok 9 - GET /api/env/advanced/ua/versions: generic transport
+  ---
+  duration_ms: 86.033083
+  type: 'test'
+  ...
+# Subtest: POST /api/env/advanced/ua/get: generic transport
+    # Subtest: transport POST /api/env/advanced/ua/get :: success
+    ok 1 - transport POST /api/env/advanced/ua/get :: success
+      ---
+      duration_ms: 30.2995
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/advanced/ua/get :: business
+    ok 2 - transport POST /api/env/advanced/ua/get :: business
+      ---
+      duration_ms: 30.517042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/advanced/ua/get :: http
+    ok 3 - transport POST /api/env/advanced/ua/get :: http
+      ---
+      duration_ms: 30.023584
+      type: 'test'
+      ...
+    1..3
+ok 10 - POST /api/env/advanced/ua/get: generic transport
+  ---
+  duration_ms: 91.25625
+  type: 'test'
+  ...
+# Subtest: POST /api/env/base/resolution/list: generic transport
+    # Subtest: transport POST /api/env/base/resolution/list :: success
+    ok 1 - transport POST /api/env/base/resolution/list :: success
+      ---
+      duration_ms: 31.005834
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/base/resolution/list :: business
+    ok 2 - transport POST /api/env/base/resolution/list :: business
+      ---
+      duration_ms: 34.647125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/base/resolution/list :: http
+    ok 3 - transport POST /api/env/base/resolution/list :: http
+      ---
+      duration_ms: 30.606
+      type: 'test'
+      ...
+    1..3
+ok 11 - POST /api/env/base/resolution/list: generic transport
+  ---
+  duration_ms: 96.644334
+  type: 'test'
+  ...
+# Subtest: GET /api/system/platform/list: generic transport
+    # Subtest: transport GET /api/system/platform/list :: success
+    ok 1 - transport GET /api/system/platform/list :: success
+      ---
+      duration_ms: 29.137584
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/system/platform/list :: business
+    ok 2 - transport GET /api/system/platform/list :: business
+      ---
+      duration_ms: 29.044375
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/system/platform/list :: http
+    ok 3 - transport GET /api/system/platform/list :: http
+      ---
+      duration_ms: 30.028209
+      type: 'test'
+      ...
+    1..3
+ok 12 - GET /api/system/platform/list: generic transport
+  ---
+  duration_ms: 88.492166
+  type: 'test'
+  ...
+# Subtest: POST /api/env/lock/query: generic transport
+    # Subtest: transport POST /api/env/lock/query :: success
+    ok 1 - transport POST /api/env/lock/query :: success
+      ---
+      duration_ms: 30.953125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/lock/query :: business
+    ok 2 - transport POST /api/env/lock/query :: business
+      ---
+      duration_ms: 31.480125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/lock/query :: http
+    ok 3 - transport POST /api/env/lock/query :: http
+      ---
+      duration_ms: 30.978458
+      type: 'test'
+      ...
+    1..3
+ok 13 - POST /api/env/lock/query: generic transport
+  ---
+  duration_ms: 93.79375
+  type: 'test'
+  ...
+# Subtest: POST /api/env/base/list: generic transport
+    # Subtest: transport POST /api/env/base/list :: success
+    ok 1 - transport POST /api/env/base/list :: success
+      ---
+      duration_ms: 31.321292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/base/list :: business
+    ok 2 - transport POST /api/env/base/list :: business
+      ---
+      duration_ms: 31.141208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/base/list :: http
+    ok 3 - transport POST /api/env/base/list :: http
+      ---
+      duration_ms: 30.242959
+      type: 'test'
+      ...
+    1..3
+ok 14 - POST /api/env/base/list: generic transport
+  ---
+  duration_ms: 93.083375
+  type: 'test'
+  ...
+# Subtest: POST /api/env/removeLocalCache: generic transport
+    # Subtest: transport POST /api/env/removeLocalCache :: success
+    ok 1 - transport POST /api/env/removeLocalCache :: success
+      ---
+      duration_ms: 29.295834
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/removeLocalCache :: business
+    ok 2 - transport POST /api/env/removeLocalCache :: business
+      ---
+      duration_ms: 28.760959
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/removeLocalCache :: http
+    ok 3 - transport POST /api/env/removeLocalCache :: http
+      ---
+      duration_ms: 31.29025
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/removeLocalCache :: confirmation
+    ok 4 - transport POST /api/env/removeLocalCache :: confirmation
+      ---
+      duration_ms: 28.603125
+      type: 'test'
+      ...
+    1..4
+ok 15 - POST /api/env/removeLocalCache: generic transport
+  ---
+  duration_ms: 118.414
+  type: 'test'
+  ...
+# Subtest: POST /api/env/cache/cleanCloud: generic transport
+    # Subtest: transport POST /api/env/cache/cleanCloud :: success
+    ok 1 - transport POST /api/env/cache/cleanCloud :: success
+      ---
+      duration_ms: 32.350375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/cache/cleanCloud :: business
+    ok 2 - transport POST /api/env/cache/cleanCloud :: business
+      ---
+      duration_ms: 30.736167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/cache/cleanCloud :: http
+    ok 3 - transport POST /api/env/cache/cleanCloud :: http
+      ---
+      duration_ms: 33.003417
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/cache/cleanCloud :: confirmation
+    ok 4 - transport POST /api/env/cache/cleanCloud :: confirmation
+      ---
+      duration_ms: 28.331084
+      type: 'test'
+      ...
+    1..4
+ok 16 - POST /api/env/cache/cleanCloud: generic transport
+  ---
+  duration_ms: 124.827667
+  type: 'test'
+  ...
+# Subtest: POST /api/env/fingerprint/refresh: generic transport
+    # Subtest: transport POST /api/env/fingerprint/refresh :: success
+    ok 1 - transport POST /api/env/fingerprint/refresh :: success
+      ---
+      duration_ms: 31.997
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/fingerprint/refresh :: business
+    ok 2 - transport POST /api/env/fingerprint/refresh :: business
+      ---
+      duration_ms: 30.08275
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/fingerprint/refresh :: http
+    ok 3 - transport POST /api/env/fingerprint/refresh :: http
+      ---
+      duration_ms: 29.841791
+      type: 'test'
+      ...
+    1..3
+ok 17 - POST /api/env/fingerprint/refresh: generic transport
+  ---
+  duration_ms: 92.277708
+  type: 'test'
+  ...
+# Subtest: POST /api/env/status: generic transport
+    # Subtest: transport POST /api/env/status :: success
+    ok 1 - transport POST /api/env/status :: success
+      ---
+      duration_ms: 27.719584
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/status :: business
+    ok 2 - transport POST /api/env/status :: business
+      ---
+      duration_ms: 32.927875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/status :: http
+    ok 3 - transport POST /api/env/status :: http
+      ---
+      duration_ms: 30.784125
+      type: 'test'
+      ...
+    1..3
+ok 18 - POST /api/env/status: generic transport
+  ---
+  duration_ms: 91.774125
+  type: 'test'
+  ...
+# Subtest: POST /api/env/getAllScreen: generic transport
+    # Subtest: transport POST /api/env/getAllScreen :: success
+    ok 1 - transport POST /api/env/getAllScreen :: success
+      ---
+      duration_ms: 30.986958
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/getAllScreen :: business
+    ok 2 - transport POST /api/env/getAllScreen :: business
+      ---
+      duration_ms: 30.546
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/getAllScreen :: http
+    ok 3 - transport POST /api/env/getAllScreen :: http
+      ---
+      duration_ms: 30.946417
+      type: 'test'
+      ...
+    1..3
+ok 19 - POST /api/env/getAllScreen: generic transport
+  ---
+  duration_ms: 92.843541
+  type: 'test'
+  ...
+# Subtest: POST /api/env/arrangeWindows: generic transport
+    # Subtest: transport POST /api/env/arrangeWindows :: success
+    ok 1 - transport POST /api/env/arrangeWindows :: success
+      ---
+      duration_ms: 30.099833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/arrangeWindows :: business
+    ok 2 - transport POST /api/env/arrangeWindows :: business
+      ---
+      duration_ms: 38.091209
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/arrangeWindows :: http
+    ok 3 - transport POST /api/env/arrangeWindows :: http
+      ---
+      duration_ms: 30.849125
+      type: 'test'
+      ...
+    1..3
+ok 20 - POST /api/env/arrangeWindows: generic transport
+  ---
+  duration_ms: 99.421625
+  type: 'test'
+  ...
+# Subtest: POST /api/env/setGroup/batch: generic transport
+    # Subtest: transport POST /api/env/setGroup/batch :: success
+    ok 1 - transport POST /api/env/setGroup/batch :: success
+      ---
+      duration_ms: 33.510458
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/setGroup/batch :: business
+    ok 2 - transport POST /api/env/setGroup/batch :: business
+      ---
+      duration_ms: 30.921042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/setGroup/batch :: http
+    ok 3 - transport POST /api/env/setGroup/batch :: http
+      ---
+      duration_ms: 30.331375
+      type: 'test'
+      ...
+    1..3
+ok 21 - POST /api/env/setGroup/batch: generic transport
+  ---
+  duration_ms: 95.128875
+  type: 'test'
+  ...
+# Subtest: POST /api/env/setProxy/batch: generic transport
+    # Subtest: transport POST /api/env/setProxy/batch :: success
+    ok 1 - transport POST /api/env/setProxy/batch :: success
+      ---
+      duration_ms: 29.429708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/setProxy/batch :: business
+    ok 2 - transport POST /api/env/setProxy/batch :: business
+      ---
+      duration_ms: 29.890167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/setProxy/batch :: http
+    ok 3 - transport POST /api/env/setProxy/batch :: http
+      ---
+      duration_ms: 28.816542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/setProxy/batch :: confirmation
+    ok 4 - transport POST /api/env/setProxy/batch :: confirmation
+      ---
+      duration_ms: 26.626875
+      type: 'test'
+      ...
+    1..4
+ok 22 - POST /api/env/setProxy/batch: generic transport
+  ---
+  duration_ms: 115.260833
+  type: 'test'
+  ...
+# Subtest: POST /api/env/setRemark/batch: generic transport
+    # Subtest: transport POST /api/env/setRemark/batch :: success
+    ok 1 - transport POST /api/env/setRemark/batch :: success
+      ---
+      duration_ms: 29.149083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/setRemark/batch :: business
+    ok 2 - transport POST /api/env/setRemark/batch :: business
+      ---
+      duration_ms: 28.829583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/setRemark/batch :: http
+    ok 3 - transport POST /api/env/setRemark/batch :: http
+      ---
+      duration_ms: 27.318708
+      type: 'test'
+      ...
+    1..3
+ok 23 - POST /api/env/setRemark/batch: generic transport
+  ---
+  duration_ms: 85.624042
+  type: 'test'
+  ...
+# Subtest: POST /api/env/closeAll: generic transport
+    # Subtest: transport POST /api/env/closeAll :: success
+    ok 1 - transport POST /api/env/closeAll :: success
+      ---
+      duration_ms: 28.36
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/closeAll :: business
+    ok 2 - transport POST /api/env/closeAll :: business
+      ---
+      duration_ms: 29.420167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/closeAll :: http
+    ok 3 - transport POST /api/env/closeAll :: http
+      ---
+      duration_ms: 29.347834
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/closeAll :: confirmation
+    ok 4 - transport POST /api/env/closeAll :: confirmation
+      ---
+      duration_ms: 26.303
+      type: 'test'
+      ...
+    1..4
+ok 24 - POST /api/env/closeAll: generic transport
+  ---
+  duration_ms: 113.787125
+  type: 'test'
+  ...
+# Subtest: POST /api/env/getAllProcessIds: generic transport
+    # Subtest: transport POST /api/env/getAllProcessIds :: success
+    ok 1 - transport POST /api/env/getAllProcessIds :: success
+      ---
+      duration_ms: 30.314708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/getAllProcessIds :: business
+    ok 2 - transport POST /api/env/getAllProcessIds :: business
+      ---
+      duration_ms: 34.473125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/getAllProcessIds :: http
+    ok 3 - transport POST /api/env/getAllProcessIds :: http
+      ---
+      duration_ms: 30.43125
+      type: 'test'
+      ...
+    1..3
+ok 25 - POST /api/env/getAllProcessIds: generic transport
+  ---
+  duration_ms: 95.545833
+  type: 'test'
+  ...
+# Subtest: POST /api/env/getAllDebugInfo: generic transport
+    # Subtest: transport POST /api/env/getAllDebugInfo :: success
+    ok 1 - transport POST /api/env/getAllDebugInfo :: success
+      ---
+      duration_ms: 30.560833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/getAllDebugInfo :: business
+    ok 2 - transport POST /api/env/getAllDebugInfo :: business
+      ---
+      duration_ms: 29.379792
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/getAllDebugInfo :: http
+    ok 3 - transport POST /api/env/getAllDebugInfo :: http
+      ---
+      duration_ms: 28.485959
+      type: 'test'
+      ...
+    1..3
+ok 26 - POST /api/env/getAllDebugInfo: generic transport
+  ---
+  duration_ms: 88.776917
+  type: 'test'
+  ...
+# Subtest: POST /api/env/base/mobile/devices: generic transport
+    # Subtest: transport POST /api/env/base/mobile/devices :: success
+    ok 1 - transport POST /api/env/base/mobile/devices :: success
+      ---
+      duration_ms: 30.747
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/base/mobile/devices :: business
+    ok 2 - transport POST /api/env/base/mobile/devices :: business
+      ---
+      duration_ms: 27.096125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/base/mobile/devices :: http
+    ok 3 - transport POST /api/env/base/mobile/devices :: http
+      ---
+      duration_ms: 28.963375
+      type: 'test'
+      ...
+    1..3
+ok 27 - POST /api/env/base/mobile/devices: generic transport
+  ---
+  duration_ms: 87.072791
+  type: 'test'
+  ...
+# Subtest: POST /api/env/core/download: generic transport
+    # Subtest: transport POST /api/env/core/download :: success
+    ok 1 - transport POST /api/env/core/download :: success
+      ---
+      duration_ms: 28.678916
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/core/download :: business
+    ok 2 - transport POST /api/env/core/download :: business
+      ---
+      duration_ms: 27.582375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/env/core/download :: http
+    ok 3 - transport POST /api/env/core/download :: http
+      ---
+      duration_ms: 27.4165
+      type: 'test'
+      ...
+    1..3
+ok 28 - POST /api/env/core/download: generic transport
+  ---
+  duration_ms: 84.078875
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudbrowser/start: generic transport
+    # Subtest: transport POST /api/cloudbrowser/start :: success
+    ok 1 - transport POST /api/cloudbrowser/start :: success
+      ---
+      duration_ms: 28.631542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/start :: business
+    ok 2 - transport POST /api/cloudbrowser/start :: business
+      ---
+      duration_ms: 28.205375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/start :: http
+    ok 3 - transport POST /api/cloudbrowser/start :: http
+      ---
+      duration_ms: 29.182375
+      type: 'test'
+      ...
+    1..3
+ok 29 - POST /api/cloudbrowser/start: generic transport
+  ---
+  duration_ms: 86.405667
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudbrowser/stop: generic transport
+    # Subtest: transport POST /api/cloudbrowser/stop :: success
+    ok 1 - transport POST /api/cloudbrowser/stop :: success
+      ---
+      duration_ms: 31.988167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/stop :: business
+    ok 2 - transport POST /api/cloudbrowser/stop :: business
+      ---
+      duration_ms: 29.602459
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/stop :: http
+    ok 3 - transport POST /api/cloudbrowser/stop :: http
+      ---
+      duration_ms: 31.741334
+      type: 'test'
+      ...
+    1..3
+ok 30 - POST /api/cloudbrowser/stop: generic transport
+  ---
+  duration_ms: 93.71225
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudbrowser/page: generic transport
+    # Subtest: transport POST /api/cloudbrowser/page :: success
+    ok 1 - transport POST /api/cloudbrowser/page :: success
+      ---
+      duration_ms: 30.046583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/page :: business
+    ok 2 - transport POST /api/cloudbrowser/page :: business
+      ---
+      duration_ms: 29.806
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/page :: http
+    ok 3 - transport POST /api/cloudbrowser/page :: http
+      ---
+      duration_ms: 30.965417
+      type: 'test'
+      ...
+    1..3
+ok 31 - POST /api/cloudbrowser/page: generic transport
+  ---
+  duration_ms: 91.270042
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudbrowser/connect: generic transport
+    # Subtest: transport POST /api/cloudbrowser/connect :: success
+    ok 1 - transport POST /api/cloudbrowser/connect :: success
+      ---
+      duration_ms: 31.453833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/connect :: business
+    ok 2 - transport POST /api/cloudbrowser/connect :: business
+      ---
+      duration_ms: 30.496875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudbrowser/connect :: http
+    ok 3 - transport POST /api/cloudbrowser/connect :: http
+      ---
+      duration_ms: 29.400542
+      type: 'test'
+      ...
+    1..3
+ok 32 - POST /api/cloudbrowser/connect: generic transport
+  ---
+  duration_ms: 91.728416
+  type: 'test'
+  ...
+# Subtest: GET /api/balance: generic transport
+    # Subtest: transport GET /api/balance :: success
+    ok 1 - transport GET /api/balance :: success
+      ---
+      duration_ms: 30.771125
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/balance :: business
+    ok 2 - transport GET /api/balance :: business
+      ---
+      duration_ms: 31.95975
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/balance :: http
+    ok 3 - transport GET /api/balance :: http
+      ---
+      duration_ms: 28.877875
+      type: 'test'
+      ...
+    1..3
+ok 33 - GET /api/balance: generic transport
+  ---
+  duration_ms: 91.871292
+  type: 'test'
+  ...
+# Subtest: GET /api/cloudphone/monthly/skus: generic transport
+    # Subtest: transport GET /api/cloudphone/monthly/skus :: success
+    ok 1 - transport GET /api/cloudphone/monthly/skus :: success
+      ---
+      duration_ms: 30.317875
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/cloudphone/monthly/skus :: business
+    ok 2 - transport GET /api/cloudphone/monthly/skus :: business
+      ---
+      duration_ms: 28.992917
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/cloudphone/monthly/skus :: http
+    ok 3 - transport GET /api/cloudphone/monthly/skus :: http
+      ---
+      duration_ms: 28.443833
+      type: 'test'
+      ...
+    1..3
+ok 34 - GET /api/cloudphone/monthly/skus: generic transport
+  ---
+  duration_ms: 88.034334
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/monthly/activate: generic transport
+    # Subtest: transport POST /api/cloudphone/monthly/activate :: success
+    ok 1 - transport POST /api/cloudphone/monthly/activate :: success
+      ---
+      duration_ms: 29.794791
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/monthly/activate :: business
+    ok 2 - transport POST /api/cloudphone/monthly/activate :: business
+      ---
+      duration_ms: 28.868083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/monthly/activate :: http
+    ok 3 - transport POST /api/cloudphone/monthly/activate :: http
+      ---
+      duration_ms: 27.469292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/monthly/activate :: confirmation
+    ok 4 - transport POST /api/cloudphone/monthly/activate :: confirmation
+      ---
+      duration_ms: 25.294709
+      type: 'test'
+      ...
+    1..4
+ok 35 - POST /api/cloudphone/monthly/activate: generic transport
+  ---
+  duration_ms: 111.896125
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/live/start: generic transport
+    # Subtest: transport POST /api/cloudphone/live/start :: success
+    ok 1 - transport POST /api/cloudphone/live/start :: success
+      ---
+      duration_ms: 28.535542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/live/start :: business
+    ok 2 - transport POST /api/cloudphone/live/start :: business
+      ---
+      duration_ms: 27.477542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/live/start :: http
+    ok 3 - transport POST /api/cloudphone/live/start :: http
+      ---
+      duration_ms: 28.424
+      type: 'test'
+      ...
+    1..3
+ok 36 - POST /api/cloudphone/live/start: generic transport
+  ---
+  duration_ms: 84.816041
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/live/status: generic transport
+    # Subtest: transport POST /api/cloudphone/live/status :: success
+    ok 1 - transport POST /api/cloudphone/live/status :: success
+      ---
+      duration_ms: 28.678708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/live/status :: business
+    ok 2 - transport POST /api/cloudphone/live/status :: business
+      ---
+      duration_ms: 30.2755
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/live/status :: http
+    ok 3 - transport POST /api/cloudphone/live/status :: http
+      ---
+      duration_ms: 28.960334
+      type: 'test'
+      ...
+    1..3
+ok 37 - POST /api/cloudphone/live/status: generic transport
+  ---
+  duration_ms: 88.383458
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/live/end: generic transport
+    # Subtest: transport POST /api/cloudphone/live/end :: success
+    ok 1 - transport POST /api/cloudphone/live/end :: success
+      ---
+      duration_ms: 30.106709
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/live/end :: business
+    ok 2 - transport POST /api/cloudphone/live/end :: business
+      ---
+      duration_ms: 30.430417
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/live/end :: http
+    ok 3 - transport POST /api/cloudphone/live/end :: http
+      ---
+      duration_ms: 30.596709
+      type: 'test'
+      ...
+    1..3
+ok 38 - POST /api/cloudphone/live/end: generic transport
+  ---
+  duration_ms: 91.613042
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/uploadFile: generic transport
+    # Subtest: transport POST /api/cloudphone/uploadFile :: success
+    ok 1 - transport POST /api/cloudphone/uploadFile :: success
+      ---
+      duration_ms: 35.380209
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/uploadFile :: business
+    ok 2 - transport POST /api/cloudphone/uploadFile :: business
+      ---
+      duration_ms: 38.469208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/uploadFile :: http
+    ok 3 - transport POST /api/cloudphone/uploadFile :: http
+      ---
+      duration_ms: 37.632916
+      type: 'test'
+      ...
+    1..3
+ok 39 - POST /api/cloudphone/uploadFile: generic transport
+  ---
+  duration_ms: 111.951584
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/upload/file/signedUrl: generic transport
+    # Subtest: transport POST /api/cloudphone/upload/file/signedUrl :: success
+    ok 1 - transport POST /api/cloudphone/upload/file/signedUrl :: success
+      ---
+      duration_ms: 34.422458
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/upload/file/signedUrl :: business
+    ok 2 - transport POST /api/cloudphone/upload/file/signedUrl :: business
+      ---
+      duration_ms: 31.348125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/upload/file/signedUrl :: http
+    ok 3 - transport POST /api/cloudphone/upload/file/signedUrl :: http
+      ---
+      duration_ms: 33.717875
+      type: 'test'
+      ...
+    1..3
+ok 40 - POST /api/cloudphone/upload/file/signedUrl: generic transport
+  ---
+  duration_ms: 99.945292
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/upload/file: generic transport
+    # Subtest: transport POST /api/cloudphone/upload/file :: success
+    ok 1 - transport POST /api/cloudphone/upload/file :: success
+      ---
+      duration_ms: 34.609583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/upload/file :: business
+    ok 2 - transport POST /api/cloudphone/upload/file :: business
+      ---
+      duration_ms: 32.986792
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/upload/file :: http
+    ok 3 - transport POST /api/cloudphone/upload/file :: http
+      ---
+      duration_ms: 34.466333
+      type: 'test'
+      ...
+    1..3
+ok 41 - POST /api/cloudphone/upload/file: generic transport
+  ---
+  duration_ms: 102.566084
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/upload/file/result: generic transport
+    # Subtest: transport POST /api/cloudphone/upload/file/result :: success
+    ok 1 - transport POST /api/cloudphone/upload/file/result :: success
+      ---
+      duration_ms: 30.313917
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/upload/file/result :: business
+    ok 2 - transport POST /api/cloudphone/upload/file/result :: business
+      ---
+      duration_ms: 30.898875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/upload/file/result :: http
+    ok 3 - transport POST /api/cloudphone/upload/file/result :: http
+      ---
+      duration_ms: 32.455625
+      type: 'test'
+      ...
+    1..3
+ok 42 - POST /api/cloudphone/upload/file/result: generic transport
+  ---
+  duration_ms: 94.13975
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/download: generic transport
+    # Subtest: transport POST /api/cloudphone/download :: success
+    ok 1 - transport POST /api/cloudphone/download :: success
+      ---
+      duration_ms: 34.708708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/download :: business
+    ok 2 - transport POST /api/cloudphone/download :: business
+      ---
+      duration_ms: 33.242291
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/download :: http
+    ok 3 - transport POST /api/cloudphone/download :: http
+      ---
+      duration_ms: 32.291125
+      type: 'test'
+      ...
+    1..3
+ok 43 - POST /api/cloudphone/download: generic transport
+  ---
+  duration_ms: 100.711917
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/download/result: generic transport
+    # Subtest: transport POST /api/cloudphone/download/result :: success
+    ok 1 - transport POST /api/cloudphone/download/result :: success
+      ---
+      duration_ms: 35.715209
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/download/result :: business
+    ok 2 - transport POST /api/cloudphone/download/result :: business
+      ---
+      duration_ms: 36.336208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/download/result :: http
+    ok 3 - transport POST /api/cloudphone/download/result :: http
+      ---
+      duration_ms: 32.564625
+      type: 'test'
+      ...
+    1..3
+ok 44 - POST /api/cloudphone/download/result: generic transport
+  ---
+  duration_ms: 105.039916
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/setKeyBox: generic transport
+    # Subtest: transport POST /api/cloudphone/setKeyBox :: success
+    ok 1 - transport POST /api/cloudphone/setKeyBox :: success
+      ---
+      duration_ms: 32.585125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/setKeyBox :: business
+    ok 2 - transport POST /api/cloudphone/setKeyBox :: business
+      ---
+      duration_ms: 34.452125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/setKeyBox :: http
+    ok 3 - transport POST /api/cloudphone/setKeyBox :: http
+      ---
+      duration_ms: 33.377167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/setKeyBox :: confirmation
+    ok 4 - transport POST /api/cloudphone/setKeyBox :: confirmation
+      ---
+      duration_ms: 27.905167
+      type: 'test'
+      ...
+    1..4
+ok 45 - POST /api/cloudphone/setKeyBox: generic transport
+  ---
+  duration_ms: 128.792667
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/install: generic transport
+    # Subtest: transport POST /api/cloudphone/app/install :: success
+    ok 1 - transport POST /api/cloudphone/app/install :: success
+      ---
+      duration_ms: 33.42275
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/install :: business
+    ok 2 - transport POST /api/cloudphone/app/install :: business
+      ---
+      duration_ms: 31.287292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/install :: http
+    ok 3 - transport POST /api/cloudphone/app/install :: http
+      ---
+      duration_ms: 30.453792
+      type: 'test'
+      ...
+    1..3
+ok 46 - POST /api/cloudphone/app/install: generic transport
+  ---
+  duration_ms: 95.576084
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/page: generic transport
+    # Subtest: transport POST /api/cloudphone/app/page :: success
+    ok 1 - transport POST /api/cloudphone/app/page :: success
+      ---
+      duration_ms: 32.082625
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/page :: business
+    ok 2 - transport POST /api/cloudphone/app/page :: business
+      ---
+      duration_ms: 29.304375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/page :: http
+    ok 3 - transport POST /api/cloudphone/app/page :: http
+      ---
+      duration_ms: 30.805708
+      type: 'test'
+      ...
+    1..3
+ok 47 - POST /api/cloudphone/app/page: generic transport
+  ---
+  duration_ms: 92.568542
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/team/app/page: generic transport
+    # Subtest: transport POST /api/cloudphone/team/app/page :: success
+    ok 1 - transport POST /api/cloudphone/team/app/page :: success
+      ---
+      duration_ms: 29.959375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/team/app/page :: business
+    ok 2 - transport POST /api/cloudphone/team/app/page :: business
+      ---
+      duration_ms: 29.291042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/team/app/page :: http
+    ok 3 - transport POST /api/cloudphone/team/app/page :: http
+      ---
+      duration_ms: 30.133708
+      type: 'test'
+      ...
+    1..3
+ok 48 - POST /api/cloudphone/team/app/page: generic transport
+  ---
+  duration_ms: 89.879584
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/installedList: generic transport
+    # Subtest: transport POST /api/cloudphone/app/installedList :: success
+    ok 1 - transport POST /api/cloudphone/app/installedList :: success
+      ---
+      duration_ms: 28.237291
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/installedList :: business
+    ok 2 - transport POST /api/cloudphone/app/installedList :: business
+      ---
+      duration_ms: 29.978042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/installedList :: http
+    ok 3 - transport POST /api/cloudphone/app/installedList :: http
+      ---
+      duration_ms: 40.650042
+      type: 'test'
+      ...
+    1..3
+ok 49 - POST /api/cloudphone/app/installedList: generic transport
+  ---
+  duration_ms: 99.216416
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/start: generic transport
+    # Subtest: transport POST /api/cloudphone/app/start :: success
+    ok 1 - transport POST /api/cloudphone/app/start :: success
+      ---
+      duration_ms: 31.04
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/start :: business
+    ok 2 - transport POST /api/cloudphone/app/start :: business
+      ---
+      duration_ms: 31.679208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/start :: http
+    ok 3 - transport POST /api/cloudphone/app/start :: http
+      ---
+      duration_ms: 29.7685
+      type: 'test'
+      ...
+    1..3
+ok 50 - POST /api/cloudphone/app/start: generic transport
+  ---
+  duration_ms: 92.868166
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/restart: generic transport
+    # Subtest: transport POST /api/cloudphone/app/restart :: success
+    ok 1 - transport POST /api/cloudphone/app/restart :: success
+      ---
+      duration_ms: 30.093916
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/restart :: business
+    ok 2 - transport POST /api/cloudphone/app/restart :: business
+      ---
+      duration_ms: 31.178917
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/restart :: http
+    ok 3 - transport POST /api/cloudphone/app/restart :: http
+      ---
+      duration_ms: 30.810042
+      type: 'test'
+      ...
+    1..3
+ok 51 - POST /api/cloudphone/app/restart: generic transport
+  ---
+  duration_ms: 92.435459
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/stop: generic transport
+    # Subtest: transport POST /api/cloudphone/app/stop :: success
+    ok 1 - transport POST /api/cloudphone/app/stop :: success
+      ---
+      duration_ms: 32.198833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/stop :: business
+    ok 2 - transport POST /api/cloudphone/app/stop :: business
+      ---
+      duration_ms: 30.809416
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/stop :: http
+    ok 3 - transport POST /api/cloudphone/app/stop :: http
+      ---
+      duration_ms: 30.975792
+      type: 'test'
+      ...
+    1..3
+ok 52 - POST /api/cloudphone/app/stop: generic transport
+  ---
+  duration_ms: 94.355
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/uninstall: generic transport
+    # Subtest: transport POST /api/cloudphone/app/uninstall :: success
+    ok 1 - transport POST /api/cloudphone/app/uninstall :: success
+      ---
+      duration_ms: 30.02675
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/uninstall :: business
+    ok 2 - transport POST /api/cloudphone/app/uninstall :: business
+      ---
+      duration_ms: 29.741541
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/uninstall :: http
+    ok 3 - transport POST /api/cloudphone/app/uninstall :: http
+      ---
+      duration_ms: 29.414208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/uninstall :: confirmation
+    ok 4 - transport POST /api/cloudphone/app/uninstall :: confirmation
+      ---
+      duration_ms: 25.785542
+      type: 'test'
+      ...
+    1..4
+ok 53 - POST /api/cloudphone/app/uninstall: generic transport
+  ---
+  duration_ms: 115.389125
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/openRoot: generic transport
+    # Subtest: transport POST /api/cloudphone/app/openRoot :: success
+    ok 1 - transport POST /api/cloudphone/app/openRoot :: success
+      ---
+      duration_ms: 30.685958
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/openRoot :: business
+    ok 2 - transport POST /api/cloudphone/app/openRoot :: business
+      ---
+      duration_ms: 28.356333
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/openRoot :: http
+    ok 3 - transport POST /api/cloudphone/app/openRoot :: http
+      ---
+      duration_ms: 30.657417
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/openRoot :: confirmation
+    ok 4 - transport POST /api/cloudphone/app/openRoot :: confirmation
+      ---
+      duration_ms: 24.867333
+      type: 'test'
+      ...
+    1..4
+ok 54 - POST /api/cloudphone/app/openRoot: generic transport
+  ---
+  duration_ms: 114.998542
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/app/setHideAccessibilityApp: generic transport
+    # Subtest: transport POST /api/cloudphone/app/setHideAccessibilityApp :: success
+    ok 1 - transport POST /api/cloudphone/app/setHideAccessibilityApp :: success
+      ---
+      duration_ms: 29.121833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/setHideAccessibilityApp :: business
+    ok 2 - transport POST /api/cloudphone/app/setHideAccessibilityApp :: business
+      ---
+      duration_ms: 30.977667
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/setHideAccessibilityApp :: http
+    ok 3 - transport POST /api/cloudphone/app/setHideAccessibilityApp :: http
+      ---
+      duration_ms: 31.503333
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/app/setHideAccessibilityApp :: confirmation
+    ok 4 - transport POST /api/cloudphone/app/setHideAccessibilityApp :: confirmation
+      ---
+      duration_ms: 32.412583
+      type: 'test'
+      ...
+    1..4
+ok 55 - POST /api/cloudphone/app/setHideAccessibilityApp: generic transport
+  ---
+  duration_ms: 124.458958
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/page: generic transport
+    # Subtest: transport POST /api/cloudphone/page :: success
+    ok 1 - transport POST /api/cloudphone/page :: success
+      ---
+      duration_ms: 42.701125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/page :: business
+    ok 2 - transport POST /api/cloudphone/page :: business
+      ---
+      duration_ms: 41.633291
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/page :: http
+    ok 3 - transport POST /api/cloudphone/page :: http
+      ---
+      duration_ms: 41.392333
+      type: 'test'
+      ...
+    1..3
+ok 56 - POST /api/cloudphone/page: generic transport
+  ---
+  duration_ms: 126.323625
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/create: generic transport
+    # Subtest: transport POST /api/cloudphone/create :: success
+    ok 1 - transport POST /api/cloudphone/create :: success
+      ---
+      duration_ms: 35.280583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/create :: business
+    ok 2 - transport POST /api/cloudphone/create :: business
+      ---
+      duration_ms: 36.194709
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/create :: http
+    ok 3 - transport POST /api/cloudphone/create :: http
+      ---
+      duration_ms: 34.091833
+      type: 'test'
+      ...
+    1..3
+ok 57 - POST /api/cloudphone/create: generic transport
+  ---
+  duration_ms: 106.252834
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/powerOn: generic transport
+    # Subtest: transport POST /api/cloudphone/powerOn :: success
+    ok 1 - transport POST /api/cloudphone/powerOn :: success
+      ---
+      duration_ms: 34.598625
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/powerOn :: business
+    ok 2 - transport POST /api/cloudphone/powerOn :: business
+      ---
+      duration_ms: 33.151792
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/powerOn :: http
+    ok 3 - transport POST /api/cloudphone/powerOn :: http
+      ---
+      duration_ms: 31.694375
+      type: 'test'
+      ...
+    1..3
+ok 58 - POST /api/cloudphone/powerOn: generic transport
+  ---
+  duration_ms: 99.878125
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/restart: generic transport
+    # Subtest: transport POST /api/cloudphone/restart :: success
+    ok 1 - transport POST /api/cloudphone/restart :: success
+      ---
+      duration_ms: 32.919084
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/restart :: business
+    ok 2 - transport POST /api/cloudphone/restart :: business
+      ---
+      duration_ms: 31.022292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/restart :: http
+    ok 3 - transport POST /api/cloudphone/restart :: http
+      ---
+      duration_ms: 29.469333
+      type: 'test'
+      ...
+    1..3
+ok 59 - POST /api/cloudphone/restart: generic transport
+  ---
+  duration_ms: 93.754458
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/reset: generic transport
+    # Subtest: transport POST /api/cloudphone/reset :: success
+    ok 1 - transport POST /api/cloudphone/reset :: success
+      ---
+      duration_ms: 31.782584
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/reset :: business
+    ok 2 - transport POST /api/cloudphone/reset :: business
+      ---
+      duration_ms: 29.852333
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/reset :: http
+    ok 3 - transport POST /api/cloudphone/reset :: http
+      ---
+      duration_ms: 31.231709
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/reset :: confirmation
+    ok 4 - transport POST /api/cloudphone/reset :: confirmation
+      ---
+      duration_ms: 28.761041
+      type: 'test'
+      ...
+    1..4
+ok 60 - POST /api/cloudphone/reset: generic transport
+  ---
+  duration_ms: 122.036584
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/powerOff: generic transport
+    # Subtest: transport POST /api/cloudphone/powerOff :: success
+    ok 1 - transport POST /api/cloudphone/powerOff :: success
+      ---
+      duration_ms: 31.209125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/powerOff :: business
+    ok 2 - transport POST /api/cloudphone/powerOff :: business
+      ---
+      duration_ms: 32.591292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/powerOff :: http
+    ok 3 - transport POST /api/cloudphone/powerOff :: http
+      ---
+      duration_ms: 32.400209
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/powerOff :: confirmation
+    ok 4 - transport POST /api/cloudphone/powerOff :: confirmation
+      ---
+      duration_ms: 27.314417
+      type: 'test'
+      ...
+    1..4
+ok 61 - POST /api/cloudphone/powerOff: generic transport
+  ---
+  duration_ms: 124.016292
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/edit/batch: generic transport
+    # Subtest: transport POST /api/cloudphone/edit/batch :: success
+    ok 1 - transport POST /api/cloudphone/edit/batch :: success
+      ---
+      duration_ms: 31.208125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/edit/batch :: business
+    ok 2 - transport POST /api/cloudphone/edit/batch :: business
+      ---
+      duration_ms: 29.849667
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/edit/batch :: http
+    ok 3 - transport POST /api/cloudphone/edit/batch :: http
+      ---
+      duration_ms: 31.349959
+      type: 'test'
+      ...
+    1..3
+ok 62 - POST /api/cloudphone/edit/batch: generic transport
+  ---
+  duration_ms: 92.893167
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/setProxy: generic transport
+    # Subtest: transport POST /api/cloudphone/setProxy :: success
+    ok 1 - transport POST /api/cloudphone/setProxy :: success
+      ---
+      duration_ms: 32.343583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/setProxy :: business
+    ok 2 - transport POST /api/cloudphone/setProxy :: business
+      ---
+      duration_ms: 33.60175
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/setProxy :: http
+    ok 3 - transport POST /api/cloudphone/setProxy :: http
+      ---
+      duration_ms: 31.628708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/setProxy :: confirmation
+    ok 4 - transport POST /api/cloudphone/setProxy :: confirmation
+      ---
+      duration_ms: 29.698875
+      type: 'test'
+      ...
+    1..4
+ok 63 - POST /api/cloudphone/setProxy: generic transport
+  ---
+  duration_ms: 127.864208
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/delete/batch: generic transport
+    # Subtest: transport POST /api/cloudphone/delete/batch :: success
+    ok 1 - transport POST /api/cloudphone/delete/batch :: success
+      ---
+      duration_ms: 32.909709
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/delete/batch :: business
+    ok 2 - transport POST /api/cloudphone/delete/batch :: business
+      ---
+      duration_ms: 31.947833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/delete/batch :: http
+    ok 3 - transport POST /api/cloudphone/delete/batch :: http
+      ---
+      duration_ms: 32.262083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/delete/batch :: confirmation
+    ok 4 - transport POST /api/cloudphone/delete/batch :: confirmation
+      ---
+      duration_ms: 29.363709
+      type: 'test'
+      ...
+    1..4
+ok 64 - POST /api/cloudphone/delete/batch: generic transport
+  ---
+  duration_ms: 126.988666
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/newMachine: generic transport
+    # Subtest: transport POST /api/cloudphone/newMachine :: success
+    ok 1 - transport POST /api/cloudphone/newMachine :: success
+      ---
+      duration_ms: 31.98425
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/newMachine :: business
+    ok 2 - transport POST /api/cloudphone/newMachine :: business
+      ---
+      duration_ms: 30.443
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/newMachine :: http
+    ok 3 - transport POST /api/cloudphone/newMachine :: http
+      ---
+      duration_ms: 32.102875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/newMachine :: confirmation
+    ok 4 - transport POST /api/cloudphone/newMachine :: confirmation
+      ---
+      duration_ms: 29.449292
+      type: 'test'
+      ...
+    1..4
+ok 65 - POST /api/cloudphone/newMachine: generic transport
+  ---
+  duration_ms: 124.422416
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/info: generic transport
+    # Subtest: transport POST /api/cloudphone/info :: success
+    ok 1 - transport POST /api/cloudphone/info :: success
+      ---
+      duration_ms: 31.531458
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/info :: business
+    ok 2 - transport POST /api/cloudphone/info :: business
+      ---
+      duration_ms: 33.1225
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/info :: http
+    ok 3 - transport POST /api/cloudphone/info :: http
+      ---
+      duration_ms: 32.5555
+      type: 'test'
+      ...
+    1..3
+ok 66 - POST /api/cloudphone/info: generic transport
+  ---
+  duration_ms: 97.605625
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/queryByAndroidId: generic transport
+    # Subtest: transport POST /api/cloudphone/queryByAndroidId :: success
+    ok 1 - transport POST /api/cloudphone/queryByAndroidId :: success
+      ---
+      duration_ms: 31.155333
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/queryByAndroidId :: business
+    ok 2 - transport POST /api/cloudphone/queryByAndroidId :: business
+      ---
+      duration_ms: 30.413625
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/queryByAndroidId :: http
+    ok 3 - transport POST /api/cloudphone/queryByAndroidId :: http
+      ---
+      duration_ms: 30.930708
+      type: 'test'
+      ...
+    1..3
+ok 67 - POST /api/cloudphone/queryByAndroidId: generic transport
+  ---
+  duration_ms: 92.854625
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/enableRoot: generic transport
+    # Subtest: transport POST /api/cloudphone/enableRoot :: success
+    ok 1 - transport POST /api/cloudphone/enableRoot :: success
+      ---
+      duration_ms: 31.305584
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/enableRoot :: business
+    ok 2 - transport POST /api/cloudphone/enableRoot :: business
+      ---
+      duration_ms: 29.885542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/enableRoot :: http
+    ok 3 - transport POST /api/cloudphone/enableRoot :: http
+      ---
+      duration_ms: 31.635041
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/enableRoot :: confirmation
+    ok 4 - transport POST /api/cloudphone/enableRoot :: confirmation
+      ---
+      duration_ms: 28.326375
+      type: 'test'
+      ...
+    1..4
+ok 68 - POST /api/cloudphone/enableRoot: generic transport
+  ---
+  duration_ms: 121.552208
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/screenCap: generic transport
+    # Subtest: transport POST /api/cloudphone/screenCap :: success
+    ok 1 - transport POST /api/cloudphone/screenCap :: success
+      ---
+      duration_ms: 32.450042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/screenCap :: business
+    ok 2 - transport POST /api/cloudphone/screenCap :: business
+      ---
+      duration_ms: 34.444416
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/screenCap :: http
+    ok 3 - transport POST /api/cloudphone/screenCap :: http
+      ---
+      duration_ms: 31.612542
+      type: 'test'
+      ...
+    1..3
+ok 69 - POST /api/cloudphone/screenCap: generic transport
+  ---
+  duration_ms: 98.896083
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/screenCapBase64: generic transport
+    # Subtest: transport POST /api/cloudphone/screenCapBase64 :: success
+    ok 1 - transport POST /api/cloudphone/screenCapBase64 :: success
+      ---
+      duration_ms: 33.108042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/screenCapBase64 :: business
+    ok 2 - transport POST /api/cloudphone/screenCapBase64 :: business
+      ---
+      duration_ms: 30.502458
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/screenCapBase64 :: http
+    ok 3 - transport POST /api/cloudphone/screenCapBase64 :: http
+      ---
+      duration_ms: 30.733208
+      type: 'test'
+      ...
+    1..3
+ok 70 - POST /api/cloudphone/screenCapBase64: generic transport
+  ---
+  duration_ms: 94.712041
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/brand/models: generic transport
+    # Subtest: transport POST /api/cloudphone/brand/models :: success
+    ok 1 - transport POST /api/cloudphone/brand/models :: success
+      ---
+      duration_ms: 30.058208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/brand/models :: business
+    ok 2 - transport POST /api/cloudphone/brand/models :: business
+      ---
+      duration_ms: 29.460042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/brand/models :: http
+    ok 3 - transport POST /api/cloudphone/brand/models :: http
+      ---
+      duration_ms: 28.476833
+      type: 'test'
+      ...
+    1..3
+ok 71 - POST /api/cloudphone/brand/models: generic transport
+  ---
+  duration_ms: 88.355916
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/updateAdb: generic transport
+    # Subtest: transport POST /api/cloudphone/updateAdb :: success
+    ok 1 - transport POST /api/cloudphone/updateAdb :: success
+      ---
+      duration_ms: 31.045042
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/updateAdb :: business
+    ok 2 - transport POST /api/cloudphone/updateAdb :: business
+      ---
+      duration_ms: 31.480541
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/updateAdb :: http
+    ok 3 - transport POST /api/cloudphone/updateAdb :: http
+      ---
+      duration_ms: 31.516958
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/updateAdb :: confirmation
+    ok 4 - transport POST /api/cloudphone/updateAdb :: confirmation
+      ---
+      duration_ms: 25.148375
+      type: 'test'
+      ...
+    1..4
+ok 72 - POST /api/cloudphone/updateAdb: generic transport
+  ---
+  duration_ms: 119.6575
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/batchAdbInfo: generic transport
+    # Subtest: transport POST /api/cloudphone/batchAdbInfo :: success
+    ok 1 - transport POST /api/cloudphone/batchAdbInfo :: success
+      ---
+      duration_ms: 29.931292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/batchAdbInfo :: business
+    ok 2 - transport POST /api/cloudphone/batchAdbInfo :: business
+      ---
+      duration_ms: 30.744083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/batchAdbInfo :: http
+    ok 3 - transport POST /api/cloudphone/batchAdbInfo :: http
+      ---
+      duration_ms: 30.100417
+      type: 'test'
+      ...
+    1..3
+ok 73 - POST /api/cloudphone/batchAdbInfo: generic transport
+  ---
+  duration_ms: 91.114416
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/exeCommand: generic transport
+    # Subtest: transport POST /api/cloudphone/exeCommand :: success
+    ok 1 - transport POST /api/cloudphone/exeCommand :: success
+      ---
+      duration_ms: 30.7325
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/exeCommand :: business
+    ok 2 - transport POST /api/cloudphone/exeCommand :: business
+      ---
+      duration_ms: 30.727
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/exeCommand :: http
+    ok 3 - transport POST /api/cloudphone/exeCommand :: http
+      ---
+      duration_ms: 30.378625
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/exeCommand :: confirmation
+    ok 4 - transport POST /api/cloudphone/exeCommand :: confirmation
+      ---
+      duration_ms: 27.328708
+      type: 'test'
+      ...
+    1..4
+ok 74 - POST /api/cloudphone/exeCommand: generic transport
+  ---
+  duration_ms: 119.559958
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/template/market/page: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/template/market/page :: success
+    ok 1 - transport POST /api/cloudphone/rpa/template/market/page :: success
+      ---
+      duration_ms: 32.468292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/template/market/page :: business
+    ok 2 - transport POST /api/cloudphone/rpa/template/market/page :: business
+      ---
+      duration_ms: 30.728583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/template/market/page :: http
+    ok 3 - transport POST /api/cloudphone/rpa/template/market/page :: http
+      ---
+      duration_ms: 29.56125
+      type: 'test'
+      ...
+    1..3
+ok 75 - POST /api/cloudphone/rpa/template/market/page: generic transport
+  ---
+  duration_ms: 93.113833
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/template/personal/page: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/template/personal/page :: success
+    ok 1 - transport POST /api/cloudphone/rpa/template/personal/page :: success
+      ---
+      duration_ms: 30.79525
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/template/personal/page :: business
+    ok 2 - transport POST /api/cloudphone/rpa/template/personal/page :: business
+      ---
+      duration_ms: 31.030375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/template/personal/page :: http
+    ok 3 - transport POST /api/cloudphone/rpa/template/personal/page :: http
+      ---
+      duration_ms: 28.993542
+      type: 'test'
+      ...
+    1..3
+ok 76 - POST /api/cloudphone/rpa/template/personal/page: generic transport
+  ---
+  duration_ms: 91.169916
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/task/page: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/task/page :: success
+    ok 1 - transport POST /api/cloudphone/rpa/task/page :: success
+      ---
+      duration_ms: 28.560208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/page :: business
+    ok 2 - transport POST /api/cloudphone/rpa/task/page :: business
+      ---
+      duration_ms: 28.514417
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/page :: http
+    ok 3 - transport POST /api/cloudphone/rpa/task/page :: http
+      ---
+      duration_ms: 29.020459
+      type: 'test'
+      ...
+    1..3
+ok 77 - POST /api/cloudphone/rpa/task/page: generic transport
+  ---
+  duration_ms: 86.531416
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/task/save: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/task/save :: success
+    ok 1 - transport POST /api/cloudphone/rpa/task/save :: success
+      ---
+      duration_ms: 31.04475
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/save :: business
+    ok 2 - transport POST /api/cloudphone/rpa/task/save :: business
+      ---
+      duration_ms: 30.854375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/save :: http
+    ok 3 - transport POST /api/cloudphone/rpa/task/save :: http
+      ---
+      duration_ms: 28.48675
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/save :: confirmation
+    ok 4 - transport POST /api/cloudphone/rpa/task/save :: confirmation
+      ---
+      duration_ms: 27.200584
+      type: 'test'
+      ...
+    1..4
+ok 78 - POST /api/cloudphone/rpa/task/save: generic transport
+  ---
+  duration_ms: 118.114
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/onceTask/save: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/onceTask/save :: success
+    ok 1 - transport POST /api/cloudphone/rpa/onceTask/save :: success
+      ---
+      duration_ms: 29.966208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/onceTask/save :: business
+    ok 2 - transport POST /api/cloudphone/rpa/onceTask/save :: business
+      ---
+      duration_ms: 31.745791
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/onceTask/save :: http
+    ok 3 - transport POST /api/cloudphone/rpa/onceTask/save :: http
+      ---
+      duration_ms: 30.224833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/onceTask/save :: confirmation
+    ok 4 - transport POST /api/cloudphone/rpa/onceTask/save :: confirmation
+      ---
+      duration_ms: 26.184834
+      type: 'test'
+      ...
+    1..4
+ok 79 - POST /api/cloudphone/rpa/onceTask/save: generic transport
+  ---
+  duration_ms: 118.551125
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/task/cancel: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/task/cancel :: success
+    ok 1 - transport POST /api/cloudphone/rpa/task/cancel :: success
+      ---
+      duration_ms: 29.759875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/cancel :: business
+    ok 2 - transport POST /api/cloudphone/rpa/task/cancel :: business
+      ---
+      duration_ms: 30.170958
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/cancel :: http
+    ok 3 - transport POST /api/cloudphone/rpa/task/cancel :: http
+      ---
+      duration_ms: 29.573875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/task/cancel :: confirmation
+    ok 4 - transport POST /api/cloudphone/rpa/task/cancel :: confirmation
+      ---
+      duration_ms: 24.364541
+      type: 'test'
+      ...
+    1..4
+ok 80 - POST /api/cloudphone/rpa/task/cancel: generic transport
+  ---
+  duration_ms: 114.26875
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/subTask/page: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/page :: success
+    ok 1 - transport POST /api/cloudphone/rpa/subTask/page :: success
+      ---
+      duration_ms: 28.070167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/page :: business
+    ok 2 - transport POST /api/cloudphone/rpa/subTask/page :: business
+      ---
+      duration_ms: 28.067375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/page :: http
+    ok 3 - transport POST /api/cloudphone/rpa/subTask/page :: http
+      ---
+      duration_ms: 28.3405
+      type: 'test'
+      ...
+    1..3
+ok 81 - POST /api/cloudphone/rpa/subTask/page: generic transport
+  ---
+  duration_ms: 84.877375
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/subTask/detail/{id}: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/detail/{id} :: success
+    ok 1 - transport POST /api/cloudphone/rpa/subTask/detail/{id} :: success
+      ---
+      duration_ms: 29.052084
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/detail/{id} :: business
+    ok 2 - transport POST /api/cloudphone/rpa/subTask/detail/{id} :: business
+      ---
+      duration_ms: 28.04125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/detail/{id} :: http
+    ok 3 - transport POST /api/cloudphone/rpa/subTask/detail/{id} :: http
+      ---
+      duration_ms: 29.218125
+      type: 'test'
+      ...
+    1..3
+ok 82 - POST /api/cloudphone/rpa/subTask/detail/{id}: generic transport
+  ---
+  duration_ms: 86.720125
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/rpa/subTask/cancel/{id}: generic transport
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: success
+    ok 1 - transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: success
+      ---
+      duration_ms: 29.087542
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: business
+    ok 2 - transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: business
+      ---
+      duration_ms: 29.185584
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: http
+    ok 3 - transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: http
+      ---
+      duration_ms: 28.927292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: confirmation
+    ok 4 - transport POST /api/cloudphone/rpa/subTask/cancel/{id} :: confirmation
+      ---
+      duration_ms: 27.103791
+      type: 'test'
+      ...
+    1..4
+ok 83 - POST /api/cloudphone/rpa/subTask/cancel/{id}: generic transport
+  ---
+  duration_ms: 114.70425
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/touch/click: generic transport
+    # Subtest: transport POST /api/cloudphone/touch/click :: success
+    ok 1 - transport POST /api/cloudphone/touch/click :: success
+      ---
+      duration_ms: 30.960667
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/click :: business
+    ok 2 - transport POST /api/cloudphone/touch/click :: business
+      ---
+      duration_ms: 33.020041
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/click :: http
+    ok 3 - transport POST /api/cloudphone/touch/click :: http
+      ---
+      duration_ms: 29.84825
+      type: 'test'
+      ...
+    1..3
+ok 84 - POST /api/cloudphone/touch/click: generic transport
+  ---
+  duration_ms: 94.321458
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/touch/doubleClick: generic transport
+    # Subtest: transport POST /api/cloudphone/touch/doubleClick :: success
+    ok 1 - transport POST /api/cloudphone/touch/doubleClick :: success
+      ---
+      duration_ms: 30.509167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/doubleClick :: business
+    ok 2 - transport POST /api/cloudphone/touch/doubleClick :: business
+      ---
+      duration_ms: 31.014083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/doubleClick :: http
+    ok 3 - transport POST /api/cloudphone/touch/doubleClick :: http
+      ---
+      duration_ms: 31.285459
+      type: 'test'
+      ...
+    1..3
+ok 85 - POST /api/cloudphone/touch/doubleClick: generic transport
+  ---
+  duration_ms: 93.243791
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/touch/longClick: generic transport
+    # Subtest: transport POST /api/cloudphone/touch/longClick :: success
+    ok 1 - transport POST /api/cloudphone/touch/longClick :: success
+      ---
+      duration_ms: 30.548083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/longClick :: business
+    ok 2 - transport POST /api/cloudphone/touch/longClick :: business
+      ---
+      duration_ms: 29.251916
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/longClick :: http
+    ok 3 - transport POST /api/cloudphone/touch/longClick :: http
+      ---
+      duration_ms: 30.709375
+      type: 'test'
+      ...
+    1..3
+ok 86 - POST /api/cloudphone/touch/longClick: generic transport
+  ---
+  duration_ms: 90.96325
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/touch/swipe: generic transport
+    # Subtest: transport POST /api/cloudphone/touch/swipe :: success
+    ok 1 - transport POST /api/cloudphone/touch/swipe :: success
+      ---
+      duration_ms: 30.347125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/swipe :: business
+    ok 2 - transport POST /api/cloudphone/touch/swipe :: business
+      ---
+      duration_ms: 29.7005
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/swipe :: http
+    ok 3 - transport POST /api/cloudphone/touch/swipe :: http
+      ---
+      duration_ms: 29.728916
+      type: 'test'
+      ...
+    1..3
+ok 87 - POST /api/cloudphone/touch/swipe: generic transport
+  ---
+  duration_ms: 90.190958
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudphone/touch/drag: generic transport
+    # Subtest: transport POST /api/cloudphone/touch/drag :: success
+    ok 1 - transport POST /api/cloudphone/touch/drag :: success
+      ---
+      duration_ms: 32.934416
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/drag :: business
+    ok 2 - transport POST /api/cloudphone/touch/drag :: business
+      ---
+      duration_ms: 34.764125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudphone/touch/drag :: http
+    ok 3 - transport POST /api/cloudphone/touch/drag :: http
+      ---
+      duration_ms: 36.443375
+      type: 'test'
+      ...
+    1..3
+ok 88 - POST /api/cloudphone/touch/drag: generic transport
+  ---
+  duration_ms: 104.627292
+  type: 'test'
+  ...
+# Subtest: POST /api/proxyInfo/page: generic transport
+    # Subtest: transport POST /api/proxyInfo/page :: success
+    ok 1 - transport POST /api/proxyInfo/page :: success
+      ---
+      duration_ms: 36.893708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/page :: business
+    ok 2 - transport POST /api/proxyInfo/page :: business
+      ---
+      duration_ms: 32.452834
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/page :: http
+    ok 3 - transport POST /api/proxyInfo/page :: http
+      ---
+      duration_ms: 31.715625
+      type: 'test'
+      ...
+    1..3
+ok 89 - POST /api/proxyInfo/page: generic transport
+  ---
+  duration_ms: 101.554625
+  type: 'test'
+  ...
+# Subtest: POST /api/proxyInfo/add: generic transport
+    # Subtest: transport POST /api/proxyInfo/add :: success
+    ok 1 - transport POST /api/proxyInfo/add :: success
+      ---
+      duration_ms: 31.4995
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/add :: business
+    ok 2 - transport POST /api/proxyInfo/add :: business
+      ---
+      duration_ms: 30.207458
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/add :: http
+    ok 3 - transport POST /api/proxyInfo/add :: http
+      ---
+      duration_ms: 31.458083
+      type: 'test'
+      ...
+    1..3
+ok 90 - POST /api/proxyInfo/add: generic transport
+  ---
+  duration_ms: 93.605792
+  type: 'test'
+  ...
+# Subtest: POST /api/proxyInfo/update: generic transport
+    # Subtest: transport POST /api/proxyInfo/update :: success
+    ok 1 - transport POST /api/proxyInfo/update :: success
+      ---
+      duration_ms: 29.685709
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/update :: business
+    ok 2 - transport POST /api/proxyInfo/update :: business
+      ---
+      duration_ms: 31.535667
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/update :: http
+    ok 3 - transport POST /api/proxyInfo/update :: http
+      ---
+      duration_ms: 29.983333
+      type: 'test'
+      ...
+    1..3
+ok 91 - POST /api/proxyInfo/update: generic transport
+  ---
+  duration_ms: 91.626916
+  type: 'test'
+  ...
+# Subtest: POST /api/proxyInfo/delete: generic transport
+    # Subtest: transport POST /api/proxyInfo/delete :: success
+    ok 1 - transport POST /api/proxyInfo/delete :: success
+      ---
+      duration_ms: 30.013208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/delete :: business
+    ok 2 - transport POST /api/proxyInfo/delete :: business
+      ---
+      duration_ms: 27.072333
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/delete :: http
+    ok 3 - transport POST /api/proxyInfo/delete :: http
+      ---
+      duration_ms: 29.266083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/proxyInfo/delete :: confirmation
+    ok 4 - transport POST /api/proxyInfo/delete :: confirmation
+      ---
+      duration_ms: 26.761958
+      type: 'test'
+      ...
+    1..4
+ok 92 - POST /api/proxyInfo/delete: generic transport
+  ---
+  duration_ms: 113.501125
+  type: 'test'
+  ...
+# Subtest: POST /api/envgroup/page: generic transport
+    # Subtest: transport POST /api/envgroup/page :: success
+    ok 1 - transport POST /api/envgroup/page :: success
+      ---
+      duration_ms: 30.364667
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/page :: business
+    ok 2 - transport POST /api/envgroup/page :: business
+      ---
+      duration_ms: 28.486417
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/page :: http
+    ok 3 - transport POST /api/envgroup/page :: http
+      ---
+      duration_ms: 29.395375
+      type: 'test'
+      ...
+    1..3
+ok 93 - POST /api/envgroup/page: generic transport
+  ---
+  duration_ms: 88.596
+  type: 'test'
+  ...
+# Subtest: POST /api/envgroup/edit: generic transport
+    # Subtest: transport POST /api/envgroup/edit :: success
+    ok 1 - transport POST /api/envgroup/edit :: success
+      ---
+      duration_ms: 28.399791
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/edit :: business
+    ok 2 - transport POST /api/envgroup/edit :: business
+      ---
+      duration_ms: 30.836875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/edit :: http
+    ok 3 - transport POST /api/envgroup/edit :: http
+      ---
+      duration_ms: 29.355333
+      type: 'test'
+      ...
+    1..3
+ok 94 - POST /api/envgroup/edit: generic transport
+  ---
+  duration_ms: 88.946167
+  type: 'test'
+  ...
+# Subtest: POST /api/envgroup/create: generic transport
+    # Subtest: transport POST /api/envgroup/create :: success
+    ok 1 - transport POST /api/envgroup/create :: success
+      ---
+      duration_ms: 30.05925
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/create :: business
+    ok 2 - transport POST /api/envgroup/create :: business
+      ---
+      duration_ms: 29.65425
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/create :: http
+    ok 3 - transport POST /api/envgroup/create :: http
+      ---
+      duration_ms: 30.259208
+      type: 'test'
+      ...
+    1..3
+ok 95 - POST /api/envgroup/create: generic transport
+  ---
+  duration_ms: 90.326709
+  type: 'test'
+  ...
+# Subtest: POST /api/envgroup/delete: generic transport
+    # Subtest: transport POST /api/envgroup/delete :: success
+    ok 1 - transport POST /api/envgroup/delete :: success
+      ---
+      duration_ms: 33.242416
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/delete :: business
+    ok 2 - transport POST /api/envgroup/delete :: business
+      ---
+      duration_ms: 29.383834
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/delete :: http
+    ok 3 - transport POST /api/envgroup/delete :: http
+      ---
+      duration_ms: 27.470292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envgroup/delete :: confirmation
+    ok 4 - transport POST /api/envgroup/delete :: confirmation
+      ---
+      duration_ms: 25.753625
+      type: 'test'
+      ...
+    1..4
+ok 96 - POST /api/envgroup/delete: generic transport
+  ---
+  duration_ms: 116.238083
+  type: 'test'
+  ...
+# Subtest: GET /api/envtag/all: generic transport
+    # Subtest: transport GET /api/envtag/all :: success
+    ok 1 - transport GET /api/envtag/all :: success
+      ---
+      duration_ms: 27.377916
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/envtag/all :: business
+    ok 2 - transport GET /api/envtag/all :: business
+      ---
+      duration_ms: 27.857917
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/envtag/all :: http
+    ok 3 - transport GET /api/envtag/all :: http
+      ---
+      duration_ms: 27.869375
+      type: 'test'
+      ...
+    1..3
+ok 97 - GET /api/envtag/all: generic transport
+  ---
+  duration_ms: 83.337959
+  type: 'test'
+  ...
+# Subtest: POST /api/envtag/create: generic transport
+    # Subtest: transport POST /api/envtag/create :: success
+    ok 1 - transport POST /api/envtag/create :: success
+      ---
+      duration_ms: 30.168625
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envtag/create :: business
+    ok 2 - transport POST /api/envtag/create :: business
+      ---
+      duration_ms: 29.319167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envtag/create :: http
+    ok 3 - transport POST /api/envtag/create :: http
+      ---
+      duration_ms: 29.10175
+      type: 'test'
+      ...
+    1..3
+ok 98 - POST /api/envtag/create: generic transport
+  ---
+  duration_ms: 88.919459
+  type: 'test'
+  ...
+# Subtest: POST /api/envtag/edit: generic transport
+    # Subtest: transport POST /api/envtag/edit :: success
+    ok 1 - transport POST /api/envtag/edit :: success
+      ---
+      duration_ms: 30.598792
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envtag/edit :: business
+    ok 2 - transport POST /api/envtag/edit :: business
+      ---
+      duration_ms: 31.527667
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envtag/edit :: http
+    ok 3 - transport POST /api/envtag/edit :: http
+      ---
+      duration_ms: 29.160709
+      type: 'test'
+      ...
+    1..3
+ok 99 - POST /api/envtag/edit: generic transport
+  ---
+  duration_ms: 91.6495
+  type: 'test'
+  ...
+# Subtest: POST /api/envtag/delete: generic transport
+    # Subtest: transport POST /api/envtag/delete :: success
+    ok 1 - transport POST /api/envtag/delete :: success
+      ---
+      duration_ms: 29.749208
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envtag/delete :: business
+    ok 2 - transport POST /api/envtag/delete :: business
+      ---
+      duration_ms: 31.989708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envtag/delete :: http
+    ok 3 - transport POST /api/envtag/delete :: http
+      ---
+      duration_ms: 29.663
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/envtag/delete :: confirmation
+    ok 4 - transport POST /api/envtag/delete :: confirmation
+      ---
+      duration_ms: 25.708291
+      type: 'test'
+      ...
+    1..4
+ok 100 - POST /api/envtag/delete: generic transport
+  ---
+  duration_ms: 117.546833
+  type: 'test'
+  ...
+# Subtest: POST /api/webhook/config: generic transport
+    # Subtest: transport POST /api/webhook/config :: success
+    ok 1 - transport POST /api/webhook/config :: success
+      ---
+      duration_ms: 31.46175
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/webhook/config :: business
+    ok 2 - transport POST /api/webhook/config :: business
+      ---
+      duration_ms: 29.300334
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/webhook/config :: http
+    ok 3 - transport POST /api/webhook/config :: http
+      ---
+      duration_ms: 28.736666
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/webhook/config :: confirmation
+    ok 4 - transport POST /api/webhook/config :: confirmation
+      ---
+      duration_ms: 25.453583
+      type: 'test'
+      ...
+    1..4
+ok 101 - POST /api/webhook/config: generic transport
+  ---
+  duration_ms: 115.39325
+  type: 'test'
+  ...
+# Subtest: GET /api/cloudstorage/info: generic transport
+    # Subtest: transport GET /api/cloudstorage/info :: success
+    ok 1 - transport GET /api/cloudstorage/info :: success
+      ---
+      duration_ms: 28.761916
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/cloudstorage/info :: business
+    ok 2 - transport GET /api/cloudstorage/info :: business
+      ---
+      duration_ms: 29.866583
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/cloudstorage/info :: http
+    ok 3 - transport GET /api/cloudstorage/info :: http
+      ---
+      duration_ms: 28.04575
+      type: 'test'
+      ...
+    1..3
+ok 102 - GET /api/cloudstorage/info: generic transport
+  ---
+  duration_ms: 86.930083
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/file/page: generic transport
+    # Subtest: transport POST /api/cloudstorage/file/page :: success
+    ok 1 - transport POST /api/cloudstorage/file/page :: success
+      ---
+      duration_ms: 29.057541
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/page :: business
+    ok 2 - transport POST /api/cloudstorage/file/page :: business
+      ---
+      duration_ms: 28.873541
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/page :: http
+    ok 3 - transport POST /api/cloudstorage/file/page :: http
+      ---
+      duration_ms: 27.772333
+      type: 'test'
+      ...
+    1..3
+ok 103 - POST /api/cloudstorage/file/page: generic transport
+  ---
+  duration_ms: 86.037583
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/upload/init: generic transport
+    # Subtest: transport POST /api/cloudstorage/upload/init :: success
+    ok 1 - transport POST /api/cloudstorage/upload/init :: success
+      ---
+      duration_ms: 29.579166
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/upload/init :: business
+    ok 2 - transport POST /api/cloudstorage/upload/init :: business
+      ---
+      duration_ms: 28.0455
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/upload/init :: http
+    ok 3 - transport POST /api/cloudstorage/upload/init :: http
+      ---
+      duration_ms: 28.794
+      type: 'test'
+      ...
+    1..3
+ok 104 - POST /api/cloudstorage/upload/init: generic transport
+  ---
+  duration_ms: 86.765166
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/upload/complete: generic transport
+    # Subtest: transport POST /api/cloudstorage/upload/complete :: success
+    ok 1 - transport POST /api/cloudstorage/upload/complete :: success
+      ---
+      duration_ms: 29.280083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/upload/complete :: business
+    ok 2 - transport POST /api/cloudstorage/upload/complete :: business
+      ---
+      duration_ms: 31.05625
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/upload/complete :: http
+    ok 3 - transport POST /api/cloudstorage/upload/complete :: http
+      ---
+      duration_ms: 30.630834
+      type: 'test'
+      ...
+    1..3
+ok 105 - POST /api/cloudstorage/upload/complete: generic transport
+  ---
+  duration_ms: 91.330375
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/file/delete/batch: generic transport
+    # Subtest: transport POST /api/cloudstorage/file/delete/batch :: success
+    ok 1 - transport POST /api/cloudstorage/file/delete/batch :: success
+      ---
+      duration_ms: 30.280292
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/delete/batch :: business
+    ok 2 - transport POST /api/cloudstorage/file/delete/batch :: business
+      ---
+      duration_ms: 31.447583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/delete/batch :: http
+    ok 3 - transport POST /api/cloudstorage/file/delete/batch :: http
+      ---
+      duration_ms: 30.391916
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/delete/batch :: confirmation
+    ok 4 - transport POST /api/cloudstorage/file/delete/batch :: confirmation
+      ---
+      duration_ms: 26.7345
+      type: 'test'
+      ...
+    1..4
+ok 106 - POST /api/cloudstorage/file/delete/batch: generic transport
+  ---
+  duration_ms: 119.370125
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/file/tag/set: generic transport
+    # Subtest: transport POST /api/cloudstorage/file/tag/set :: success
+    ok 1 - transport POST /api/cloudstorage/file/tag/set :: success
+      ---
+      duration_ms: 29.254959
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/tag/set :: business
+    ok 2 - transport POST /api/cloudstorage/file/tag/set :: business
+      ---
+      duration_ms: 30.543125
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/tag/set :: http
+    ok 3 - transport POST /api/cloudstorage/file/tag/set :: http
+      ---
+      duration_ms: 28.184958
+      type: 'test'
+      ...
+    1..3
+ok 107 - POST /api/cloudstorage/file/tag/set: generic transport
+  ---
+  duration_ms: 88.34525
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/file/tag/add: generic transport
+    # Subtest: transport POST /api/cloudstorage/file/tag/add :: success
+    ok 1 - transport POST /api/cloudstorage/file/tag/add :: success
+      ---
+      duration_ms: 29.240833
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/tag/add :: business
+    ok 2 - transport POST /api/cloudstorage/file/tag/add :: business
+      ---
+      duration_ms: 31.080708
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/tag/add :: http
+    ok 3 - transport POST /api/cloudstorage/file/tag/add :: http
+      ---
+      duration_ms: 30.07175
+      type: 'test'
+      ...
+    1..3
+ok 108 - POST /api/cloudstorage/file/tag/add: generic transport
+  ---
+  duration_ms: 90.779
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/file/tag/query: generic transport
+    # Subtest: transport POST /api/cloudstorage/file/tag/query :: success
+    ok 1 - transport POST /api/cloudstorage/file/tag/query :: success
+      ---
+      duration_ms: 28.790875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/tag/query :: business
+    ok 2 - transport POST /api/cloudstorage/file/tag/query :: business
+      ---
+      duration_ms: 27.171083
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/file/tag/query :: http
+    ok 3 - transport POST /api/cloudstorage/file/tag/query :: http
+      ---
+      duration_ms: 28.790292
+      type: 'test'
+      ...
+    1..3
+ok 109 - POST /api/cloudstorage/file/tag/query: generic transport
+  ---
+  duration_ms: 85.09675
+  type: 'test'
+  ...
+# Subtest: GET /api/cloudstorage/tag/all: generic transport
+    # Subtest: transport GET /api/cloudstorage/tag/all :: success
+    ok 1 - transport GET /api/cloudstorage/tag/all :: success
+      ---
+      duration_ms: 29.439416
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/cloudstorage/tag/all :: business
+    ok 2 - transport GET /api/cloudstorage/tag/all :: business
+      ---
+      duration_ms: 29.235
+      type: 'test'
+      ...
+    # Subtest: transport GET /api/cloudstorage/tag/all :: http
+    ok 3 - transport GET /api/cloudstorage/tag/all :: http
+      ---
+      duration_ms: 30.506292
+      type: 'test'
+      ...
+    1..3
+ok 110 - GET /api/cloudstorage/tag/all: generic transport
+  ---
+  duration_ms: 89.426959
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/tag/create: generic transport
+    # Subtest: transport POST /api/cloudstorage/tag/create :: success
+    ok 1 - transport POST /api/cloudstorage/tag/create :: success
+      ---
+      duration_ms: 28.909583
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/tag/create :: business
+    ok 2 - transport POST /api/cloudstorage/tag/create :: business
+      ---
+      duration_ms: 28.569875
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/tag/create :: http
+    ok 3 - transport POST /api/cloudstorage/tag/create :: http
+      ---
+      duration_ms: 28.743667
+      type: 'test'
+      ...
+    1..3
+ok 111 - POST /api/cloudstorage/tag/create: generic transport
+  ---
+  duration_ms: 86.544417
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/tag/edit: generic transport
+    # Subtest: transport POST /api/cloudstorage/tag/edit :: success
+    ok 1 - transport POST /api/cloudstorage/tag/edit :: success
+      ---
+      duration_ms: 30.476375
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/tag/edit :: business
+    ok 2 - transport POST /api/cloudstorage/tag/edit :: business
+      ---
+      duration_ms: 28.953958
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/tag/edit :: http
+    ok 3 - transport POST /api/cloudstorage/tag/edit :: http
+      ---
+      duration_ms: 28.019125
+      type: 'test'
+      ...
+    1..3
+ok 112 - POST /api/cloudstorage/tag/edit: generic transport
+  ---
+  duration_ms: 87.77775
+  type: 'test'
+  ...
+# Subtest: POST /api/cloudstorage/tag/delete/batch: generic transport
+    # Subtest: transport POST /api/cloudstorage/tag/delete/batch :: success
+    ok 1 - transport POST /api/cloudstorage/tag/delete/batch :: success
+      ---
+      duration_ms: 32.429167
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/tag/delete/batch :: business
+    ok 2 - transport POST /api/cloudstorage/tag/delete/batch :: business
+      ---
+      duration_ms: 30.017625
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/tag/delete/batch :: http
+    ok 3 - transport POST /api/cloudstorage/tag/delete/batch :: http
+      ---
+      duration_ms: 30.485166
+      type: 'test'
+      ...
+    # Subtest: transport POST /api/cloudstorage/tag/delete/batch :: confirmation
+    ok 4 - transport POST /api/cloudstorage/tag/delete/batch :: confirmation
+      ---
+      duration_ms: 27.573584
+      type: 'test'
+      ...
+    1..4
+ok 113 - POST /api/cloudstorage/tag/delete/batch: generic transport
+  ---
+  duration_ms: 120.972375
+  type: 'test'
+  ...
+# Subtest: new command families map to all newly documented endpoints
+ok 114 - new command families map to all newly documented endpoints
+  ---
+  duration_ms: 4.127167
+  type: 'test'
+  ...
+# Subtest: paid activation requires an explicit confirmation flag
+ok 115 - paid activation requires an explicit confirmation flag
+  ---
+  duration_ms: 0.24675
+  type: 'test'
+  ...
+# Subtest: webhook callback URL must use HTTPS
+ok 116 - webhook callback URL must use HTTPS
+  ---
+  duration_ms: 0.091625
+  type: 'test'
+  ...
+# Subtest: browser kernel-download reaches the documented route
+ok 117 - browser kernel-download reaches the documented route
+  ---
+  duration_ms: 0.195917
+  type: 'test'
+  ...
+# Subtest: named browser list: HTTP mapping and request contract
+ok 118 - named browser list: HTTP mapping and request contract
+  ---
+  duration_ms: 36.032834
+  type: 'test'
+  ...
+# Subtest: named browser start: HTTP mapping and request contract
+ok 119 - named browser start: HTTP mapping and request contract
+  ---
+  duration_ms: 32.205792
+  type: 'test'
+  ...
+# Subtest: named browser close: HTTP mapping and request contract
+ok 120 - named browser close: HTTP mapping and request contract
+  ---
+  duration_ms: 31.1625
+  type: 'test'
+  ...
+# Subtest: named browser status: HTTP mapping and request contract
+ok 121 - named browser status: HTTP mapping and request contract
+  ---
+  duration_ms: 32.957708
+  type: 'test'
+  ...
+# Subtest: named browser detail: HTTP mapping and request contract
+ok 122 - named browser detail: HTTP mapping and request contract
+  ---
+  duration_ms: 31.072958
+  type: 'test'
+  ...
+# Subtest: named browser refresh-fingerprint: HTTP mapping and request contract
+ok 123 - named browser refresh-fingerprint: HTTP mapping and request contract
+  ---
+  duration_ms: 29.303083
+  type: 'test'
+  ...
+# Subtest: named browser create-quick: HTTP mapping and request contract
+ok 124 - named browser create-quick: HTTP mapping and request contract
+  ---
+  duration_ms: 31.647167
+  type: 'test'
+  ...
+# Subtest: named browser clear-cache: HTTP mapping and request contract
+ok 125 - named browser clear-cache: HTTP mapping and request contract
+  ---
+  duration_ms: 31.027833
+  type: 'test'
+  ...
+# Subtest: named browser clean-cloud-cache: HTTP mapping and request contract
+ok 126 - named browser clean-cloud-cache: HTTP mapping and request contract
+  ---
+  duration_ms: 29.416834
+  type: 'test'
+  ...
+# Subtest: named browser delete: HTTP mapping and request contract
+ok 127 - named browser delete: HTTP mapping and request contract
+  ---
+  duration_ms: 29.7455
+  type: 'test'
+  ...
+# Subtest: named browser kernel-download: HTTP mapping and request contract
+ok 128 - named browser kernel-download: HTTP mapping and request contract
+  ---
+  duration_ms: 30.141042
+  type: 'test'
+  ...
+# Subtest: named cloudbrowser start: HTTP mapping and request contract
+ok 129 - named cloudbrowser start: HTTP mapping and request contract
+  ---
+  duration_ms: 30.3955
+  type: 'test'
+  ...
+# Subtest: named cloudbrowser connect: HTTP mapping and request contract
+ok 130 - named cloudbrowser connect: HTTP mapping and request contract
+  ---
+  duration_ms: 32.012209
+  type: 'test'
+  ...
+# Subtest: named cloudbrowser stop: HTTP mapping and request contract
+ok 131 - named cloudbrowser stop: HTTP mapping and request contract
+  ---
+  duration_ms: 32.489834
+  type: 'test'
+  ...
+# Subtest: named cloudbrowser list: HTTP mapping and request contract
+ok 132 - named cloudbrowser list: HTTP mapping and request contract
+  ---
+  duration_ms: 32.833459
+  type: 'test'
+  ...
+# Subtest: named cloudphone list: HTTP mapping and request contract
+ok 133 - named cloudphone list: HTTP mapping and request contract
+  ---
+  duration_ms: 32.368583
+  type: 'test'
+  ...
+# Subtest: named cloudphone create: HTTP mapping and request contract
+ok 134 - named cloudphone create: HTTP mapping and request contract
+  ---
+  duration_ms: 31.520917
+  type: 'test'
+  ...
+# Subtest: named cloudphone start: HTTP mapping and request contract
+ok 135 - named cloudphone start: HTTP mapping and request contract
+  ---
+  duration_ms: 30.151209
+  type: 'test'
+  ...
+# Subtest: named cloudphone stop: HTTP mapping and request contract
+ok 136 - named cloudphone stop: HTTP mapping and request contract
+  ---
+  duration_ms: 31.251542
+  type: 'test'
+  ...
+# Subtest: named cloudphone info: HTTP mapping and request contract
+ok 137 - named cloudphone info: HTTP mapping and request contract
+  ---
+  duration_ms: 31.230333
+  type: 'test'
+  ...
+# Subtest: named cloudphone new-machine: HTTP mapping and request contract
+ok 138 - named cloudphone new-machine: HTTP mapping and request contract
+  ---
+  duration_ms: 30.977958
+  type: 'test'
+  ...
+# Subtest: named cloudphone app-installed: HTTP mapping and request contract
+ok 139 - named cloudphone app-installed: HTTP mapping and request contract
+  ---
+  duration_ms: 29.805541
+  type: 'test'
+  ...
+# Subtest: named cloudphone restart: HTTP mapping and request contract
+ok 140 - named cloudphone restart: HTTP mapping and request contract
+  ---
+  duration_ms: 33.505709
+  type: 'test'
+  ...
+# Subtest: named cloudphone reset: HTTP mapping and request contract
+ok 141 - named cloudphone reset: HTTP mapping and request contract
+  ---
+  duration_ms: 30.374583
+  type: 'test'
+  ...
+# Subtest: named cloudphone screenshot: HTTP mapping and request contract
+ok 142 - named cloudphone screenshot: HTTP mapping and request contract
+  ---
+  duration_ms: 30.474125
+  type: 'test'
+  ...
+# Subtest: named cloudphone screenshot-base64: HTTP mapping and request contract
+ok 143 - named cloudphone screenshot-base64: HTTP mapping and request contract
+  ---
+  duration_ms: 28.862958
+  type: 'test'
+  ...
+# Subtest: named cloudphone update-adb: HTTP mapping and request contract
+ok 144 - named cloudphone update-adb: HTTP mapping and request contract
+  ---
+  duration_ms: 31.264292
+  type: 'test'
+  ...
+# Subtest: named cloudphone app-start: HTTP mapping and request contract
+ok 145 - named cloudphone app-start: HTTP mapping and request contract
+  ---
+  duration_ms: 28.941458
+  type: 'test'
+  ...
+# Subtest: named cloudphone app-stop: HTTP mapping and request contract
+ok 146 - named cloudphone app-stop: HTTP mapping and request contract
+  ---
+  duration_ms: 30.013375
+  type: 'test'
+  ...
+# Subtest: named cloudphone app-restart: HTTP mapping and request contract
+ok 147 - named cloudphone app-restart: HTTP mapping and request contract
+  ---
+  duration_ms: 31.225666
+  type: 'test'
+  ...
+# Subtest: named cloudphone app-uninstall: HTTP mapping and request contract
+ok 148 - named cloudphone app-uninstall: HTTP mapping and request contract
+  ---
+  duration_ms: 33.798542
+  type: 'test'
+  ...
+# Subtest: named cloudphone monthly-skus: HTTP mapping and request contract
+ok 149 - named cloudphone monthly-skus: HTTP mapping and request contract
+  ---
+  duration_ms: 33.586666
+  type: 'test'
+  ...
+# Subtest: named cloudphone monthly-activate: HTTP mapping and request contract
+ok 150 - named cloudphone monthly-activate: HTTP mapping and request contract
+  ---
+  duration_ms: 32.039167
+  type: 'test'
+  ...
+# Subtest: named cloudphone live-start: HTTP mapping and request contract
+ok 151 - named cloudphone live-start: HTTP mapping and request contract
+  ---
+  duration_ms: 32.662417
+  type: 'test'
+  ...
+# Subtest: named cloudphone live-status: HTTP mapping and request contract
+ok 152 - named cloudphone live-status: HTTP mapping and request contract
+  ---
+  duration_ms: 30.566667
+  type: 'test'
+  ...
+# Subtest: named cloudphone live-stop: HTTP mapping and request contract
+ok 153 - named cloudphone live-stop: HTTP mapping and request contract
+  ---
+  duration_ms: 30.913667
+  type: 'test'
+  ...
+# Subtest: named cloudphone team-apps: HTTP mapping and request contract
+ok 154 - named cloudphone team-apps: HTTP mapping and request contract
+  ---
+  duration_ms: 31.346417
+  type: 'test'
+  ...
+# Subtest: named cloudphone app-root: HTTP mapping and request contract
+ok 155 - named cloudphone app-root: HTTP mapping and request contract
+  ---
+  duration_ms: 31.78725
+  type: 'test'
+  ...
+# Subtest: named cloudphone set-proxy: HTTP mapping and request contract
+ok 156 - named cloudphone set-proxy: HTTP mapping and request contract
+  ---
+  duration_ms: 34.812709
+  type: 'test'
+  ...
+# Subtest: named cloudphone find-android: HTTP mapping and request contract
+ok 157 - named cloudphone find-android: HTTP mapping and request contract
+  ---
+  duration_ms: 33.833833
+  type: 'test'
+  ...
+# Subtest: named cloudphone root: HTTP mapping and request contract
+ok 158 - named cloudphone root: HTTP mapping and request contract
+  ---
+  duration_ms: 32.246916
+  type: 'test'
+  ...
+# Subtest: named cloudphone adb-batch: HTTP mapping and request contract
+ok 159 - named cloudphone adb-batch: HTTP mapping and request contract
+  ---
+  duration_ms: 31.459833
+  type: 'test'
+  ...
+# Subtest: named cloudphone tap: HTTP mapping and request contract
+ok 160 - named cloudphone tap: HTTP mapping and request contract
+  ---
+  duration_ms: 31.265625
+  type: 'test'
+  ...
+# Subtest: named cloudphone double-tap: HTTP mapping and request contract
+ok 161 - named cloudphone double-tap: HTTP mapping and request contract
+  ---
+  duration_ms: 31.982
+  type: 'test'
+  ...
+# Subtest: named cloudphone long-press: HTTP mapping and request contract
+ok 162 - named cloudphone long-press: HTTP mapping and request contract
+  ---
+  duration_ms: 31.189708
+  type: 'test'
+  ...
+# Subtest: named cloudphone swipe: HTTP mapping and request contract
+ok 163 - named cloudphone swipe: HTTP mapping and request contract
+  ---
+  duration_ms: 32.821709
+  type: 'test'
+  ...
+# Subtest: named cloudphone drag: HTTP mapping and request contract
+ok 164 - named cloudphone drag: HTTP mapping and request contract
+  ---
+  duration_ms: 32.20325
+  type: 'test'
+  ...
+# Subtest: named cloudstorage info: HTTP mapping and request contract
+ok 165 - named cloudstorage info: HTTP mapping and request contract
+  ---
+  duration_ms: 31.346916
+  type: 'test'
+  ...
+# Subtest: named cloudstorage list: HTTP mapping and request contract
+ok 166 - named cloudstorage list: HTTP mapping and request contract
+  ---
+  duration_ms: 32.153
+  type: 'test'
+  ...
+# Subtest: named cloudstorage upload-init: HTTP mapping and request contract
+ok 167 - named cloudstorage upload-init: HTTP mapping and request contract
+  ---
+  duration_ms: 30.996458
+  type: 'test'
+  ...
+# Subtest: named cloudstorage upload-complete: HTTP mapping and request contract
+ok 168 - named cloudstorage upload-complete: HTTP mapping and request contract
+  ---
+  duration_ms: 31.538667
+  type: 'test'
+  ...
+# Subtest: named cloudstorage delete: HTTP mapping and request contract
+ok 169 - named cloudstorage delete: HTTP mapping and request contract
+  ---
+  duration_ms: 31.676167
+  type: 'test'
+  ...
+# Subtest: named cloudstorage set-tags: HTTP mapping and request contract
+ok 170 - named cloudstorage set-tags: HTTP mapping and request contract
+  ---
+  duration_ms: 31.070292
+  type: 'test'
+  ...
+# Subtest: named cloudstorage add-tags: HTTP mapping and request contract
+ok 171 - named cloudstorage add-tags: HTTP mapping and request contract
+  ---
+  duration_ms: 30.85175
+  type: 'test'
+  ...
+# Subtest: named cloudstorage file-tags: HTTP mapping and request contract
+ok 172 - named cloudstorage file-tags: HTTP mapping and request contract
+  ---
+  duration_ms: 33.049916
+  type: 'test'
+  ...
+# Subtest: named cloudstorage tag-list: HTTP mapping and request contract
+ok 173 - named cloudstorage tag-list: HTTP mapping and request contract
+  ---
+  duration_ms: 31.814625
+  type: 'test'
+  ...
+# Subtest: named cloudstorage tag-create: HTTP mapping and request contract
+ok 174 - named cloudstorage tag-create: HTTP mapping and request contract
+  ---
+  duration_ms: 31.11525
+  type: 'test'
+  ...
+# Subtest: named cloudstorage tag-edit: HTTP mapping and request contract
+ok 175 - named cloudstorage tag-edit: HTTP mapping and request contract
+  ---
+  duration_ms: 31.348166
+  type: 'test'
+  ...
+# Subtest: named cloudstorage tag-delete: HTTP mapping and request contract
+ok 176 - named cloudstorage tag-delete: HTTP mapping and request contract
+  ---
+  duration_ms: 31.153167
+  type: 'test'
+  ...
+# Subtest: named account balance: HTTP mapping and request contract
+ok 177 - named account balance: HTTP mapping and request contract
+  ---
+  duration_ms: 29.918583
+  type: 'test'
+  ...
+# Subtest: named webhook config: HTTP mapping and request contract
+ok 178 - named webhook config: HTTP mapping and request contract
+  ---
+  duration_ms: 33.3045
+  type: 'test'
+  ...
+# Subtest: named proxy list: HTTP mapping and request contract
+ok 179 - named proxy list: HTTP mapping and request contract
+  ---
+  duration_ms: 32.101792
+  type: 'test'
+  ...
+# Subtest: named proxy add: HTTP mapping and request contract
+ok 180 - named proxy add: HTTP mapping and request contract
+  ---
+  duration_ms: 32.723917
+  type: 'test'
+  ...
+# Subtest: named proxy update: HTTP mapping and request contract
+ok 181 - named proxy update: HTTP mapping and request contract
+  ---
+  duration_ms: 30.482292
+  type: 'test'
+  ...
+# Subtest: named proxy delete: HTTP mapping and request contract
+ok 182 - named proxy delete: HTTP mapping and request contract
+  ---
+  duration_ms: 30.198875
+  type: 'test'
+  ...
+# Subtest: named group list: HTTP mapping and request contract
+ok 183 - named group list: HTTP mapping and request contract
+  ---
+  duration_ms: 28.935708
+  type: 'test'
+  ...
+# Subtest: named group create: HTTP mapping and request contract
+ok 184 - named group create: HTTP mapping and request contract
+  ---
+  duration_ms: 27.62225
+  type: 'test'
+  ...
+# Subtest: named group edit: HTTP mapping and request contract
+ok 185 - named group edit: HTTP mapping and request contract
+  ---
+  duration_ms: 29.595417
+  type: 'test'
+  ...
+# Subtest: named group delete: HTTP mapping and request contract
+ok 186 - named group delete: HTTP mapping and request contract
+  ---
+  duration_ms: 28.355375
+  type: 'test'
+  ...
+# Subtest: named tag list: HTTP mapping and request contract
+ok 187 - named tag list: HTTP mapping and request contract
+  ---
+  duration_ms: 28.2725
+  type: 'test'
+  ...
+# Subtest: named tag create: HTTP mapping and request contract
+ok 188 - named tag create: HTTP mapping and request contract
+  ---
+  duration_ms: 29.43175
+  type: 'test'
+  ...
+# Subtest: named tag edit: HTTP mapping and request contract
+ok 189 - named tag edit: HTTP mapping and request contract
+  ---
+  duration_ms: 27.545083
+  type: 'test'
+  ...
+# Subtest: named tag delete: HTTP mapping and request contract
+ok 190 - named tag delete: HTTP mapping and request contract
+  ---
+  duration_ms: 31.103167
+  type: 'test'
+  ...
+# Subtest: every named command has an HTTP mapping case or explicit multi-request scenario
+ok 191 - every named command has an HTTP mapping case or explicit multi-request scenario
+  ---
+  duration_ms: 0.201833
+  type: 'test'
+  ...
+# Subtest: invalid browser identity and pagination never reach HTTP
+ok 192 - invalid browser identity and pagination never reach HTTP
+  ---
+  duration_ms: 129.361542
+  type: 'test'
+  ...
+# Subtest: canonical paths and method allowlist reject confirmation bypasses before HTTP
+ok 193 - canonical paths and method allowlist reject confirmation bypasses before HTTP
+  ---
+  duration_ms: 6.902416
+  type: 'test'
+  ...
+# Subtest: UTF-8 Chinese and emoji survive one-byte response chunks
+ok 194 - UTF-8 Chinese and emoji survive one-byte response chunks
+  ---
+  duration_ms: 82.98925
+  type: 'test'
+  ...
+# Subtest: absolute deadline terminates a continuously trickling response without retry
+ok 195 - absolute deadline terminates a continuously trickling response without retry
+  ---
+  duration_ms: 103.919333
+  type: 'test'
+  ...
+# Subtest: response limit aborts oversize results
+ok 196 - response limit aborts oversize results
+  ---
+  duration_ms: 2.481875
+  type: 'test'
+  ...
+# Subtest: numeric int64 response IDs are preserved as exact decimal strings
+ok 197 - numeric int64 response IDs are preserved as exact decimal strings
+  ---
+  duration_ms: 1.532292
+  type: 'test'
+  ...
+# Subtest: multipart uses streaming, exact Content-Length, and rejects oversized files before sending
+ok 198 - multipart uses streaming, exact Content-Length, and rejects oversized files before sending
+  ---
+  duration_ms: 9.099625
+  type: 'test'
+  ...
+# Subtest: ambiguous, missing-value and unsupported options fail closed
+ok 199 - ambiguous, missing-value and unsupported options fail closed
+  ---
+  duration_ms: 0.248208
+  type: 'test'
+  ...
+# Subtest: release matrix preserves failed, skipped and missing cases instead of manufacturing passes
+ok 200 - release matrix preserves failed, skipped and missing cases instead of manufacturing passes
+  ---
+  duration_ms: 0.788417
+  type: 'test'
+  ...
+# Subtest: strict booleans reject typo rather than silently disable resources
+ok 201 - strict booleans reject typo rather than silently disable resources
+  ---
+  duration_ms: 0.586583
+  type: 'test'
+  ...
+# Subtest: desktop status accepts its special health envelope only at /status
+ok 202 - desktop status accepts its special health envelope only at /status
+  ---
+  duration_ms: 34.122042
+  type: 'test'
+  ...
+# Subtest: invalid and business failure envelopes never report success
+ok 203 - invalid and business failure envelopes never report success
+  ---
+  duration_ms: 0.192708
+  type: 'test'
+  ...
+# Subtest: sensitive nested keys redacted without altering input or IDs
+ok 204 - sensitive nested keys redacted without altering input or IDs
+  ---
+  duration_ms: 0.278209
+  type: 'test'
+  ...
+# Subtest: reject unsafe numeric IDs and remote/non-HTTP transport
+ok 205 - reject unsafe numeric IDs and remote/non-HTTP transport
+  ---
+  duration_ms: 0.759917
+  type: 'test'
+  ...
+# Subtest: defaults allow asynchronous startup and long kernel wait
+ok 206 - defaults allow asynchronous startup and long kernel wait
+  ---
+  duration_ms: 0.099041
+  type: 'test'
+  ...
+# Subtest: force stop and generic monthly activation cannot bypass confirmation
+ok 207 - force stop and generic monthly activation cannot bypass confirmation
+  ---
+  duration_ms: 0.155834
+  type: 'test'
+  ...
+# Subtest: named queries redact by default and false is not raw-output
+ok 208 - named queries redact by default and false is not raw-output
+  ---
+  duration_ms: 308.249791
+  type: 'test'
+  ...
+# Subtest: int64 strings preserved in ADB updates, including payload mode
+ok 209 - int64 strings preserved in ADB updates, including payload mode
+  ---
+  duration_ms: 31.911667
+  type: 'test'
+  ...
+# Subtest: destructive named commands are blocked before HTTP
+ok 210 - destructive named commands are blocked before HTTP
+  ---
+  duration_ms: 134.117041
+  type: 'test'
+  ...
+# Subtest: malformed JSON, missing code and string codes fail CLI
+ok 211 - malformed JSON, missing code and string codes fail CLI
+  ---
+  duration_ms: 89.756541
+  type: 'test'
+  ...
+# Subtest: timeout produces unknown-outcome message and never retries automatically
+ok 212 - timeout produces unknown-outcome message and never retries automatically
+  ---
+  duration_ms: 81.384542
+  type: 'test'
+  ...
+# Subtest: empty label replacement is supported
+ok 213 - empty label replacement is supported
+  ---
+  duration_ms: 32.435583
+  type: 'test'
+  ...
+# Subtest: named cloudphone adb-info searches later pages and redacts credentials
+ok 214 - named cloudphone adb-info searches later pages and redacts credentials
+  ---
+  duration_ms: 41.355958
+  type: 'test'
+  ...
+# Subtest: repeated pagination is an incomplete result, never a false not-found
+ok 215 - repeated pagination is an incomplete result, never a false not-found
+  ---
+  duration_ms: 33.12925
+  type: 'test'
+  ...
+# Subtest: async startup acceptance stays distinct from pending, ready and business failure
+ok 216 - async startup acceptance stays distinct from pending, ready and business failure
+  ---
+  duration_ms: 146.881458
+  type: 'test'
+  ...
+1..216
+# tests 583
+# suites 0
+# pass 583
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11493.164542

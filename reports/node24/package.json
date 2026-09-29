@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "platform": "darwin",
+  "runtime": "v24.21.0",
+  "package": "morelogin-cli-1.1.0.tgz",
+  "files": 27,
+  "unpackedSize": 557430,
+  "installedWithoutDevDependencies": true,
+  "helpSmokeTests": 5,
+  "functionalMockChecks": [
+    "installed browser list with Unicode",
+    "installed startup mapping and accepted state",
+    "installed generic charge guard"
+  ],
+  "excludedUnrelatedFiles": true
+}

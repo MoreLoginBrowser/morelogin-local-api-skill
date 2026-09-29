@@ -1,206 +1,53 @@
-# MoreLogin Local API Contract (CLI-aligned)
+# Local API contract
 
-Source of truth: `local-api.yaml` in this repository.
+The bundled [local-api.yaml](local-api.yaml) is the single parameter source.
+It combines four official OpenAPI 3.1 documents, version 2026-09-05. Provenance,
+checksums, known source inconsistencies and synchronization instructions:
+[OpenAPI reference](references/openapi.md).
 
-This contract focuses on endpoints currently wrapped by `bin/morelogin.js`.
+There are 113 operations: JSON requests, GET requests, path-parameter requests
+and one multipart upload. Do not infer HTTP method from the command's name.
+Resource IDs in request objects are strings unless the exact schema says
+otherwise. Never round an int64 ID through a JavaScript Number.
+Unsafe integer tokens in responses are decoded as their exact source strings;
+ordinary safe integers retain numeric types.
+The proxy-delete shortcut serializes its documented integer-array request using
+exact decimal JSON tokens; supply IDs as CLI strings. Generic --data rejects
+unsafe numeric literals, so use the shortcut for proxy deletion with large IDs.
 
-## 1) Common response contract
+## Response
 
-- Success: `code === 0`
-- Failure: `code !== 0` and `msg` contains server-side reason
-- Most wrapped commands use strict fail-fast behavior on non-zero code
+Business endpoints require HTTP 2xx and numeric `code === 0` for success.
+The health endpoint `/status` is an explicit exception: HTTP 2xx and
+`{"status":"ok"}` is its valid response.
+Nonzero business codes, HTTP errors, malformed JSON and missing numeric codes
+fail. Named commands display response data; generic calls display the envelope.
+Error summaries retain HTTP status, code and requestId without echoing possible
+secrets from server error messages.
 
-## 2) Browser Profile
+## Generic calls
 
-### `POST /api/env/start`
-- Body:
-  - `envId` (string) **or** `uniqueId` (integer), at least one
-  - Optional: `encryptKey`, `isHeadless`, `cdpEvasion`
+```bash
+node bin/morelogin.js api --endpoint /api/envtag/all --method GET
+node bin/morelogin.js api --endpoint /api/env/detail --data '{"envId":"1993244721490239488"}'
+node bin/morelogin.js api --endpoint /api/cloudphone/uploadFile --data '{"id":"1993244721490239488"}' --file ./sample.txt
+```
 
-### `POST /api/env/close`
-- Body:
-  - `envId` (string) **or** `uniqueId` (integer), at least one
+Replace path placeholders such as `{id}` with the verified target ID.
+The generic transport deliberately preserves payload fields and does not claim
+complete runtime JSON Schema validation. Consult the specification first.
+Named commands add validation for common required fields.
+Method/path pairs are checked against the packaged allowlist. A new server route
+requires a reviewed contract/allowlist update, not a path bypass.
 
-### `POST /api/env/status`
-- Body:
-  - `envId` (string) required by spec
+## Confirmation and timeouts
 
-### `POST /api/env/detail`
-- Body:
-  - `envId` (string) required
-
-### `POST /api/env/page`
-- Body (recommended):
-  - `envName` (string)
-  - `pageNo` (integer, >=1)
-  - `pageSize` (integer, 1..100)
-
-### `POST /api/env/create/quick`
-- Body:
-  - `browserTypeId` (integer)
-  - `operatorSystemId` (integer)
-  - `quantity` (integer, 1..50)
-  - Optional: `groupId`, `proxy`, `isEncrypt`, `browserCore`
-
-### `POST /api/env/fingerprint/refresh`
-- Body:
-  - `envId` (string) **or** `uniqueId` (string/integer), one required
-  - Optional: `uaVersion`, `browserTypeId`, `operatorSystemId`, `advancedSetting`
-
-### `POST /api/env/removeLocalCache`
-- Body:
-  - `envId` or `uniqueId` (one required)
-  - Cache switches: `localStorage`, `indexedDB`, `cookie`, `extension`, `extensionFile`
-- Runtime best practice:
-  - Require at least one cache switch set to `true`
-
-### `POST /api/env/cache/cleanCloud`
-- Body:
-  - `envId` or `uniqueId` (one required)
-  - `cookie` (boolean), `others` (boolean)
-- Runtime best practice:
-  - Require at least one of `cookie`/`others`
-
-### `POST /api/env/removeToRecycleBin/batch`
-- Body:
-  - `envIds` (array<string>) required
-  - Optional: `removeEnvData` (boolean)
-
-## 3) CloudPhone
-
-### `POST /api/cloudphone/page`
-- Body:
-  - `pageNo` (integer)
-  - `pageSize` (integer)
-  - Optional: `keyword`, `bindIp`, `sort`
-
-### `POST /api/cloudphone/create`
-- Body:
-  - `skuId` (string) required
-  - `quantity` (integer) required
-  - Optional: `altitude`, `proxyId`, `envRemark`, geo/language/location fields, `tags`
-
-### `POST /api/cloudphone/powerOn`
-- Body:
-  - `id` (int64) required
-  - Optional: `headless`, `disableMoneySavingMode`
-- Runtime behavior:
-  - `code === 0` means startup was accepted. Poll `/api/cloudphone/info` until `data.envStatus === 4` before in-device operations.
-  - If a subsequent in-device call returns `33301` ("The Cloud Phone has not been started up."), keep polling instead of treating it as terminal.
-
-### `POST /api/cloudphone/powerOff`
-- Body:
-  - `id` (int64) required
-
-### `POST /api/cloudphone/info`
-- Body:
-  - `id` (int64) required
-
-### `POST /api/cloudphone/brand/models`
-- Body:
-  - `skuId` (string) required
-
-### `POST /api/cloudphone/exeCommand`
-- Body:
-  - `id` (int64) required
-  - `command` (string) required
-
-### `POST /api/cloudphone/updateAdb`
-- Body:
-  - `ids` (array<int64>) required
-  - `enableAdb` (boolean) required
-
-### `POST /api/cloudphone/newMachine`
-- Body:
-  - `id` recommended
-  - Optional: `brand`, `modelId`
-- Runtime behavior:
-  - The reset is asynchronous. If immediate `powerOff` or `delete` returns `33331` (resetting) or `33327` (in use), poll `/api/cloudphone/info` and retry after the reset completes.
-
-### App endpoints
-- `POST /api/cloudphone/app/installedList` -> `{ id }`
-- `POST /api/cloudphone/app/start` -> `{ id, packageName }`
-- `POST /api/cloudphone/app/stop` -> `{ id, packageName }`
-- `POST /api/cloudphone/app/restart` -> `{ id, packageName }`
-- `POST /api/cloudphone/app/uninstall` -> `{ id, packageName }`
-
-### Batch edit (currently via `api` passthrough mode)
-- `POST /api/cloudphone/edit/batch`
-- Body:
-  - `id` (array<int64>) required
-  - Optional: `envRemark`, `proxyId`, geo/language/location fields, `tags`, `groupId`
-- Runtime best practice:
-  - Use the minimal payload for the requested edit, e.g. `{ "id": [123], "envRemark": "..." }`.
-  - If a combined payload returns HTTP 400, split the edit into smaller requests and retry only the needed fields.
-
-## 4) Proxy
-
-### `POST /api/proxyInfo/page`
-- Body:
-  - `pageNo`, `pageSize`
-  - Optional filters: `proxyIp`, `proxyName`, `proxyProviders`, `proxyTypes`, etc.
-
-### `POST /api/proxyInfo/add`
-- Body required by spec:
-  - `proxyIp`, `proxyPort`, `proxyProvider`
-  - Optional: `proxyType`, auth fields, monitor fields, geo fields
-
-### `POST /api/proxyInfo/update`
-- Body required by spec:
-  - `id`, `proxyIp`, `proxyPort`, `proxyProvider`
-  - Optional fields same as add
-
-### `POST /api/proxyInfo/delete`
-- Body:
-  - root array of proxy IDs (int64)
-
-## 5) Group
-
-### `POST /api/envgroup/page`
-- Example body:
-  - `groupName`, `pageNo`, `pageSize`
-
-### `POST /api/envgroup/create`
-- Example body:
-  - `groupName`
-
-### `POST /api/envgroup/edit`
-- Body:
-  - `id` required
-  - `groupName` required
-
-### `POST /api/envgroup/delete`
-- Example body:
-  - `ids` (array)
-  - Optional: `isDeleteAllEnv`
-
-## 6) Tag
-
-### `GET /api/envtag/all`
-- No request body
-
-### `POST /api/envtag/create`
-- Example body:
-  - `tagName`
-
-### `POST /api/envtag/edit`
-- Example body:
-  - `id`, `tagName`
-
-### `POST /api/envtag/delete`
-- Example body:
-  - `ids` (array)
-
-## 7) CLI mapping notes (important)
-
-- CLI uses `--page` / `--page-size`, internally mapped to API `pageNo` / `pageSize`.
-- Browser list `--name` maps to API `envName`.
-- Group create/edit `--name` maps to `groupName`.
-- Tag create/edit `--name` maps to `tagName`.
-- CloudPhone ADB update uses API-correct payload `{ ids: [...], enableAdb: <bool> }`.
-
-## 8) Execution guardrails for AI
-
-- Never infer payload key names from natural language docs alone; follow this contract.
-- For async start/power operations, verify with `status`/`info` before next step.
-- Prefer `--payload` mode for complex writes to avoid accidental field loss.
+Confirmation policy is shared by every command through the HTTP boundary.
+See [the exact flags](references/safety.md).
+Default timeouts: browser start 30s, cloud phone powerOn 120s, kernel download
+1810s, others 15s. Override with `--timeout-ms` or
+`MORELOGIN_LOCAL_API_TIMEOUT_MS` (except the kernel-specific default, which
+can be overridden with the flag). Timeout means unknown outcome, not failure
+to execute. Check status before deciding whether a retry is safe.
+The deadline covers the entire HTTP upload/response, even while bytes continue
+arriving. For byte limits and streaming behavior see [usage](USAGE.md).
