@@ -1,0 +1,1464 @@
+openapi: 3.1.0
+info:
+  title: Shared Resources API
+  description: >-
+    Shared resource management APIs for proxies, groups, and tags. These
+    resources are used by both Browser Profiles and Cloud Phones. Base URL:
+    `http://127.0.0.1:40000`
+  version: '2026-09-05'
+tags:
+  - name: Proxies
+    description: APIs for Proxies.
+  - name: Groups
+    description: APIs for Groups.
+  - name: Tags
+    description: APIs for Tags.
+  - name: Webhooks
+    description: APIs for the team webhook configuration.
+paths:
+  /api/proxyInfo/page:
+    post:
+      summary: Getting a list of proxies
+      deprecated: false
+      description: >-
+        List the team's proxy configurations, page by page.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Note**: passwords are withheld from ordinary members and for cloud
+        and dynamic proxies. Dynamic proxies appear here but are managed
+        elsewhere and cannot be edited through the proxy endpoints.
+      operationId: queryProxyInfoPageUsingPOST
+      tags:
+        - Proxies
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  pattern: ^\d+$
+                  description: >-
+                    Optional proxy ID for an exact match. Send the 64-bit ID as
+                    a decimal string to avoid precision loss. Omit it to query
+                    without an ID filter. Other filters and pagination still
+                    apply.
+                  example: '1800000000000101'
+                pageNo:
+                  type: integer
+                  description: Current page number (starts from 1)
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Number of items per page
+                  example: 10
+                isCloudPhoneProxy:
+                  type: boolean
+                  description: >
+                    Whether the proxy is for cloud phone usage.
+
+                    - `true`: Exclude local/private IPs (e.g., 127.0.0.1, 360,
+                    pia, private ranges)
+
+                    - `false`: Return all proxies
+                  example: false
+                proxyCategoryType:
+                  type: integer
+                  description: |
+                    Proxy category type:
+                    - `1` = Cloud platform
+                    - `2` = Self-owned IP
+                  example: 2
+                proxyIp:
+                  type: string
+                  description: Filter by proxy IP address (partial match)
+                  example: ''
+                proxyName:
+                  type: string
+                  description: Filter by proxy name (partial match)
+                  example: ''
+                proxyProviders:
+                  type: array
+                  items:
+                    type: integer
+                  description: |
+                    List of Proxy type IDs. Supported values:
+                    - `0` = HTTP
+                    - `1` = HTTPS
+                    - `2` = SOCKS5
+                    - `3` = SSH
+                    - `4` = Oxylabs
+                    - `5` = Proxys.io
+                    - `6` = GeoSurf
+                    - `7` = Luminati
+                    - `8` = Lumauto
+                    - `9` = Oxylabsauto
+                    - `10` = Trojan
+                    - `11` = Shadowsocks
+                    - `12` = vmess
+                    - `13` = ABCPROXY
+                    - `14` = LunaProxy
+                    - `15` = IPHTML
+                    - `16` = PiaProxy
+                    - `17` = 922S5
+                  example: []
+                proxyStatus:
+                  type: integer
+                  description: |
+                    Proxy assignment status:
+                    - `0` = Normal
+                    - `1` = Unassigned
+                    - `2` = Upgrading
+                    - `3` = Expired
+                    - `4` = Expiring soon  
+                    > Note: Self-owned proxies always use status `1`.
+                  example: 1
+                proxyCheckStatus:
+                  type: integer
+                  description: |
+                    Proxy health check status:
+                    - `0` = Pending
+                    - `1` = Success
+                    - `2` = Failed
+                    - `3` = Unknown error
+                  example: 1
+                proxyTypes:
+                  type: array
+                  items:
+                    type: integer
+                  description: |
+                    Proxy protocol types:
+                    - `0` = HTTP
+                    - `1` = HTTPS
+                    - `2` = SOCKS5
+                    - `3` = SSH
+                  example: []
+              required: []
+            example:
+              id: '1800000000000101'
+              pageNo: 1
+              pageSize: 10
+              isCloudPhoneProxy: false
+              proxyCategoryType: 2
+              proxyIp: ''
+              proxyName: ''
+              proxyProviders: []
+              proxyStatus: 1
+              proxyCheckStatus: 1
+              proxyTypes: []
+      responses:
+        '200':
+          description: >-
+            Success. `data.dataList` holds the records for the requested page
+            and is an empty array when there are no matches; `data.total`,
+            `data.current` and `data.pages` describe the paging.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      current:
+                        type: string
+                      dataList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            expiryTime:
+                              description: Expiration time
+                              type: string
+                            id:
+                              description: Primary key
+                              type: string
+                            proxyCategoryType:
+                              description: Proxy type 1:Platform proxy; 2:Self-owned proxy
+                              type: integer
+                            proxyCheckStatus:
+                              description: >-
+                                Detection status 0-pending detection
+                                1-monitoring success 2-detection failure
+                                3-unknown error
+                              type: integer
+                            state:
+                              type:
+                                - string
+                                - 'null'
+                              description: >-
+                                Proxy state or province. Uses detected exit-IP
+                                location when available, otherwise the
+                                configured location; may be null or empty.
+                              example: California
+                            city:
+                              type:
+                                - string
+                                - 'null'
+                              description: >-
+                                Proxy city. Uses detected exit-IP location when
+                                available, otherwise the configured location;
+                                may be null or empty.
+                              example: Los Angeles
+                            proxyPort:
+                              type:
+                                - integer
+                                - 'null'
+                              format: int32
+                              description: >-
+                                Proxy connection port, not a port inferred from
+                                the proxy name. May be null when unavailable.
+                              example: 1080
+                            proxyIp:
+                              description: Proxy IP
+                              type: string
+                            exportIp:
+                              description: export IP
+                              type: string
+                            countryCode:
+                              description: countryCode
+                              type: string
+                            proxyName:
+                              description: Proxy Name
+                              type: string
+                            proxyProvider:
+                              description: >
+                                Proxy type:default value 0-HTTP 1-HTTPS 2-SOCKS5
+                                3-SSH 4-Oxylabs 5-Proxys.io 7-Luminati 8-Lumauto
+                                9-Oxylabsauto 10-Trojan，11-Shadowsocks
+                                13-ABCPROXY 14-LunaProxy 15-IPHTML 16-PiaProxy
+                                17-922S5
+                              type: integer
+                            proxyType:
+                              description: Proxy Type:0-http 1-https 2-socks5 3-ssh
+                              type: integer
+                            username:
+                              description: Proxy username
+                              type: string
+                            password:
+                              description: Proxy password
+                              type: string
+                            refreshUrl:
+                              description: Proxy refresh URL
+                              type: string
+                      pages:
+                        type: string
+                      total:
+                        type: string
+                    required:
+                      - current
+                      - dataList
+                      - pages
+                      - total
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data:
+                  current: '1'
+                  dataList:
+                    - expiryTime: '2026-09-01 12:00:00'
+                      id: '1673823102599682'
+                      proxyCategoryType: 1
+                      proxyCheckStatus: 1
+                      state: California
+                      city: Los Angeles
+                      proxyPort: 1080
+                      proxyIp: string
+                      exportIp: '9222'
+                      countryCode: string
+                      proxyName: example-name
+                      proxyProvider: 1
+                      proxyType: 1
+                      username: example-name
+                      password: string
+                      refreshUrl: https://example.com/resource
+                  pages: '1'
+                  total: '1'
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/proxyInfo/add:
+    post:
+      summary: Adding proxy
+      deprecated: false
+      description: >-
+        Create a proxy configuration in the team.
+
+
+        - **Preconditions**: `proxyPort` is required and must be 1–65535, and
+        `proxyProvider` must be a recognised proxy type.
+
+        - **Effect**: inserts a proxy record and returns its id, ready to bind
+        to profiles. This only saves the configuration.
+
+        - **Completion**: synchronous.
+
+        - **Retry**: **there is no name or configuration uniqueness check.**
+        Posting the same body twice produces two proxies with two ids. After a
+        timeout, search `/proxyInfo/page` before resending.
+
+
+        Documented business errors: `14023`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: addUsingPOST
+      tags:
+        - Proxies
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                city:
+                  type: string
+                  description: City
+                  example: ''
+                country:
+                  type: string
+                  description: >
+                    Country code (ISO 3166-1 alpha-2). Required only if
+                    proxyProvider=17.
+                  example: AD
+                encryptionType:
+                  type: integer
+                  format: int32
+                  description: Encryption type, valid values are integers from 1 to 14.
+                  example: 14
+                ipChangeAction:
+                  type: integer
+                  format: int32
+                  description: Action on IP change:0 = Block, 1 = Warn
+                  example: 1
+                ipMonitor:
+                  type: boolean
+                  description: Enable IP change monitoring
+                  example: false
+                password:
+                  type: string
+                  description: Password for proxy authentication
+                  example: ''
+                proxyIp:
+                  type: string
+                  description: Proxy IP address
+                  example: 8.10.22.46
+                proxyName:
+                  type: string
+                  description: Proxy name (supports placeholders like {{random}})
+                  example: sock5_{{random}}
+                proxyPort:
+                  type: integer
+                  format: int32
+                  description: Proxy port number
+                  example: 65534
+                proxyProvider:
+                  type: integer
+                  format: int32
+                  description: >
+                    Proxy type:
+
+                    0=HTTP, 1=HTTPS, 2=SOCKS5, 3=SSH, 4=Oxylabs, 5=Proxys.io,
+                    6=GeoSurf, 7=Luminati, 8=Lumauto, 9=Oxylabsauto, 10=Trojan,
+                    11=Shadowsocks, 12=vmess, 13=ABCPROXY, 14=LunaProxy,
+                    15=IPHTML, 16=PiaProxy, 17=922S5.
+
+                    Special rules:
+
+                    - If proxyProvider is 7 or 8, proxyType is required.
+
+                    - If proxyProvider is 17, country is required; state and
+                    city are optional.
+                  example: 2
+                proxyType:
+                  type: integer
+                  format: int32
+                  description: |
+                    Proxy protocol type: 0=HTTP, 1=HTTPS, 2=SOCKS5, 3=SSH.
+                    Required only when proxyProvider is 7 or 8.
+                  example: 1
+                refreshUrl:
+                  type: string
+                  description: URL to refresh dynamic proxy IP (if supported)
+                  example: ''
+                state:
+                  type: string
+                  description: State/Province
+                  example: ''
+                username:
+                  type: string
+                  description: Username for proxy authentication
+                  example: ''
+              required:
+                - proxyIp
+                - proxyPort
+                - proxyProvider
+            example:
+              proxyIp: 8.10.22.46
+              proxyPort: 65534
+              proxyProvider: 2
+              proxyType: 1
+              country: AD
+              state: ''
+              city: ''
+              encryptionType: 14
+              ipChangeAction: 1
+              ipMonitor: false
+              proxyName: sock5_{{random}}
+              refreshUrl: ''
+              username: ''
+              password: ''
+      responses:
+        '200':
+          description: Success. `data` is a single integer value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    description: Proxy ID
+                    type: integer
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data: 0
+                requestId: abcd1234
+          headers: {}
+      security: []
+  /api/proxyInfo/update:
+    post:
+      summary: Modifying proxy information
+      deprecated: false
+      description: >-
+        Update a proxy configuration.
+
+
+        - **Preconditions**: the proxy must exist in the team. **Dynamic proxies
+        cannot be updated** through this endpoint. The proxy type must be a
+        recognised value.
+
+        - **Effect**: this is a full overwrite, not a patch — fields you omit
+        fall back to their defaults rather than keeping their current values.
+        Read the proxy first and send it back complete.
+
+        - **Propagation**: profiles keep their binding because only the proxy
+        record changes, but a browser or Cloud Phone that is already running
+        continues to use the connection details it started with. Restart it to
+        pick up the new ones.
+
+        - **Completion**: synchronous. No optimistic locking, so concurrent
+        updates are last-write-wins.
+
+
+        Documented business errors: `14003`, `14023`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: updateProxyUsingPOST
+      tags:
+        - Proxies
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - proxyIp
+                - proxyPort
+                - proxyProvider
+              properties:
+                id:
+                  type: string
+                  description: Unique proxy ID
+                proxyIp:
+                  type: string
+                  description: Proxy server IP address
+                proxyPort:
+                  type: integer
+                  description: Proxy server port
+                proxyName:
+                  type: string
+                  description: Custom name for the proxy
+                country:
+                  type: string
+                  description: Country (e.g., "US", "CN")
+                city:
+                  type: string
+                  description: City name
+                username:
+                  type: string
+                  description: Authentication username (if required)
+                password:
+                  type: string
+                  description: Authentication password (if required)
+                proxyType:
+                  type: integer
+                  description: |
+                    Proxy protocol type:
+                    - `0` = HTTP
+                    - `1` = HTTPS
+                    - `2` = SOCKS5
+                    - `3` = SSH
+                proxyProvider:
+                  type: integer
+                  description: |
+                    Proxy type ID:
+                    - `0` = HTTP
+                    - `1` = HTTPS
+                    - `2` = SOCKS5
+                    - `3` = SSH
+                    - `4` = Oxylabs
+                    - `5` = Proxys.io
+                    - `6` = GeoSurf
+                    - `7` = Luminati
+                    - `8` = Lumauto
+                    - `9` = Oxylabsauto
+                    - `10` = Trojan
+                    - `11` = Shadowsocks
+                    - `12` = vmess
+                    - `13` = ABCPROXY
+                    - `14` = LunaProxy
+                    - `15` = IPHTML
+                    - `16` = PiaProxy
+                    - `17` = 922S5
+                encryptionType:
+                  type: integer
+                  description: Encryption type (type-specific, usually 0 for plain)
+                ipMonitor:
+                  type: boolean
+                  description: Enable IP change monitoring
+                ipChangeAction:
+                  type: integer
+                  description: |
+                    Action to take when IP changes:
+                    - `1` = Notify / Refresh (common value)
+                    > Check system documentation for full options.
+                refreshUrl:
+                  type: string
+                  description: URL to trigger IP refresh (if supported by the proxy type)
+                state:
+                  type: string
+                  description: Reserved field or custom state (optional)
+            example:
+              id: '1566403036579198'
+              proxyIp: 108.11.23.85
+              proxyPort: 4096
+              proxyName: MyProxy
+              country: US
+              city: New York
+              username: ''
+              password: ''
+              proxyType: 0
+              proxyProvider: 0
+              encryptionType: 0
+              ipMonitor: true
+              ipChangeAction: 1
+              refreshUrl: ''
+              state: ''
+      responses:
+        '200':
+          description: >-
+            Success. This operation returns no payload; the outcome is carried
+            by `code`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                requestId: efgh5678
+          headers: {}
+      security: []
+  /api/proxyInfo/delete:
+    post:
+      summary: Delete proxy
+      deprecated: false
+      description: >-
+        Delete one or more proxy configurations.
+
+
+        - **Preconditions**: at least one id must resolve within the team; ids
+        that do not are ignored silently. **An unexpired cloud-platform proxy
+        cannot be deleted** and is reported with a dedicated error.
+
+        - **Effect**: own proxies are removed and unbound from any jump server.
+        An expired cloud-platform proxy is instead marked for release, its
+        subscription is cancelled, and the IP is released **asynchronously** —
+        the release may still be in flight when the response returns.
+
+        - **Cascade**: profiles and Cloud Phones bound to the proxy are
+        **neither blocked nor unbound**. They keep pointing at the deleted
+        proxy, and running sessions are not interrupted. Rebind them with
+        `/env/setProxy/batch` before deleting.
+
+        - **Retry**: ids are processed one at a time and the call aborts on the
+        first rejection, so a batch can be partially applied. Re-read
+        `/proxyInfo/page` before retrying.
+
+
+        Documented business errors: `14017`, `14024`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: deleteProxyUsingPOST
+      tags:
+        - Proxies
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int64
+            example:
+              - 1054661322597744600
+              - 1054661322597744600
+      responses:
+        '200':
+          description: >-
+            Success. This operation returns no payload; the outcome is carried
+            by `code`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                requestId: ijkl9012
+          headers: {}
+      security: []
+  /api/envgroup/page:
+    post:
+      operationId: apiEnvgroupPagePost
+      summary: Get a list of groups
+      deprecated: false
+      description: >-
+        List profile groups, page by page.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Note**: when the team authorizes access per group, a member who has
+        no group grants receives an empty page rather than an error.
+      tags:
+        - Groups
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                groupName:
+                  type: string
+                  title: Group name (partial match)
+                pageNo:
+                  type: integer
+                  title: Current page
+                pageSize:
+                  type: integer
+                  title: Items per page
+              required:
+                - groupName
+                - pageNo
+                - pageSize
+            example:
+              groupName: 132-kernel
+              pageNo: 1
+              pageSize: 10
+      responses:
+        '200':
+          description: >-
+            Success. `data.dataList` holds the records for the requested page
+            and is an empty array when there are no matches; `data.total`,
+            `data.current` and `data.pages` describe the paging.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      current:
+                        type: string
+                      dataList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              description: Group ID
+                              type: string
+                            groupName:
+                              description: Group name
+                              type: string
+                      pages:
+                        type: string
+                      total:
+                        type: string
+                    required:
+                      - current
+                      - dataList
+                      - pages
+                      - total
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data:
+                  current: '0'
+                  dataList:
+                    - id: '0'
+                      groupName: ''
+                  pages: '0'
+                  total: '0'
+                requestId: ''
+          headers: {}
+      security: []
+  /api/envgroup/edit:
+    post:
+      operationId: apiEnvgroupEditPost
+      summary: Modify grouping information
+      deprecated: false
+      description: >-
+        Rename a profile group.
+
+
+        - **Preconditions**: the group must exist in the team, the caller must
+        be authorized for it, and the new name must not collide with another
+        group. The uniqueness check only runs when the name actually changes.
+
+        - **Effect**: renames the group. Profiles stay in it — they reference
+        the group by id, so nothing else has to be updated.
+
+        - **Completion**: synchronous and idempotent.
+      tags:
+        - Groups
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - groupName
+                - id
+              properties:
+                groupName:
+                  type: string
+                  description: New name for the environment group
+                id:
+                  type: string
+                  description: Unique ID of the group to be updated
+            example:
+              groupName: Group-1574544945848579
+              id: '1574525425557584'
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                    description: result
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data: true
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/envgroup/create:
+    post:
+      operationId: apiEnvgroupCreatePost
+      summary: Add group
+      deprecated: false
+      description: >-
+        Create a profile group.
+
+
+        - **Preconditions**: the name must be non-empty, at most 100 characters,
+        and not already used by a group in the team. **A team is limited to 1000
+        groups.**
+
+        - **Effect**: creates the group. When the team authorizes access per
+        group and the caller is not the owner, the caller is also granted access
+        to the new group.
+
+        - **Completion**: synchronous; `data` carries the new group id.
+
+        - **Retry**: a duplicate name is rejected rather than reusing the
+        existing group, so a retry after a successful-but-unseen call fails with
+        a duplicate-name error — that is a signal the first call worked. Confirm
+        with `/envgroup/page`.
+      tags:
+        - Groups
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - groupName
+              properties:
+                groupName:
+                  description: Name of group
+                  type: string
+            example:
+              groupName: Group-333
+      responses:
+        '200':
+          description: Success. `data` is an object with the fields `id` and `groupName`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    description: The data returned by the operation
+                    type: object
+                    properties:
+                      id:
+                        description: ID of group
+                        type: string
+                      groupName:
+                        description: Name of group
+                        type: string
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data:
+                  id: '1673823102599682'
+                  groupName: example-name
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/envgroup/delete:
+    post:
+      operationId: apiEnvgroupDeletePost
+      summary: Delete group
+      deprecated: false
+      description: >-
+        Delete one or more profile groups.
+
+
+        - **Preconditions**: at least one id must resolve within the team and
+        the caller must be authorized for it; ids that do not resolve are
+        ignored silently.
+
+        - **Effect**: deletes the groups and their member access grants. Browser
+        profiles and Cloud Phones that were in them become ungrouped, so no
+        dangling group reference is left behind. Setting the delete-environments
+        flag additionally moves the profiles you are authorized for **into the
+        recycle bin** — they are not destroyed and Cloud Phones are never
+        affected by that flag.
+
+        - **Completion**: synchronous but **not atomic**. The group is deleted
+        first and the follow-up steps can still fail, for example when a profile
+        is running or mid-transfer, leaving the group gone and the profiles
+        unmoved.
+
+        - **Retry**: verify with `/envgroup/page` and the profile list before
+        retrying.
+
+
+        Documented business errors: `19064`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Groups
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ids
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: string
+                  description: Unique ID of the group to be updated
+                isDeleteAllEnv:
+                  type: boolean
+                  description: >-
+                    Delete environments in the group? false:Do not delete
+                    true:Delete
+            example:
+              ids:
+                - string
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data: true
+                requestId: ''
+          headers: {}
+      security: []
+  /api/envtag/all:
+    get:
+      operationId: apiEnvtagAllGet
+      summary: Getting a list of tags
+      deprecated: false
+      description: >-
+        Return every profile tag in the team.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Note**: this endpoint is **not paginated and tags have no
+        server-side limit**, so the response grows with the number of tags your
+        team has created. Size your client accordingly.
+      tags:
+        - Tags
+      parameters: []
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `id` and
+            `tagName`, and an empty array when there is nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          description: ID of tags
+                          type: string
+                        tagName:
+                          description: Name of tags
+                          type: string
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data:
+                  - id: '0'
+                    tagName: ''
+                requestId: ''
+          headers: {}
+      security: []
+  /api/envtag/create:
+    post:
+      operationId: apiEnvtagCreatePost
+      summary: Create tags
+      deprecated: false
+      description: >-
+        Create a profile tag.
+
+
+        - **Preconditions**: the name must be non-empty, at most 100 characters,
+        and not already used by a tag in the team.
+
+        - **Effect**: creates the tag and returns its id. Unlike groups, tags
+        have no count limit.
+
+        - **Retry**: a duplicate name is rejected rather than reusing the
+        existing tag. Confirm with `/envtag/all`.
+      tags:
+        - Tags
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tagName
+              properties:
+                tagName:
+                  type: string
+                  description: tag name
+            example:
+              tagName: Tag-123
+      responses:
+        '200':
+          description: Success. `data` is an object with the fields `id` and `tagName`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        description: ID of tags
+                        type: string
+                      tagName:
+                        description: Name of tags
+                        type: string
+                    required:
+                      - id
+                      - tagName
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                  error:
+                    type: object
+                    properties: {}
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data:
+                  id: '0'
+                  tagName: ''
+                requestId: ''
+          headers: {}
+      security: []
+  /api/envtag/edit:
+    post:
+      operationId: apiEnvtagEditPost
+      summary: Modify information of tags
+      deprecated: false
+      description: >-
+        Rename a profile tag.
+
+
+        - **Preconditions**: the tag must exist in the team, and the new name
+        must not collide with another tag.
+
+        - **Effect**: renames the tag. Existing tag assignments are unaffected
+        and profiles show the new name immediately.
+
+        - **Completion**: synchronous and idempotent.
+      tags:
+        - Tags
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - tagName
+              properties:
+                id:
+                  type: string
+                  description: tag id
+                tagName:
+                  type: string
+                  description: tag name
+            example:
+              id: '1564715845550177'
+              tagName: Updated-123
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                  error:
+                    type: object
+                    properties: {}
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data: true
+                requestId: ''
+          headers: {}
+      security: []
+  /api/envtag/delete:
+    post:
+      operationId: apiEnvtagDeletePost
+      summary: Delete tags
+      deprecated: false
+      description: >-
+        Delete one or more profile tags.
+
+
+        - **Preconditions**: at least one id must resolve within the team; ids
+        that do not are ignored silently.
+
+        - **Effect**: deletes the tags. The tag disappears from every profile
+        that carried it, and no profile is deleted. This endpoint only manages
+        profile tags — Cloud Storage file tags are managed separately.
+
+        - **Completion**: synchronous. A repeat call reports the tags as
+        invalid, which means the first one succeeded.
+
+
+        Documented business errors: `19105`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Tags
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ids
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: string
+                  description: Unique ID of the tag to be updated
+            example:
+              ids:
+                - string
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: Error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data: true
+                requestId: ''
+          headers: {}
+      security: []
+  /api/webhook/config:
+    post:
+      operationId: apiWebhookConfigPost
+      summary: Configure the team webhook
+      deprecated: false
+      description: >-
+        Create or replace the team's webhook configuration.
+
+
+        - **Preconditions**: `callbackUrl` must be an HTTPS URL of 1 to 1024
+        characters, with a host, no user info, no fragment and a valid port.
+        Every address it resolves to must be publicly routable; localhost,
+        private, link-local, CGNAT, cloud metadata, protocol-reserved,
+        documentation and 6to4 ranges are rejected. The same check runs again
+        when a delivery opens its connection, so a name that later resolves into
+        a private range fails that delivery instead of reaching your network.
+
+        - **Effect**: upserts the single configuration owned by the team in the
+        server-side context. `teamId` is never read from the request, so a
+        caller cannot configure another team. The Local API and Open API
+        endpoints read and write the same record, and the response echoes what
+        was stored.
+
+        - **Disabling**: `enabled: false` keeps the URL and stops new events
+        from being created. Events already queued are cancelled one by one if
+        the configuration is still disabled when they are next authorized, so
+        re-enabling quickly lets them continue.
+
+        - **Retry**: safe. The save is an upsert keyed by team, so repeating the
+        same request converges on the same state.
+
+        - **Client version**: requires MoreLogin client v2.66.0 or higher,
+        because the desktop client is what exposes this route locally. The Open
+        API endpoint has no client dependency.
+
+
+        See [Webhooks](../Getting%20Started/webhooks.md) for the callback
+        contract, event names and retry schedule.
+
+
+        Documented business errors: `41001`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Webhooks
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                callbackUrl:
+                  description: HTTPS URL that receives the events. 1 to 1024 characters.
+                  type: string
+                  maxLength: 1024
+                enabled:
+                  description: Whether delivery is enabled for the team.
+                  type: boolean
+              required:
+                - callbackUrl
+                - enabled
+            example:
+              callbackUrl: https://example.com/morelogin/webhook
+              enabled: true
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an object with the fields `callbackUrl` and
+            `enabled`, echoing the stored configuration.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    description: Return result code 0:Normal Other codes are exceptions.
+                    type: integer
+                  msg:
+                    description: error message
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      callbackUrl:
+                        description: The stored HTTPS callback URL.
+                        type: string
+                      enabled:
+                        description: Whether delivery is enabled for the team.
+                        type: boolean
+                  requestId:
+                    description: Operation Request ID
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: ''
+                data:
+                  callbackUrl: https://example.com/morelogin/webhook
+                  enabled: true
+                requestId: ''
+          headers: {}
+      security: []
+webhooks: {}
+components:
+  securitySchemes: {}
+servers:
+  - url: http://127.0.0.1:40000
+    description: MoreLogin  Local endpoint
+security: []

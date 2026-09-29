@@ -12,7 +12,8 @@
 const puppeteer = require('puppeteer-core');
 
 // Config - get from morelogin connect command
-const CDP_ADDRESS = 'http://localhost:9222';
+const CDP_ADDRESS = process.env.CDP_URL;
+if (!CDP_ADDRESS) throw new Error('Set CDP_URL to the actual running profile debug URL');
 
 async function main() {
   console.log('🚀 Connecting to Morelogin browser...\n');
@@ -100,12 +101,12 @@ async function main() {
     console.log('\n✅ All examples completed!');
     
     // Keep browser open, or close
-    // await browser.close();
+    // await browser.disconnect();
     
   } catch (error) {
     console.error('❌ Error:', error.message);
     if (browser) {
-      await browser.close();
+      await browser.disconnect();
     }
     process.exit(1);
   }

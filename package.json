@@ -1,13 +1,25 @@
 {
   "name": "morelogin-cli",
-  "version": "1.0.3",
-  "description": "Morelogin browser automation CLI tool - Local API only",
+  "version": "1.1.0",
+  "description": "MoreLogin Local API agent skill and Node.js wrapper (separate from ml-cli)",
+  "engines": { "node": ">=22.12.0" },
+  "repository": { "type": "git", "url": "https://github.com/MoreLoginBrowser/morelogin-local-api-skill.git" },
+  "homepage": "https://github.com/MoreLoginBrowser/morelogin-local-api-skill#readme",
+  "bugs": { "url": "https://github.com/MoreLoginBrowser/morelogin-local-api-skill/issues" },
+  "files": ["bin/", "index.js", "agents/", "references/", "skills/morelogin-setup/", "SKILL.md", "local-api.yaml", "API-CONTRACT.md", "README.md", "USAGE.md", "INSTALL.md", "QUICKSTART.md", "LICENSE"],
+  "publishConfig": { "access": "public" },
   "main": "bin/morelogin.js",
   "bin": {
     "morelogin": "./bin/morelogin.js"
   },
   "scripts": {
     "start": "node bin/morelogin.js",
+    "test": "node --test test/*.test.js",
+    "validate": "node scripts/validate-openapi.js && node scripts/check-source.js",
+    "check:package": "node scripts/check-package.js",
+    "verify:release": "node scripts/release-verify.js",
+    "sync:openapi": "node scripts/sync-openapi.js",
+    "prepack": "npm run validate && npm test",
     "example:basic": "node examples/basic-example.js",
     "example:form": "node examples/form-example.js",
     "example:scraping": "node examples/scraping-example.js",
@@ -22,9 +34,11 @@
     "cdp",
     "local-api"
   ],
-  "author": "",
+  "author": "MoreLoginBrowser",
   "license": "MIT",
   "devDependencies": {
+    "yaml": "^2.8.1",
+    "ajv": "^8.17.1",
     "playwright": "^1.40.0",
     "puppeteer-core": "^25.3.0"
   }

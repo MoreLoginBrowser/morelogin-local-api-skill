@@ -1,0 +1,30 @@
+[
+  {
+    "name": "browser",
+    "url": "https://guide.morelogin.com/_bundle/API Reference/Browser/local-api.yaml",
+    "file": "specs/browser.yaml",
+    "version": "2026-09-05",
+    "sha256": "234df8414003938853f195b098fb3d1dfe1af717fc1b8f1346ddd28b2adaba1d"
+  },
+  {
+    "name": "cloudphone",
+    "url": "https://guide.morelogin.com/_bundle/API Reference/Cloud Phone/local-api.yaml",
+    "file": "specs/cloudphone.yaml",
+    "version": "2026-09-05",
+    "sha256": "4488e5cfd0a862e341bffb1949046b81c6663d6410188d72730ef2001685ecec"
+  },
+  {
+    "name": "shared",
+    "url": "https://guide.morelogin.com/_bundle/API Reference/Shared Resources/shared-api.yaml",
+    "file": "specs/shared.yaml",
+    "version": "2026-09-05",
+    "sha256": "9b7102289b7522599b4b9afd509a0441bb8dad31c8934d51b9c4dd475b771267"
+  },
+  {
+    "name": "cloudstorage",
+    "url": "https://guide.morelogin.com/_bundle/API Reference/Cloud Storage/local-api.yaml",
+    "file": "specs/cloudstorage.yaml",
+    "version": "2026-09-05",
+    "sha256": "c84aba66c422f2ce0ce3df5ffa308e99a820b0ef0d4a35b8878447eee28d1f6f"
+  }
+]

@@ -1,0 +1,1881 @@
+{
+  "generatedAt": "2026-09-29T14:24:05.116Z",
+  "mode": "mock-contract-and-transport",
+  "runtime": "v24.21.0",
+  "platform": "darwin",
+  "testEvents": 583,
+  "failed": 0,
+  "skipped": 0,
+  "status": "pass",
+  "operations": [
+    {
+      "route": "/api/env/start",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/close",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/create/quick",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/create/advanced",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/update",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/removeToRecycleBin/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/detail",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/advanced/ua/versions",
+      "method": "GET",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/advanced/ua/get",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/base/resolution/list",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/system/platform/list",
+      "method": "GET",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/lock/query",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/base/list",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/removeLocalCache",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/cache/cleanCloud",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/fingerprint/refresh",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/status",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/getAllScreen",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/arrangeWindows",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/setGroup/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/setProxy/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/setRemark/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/closeAll",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/getAllProcessIds",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/getAllDebugInfo",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/base/mobile/devices",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/env/core/download",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudbrowser/start",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudbrowser/stop",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudbrowser/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudbrowser/connect",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/balance",
+      "method": "GET",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/monthly/skus",
+      "method": "GET",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/monthly/activate",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/live/start",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/live/status",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/live/end",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/uploadFile",
+      "method": "POST",
+      "multipart": true,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/upload/file/signedUrl",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/upload/file",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/upload/file/result",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/download",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/download/result",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/setKeyBox",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/install",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/team/app/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/installedList",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/start",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/restart",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/stop",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/uninstall",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/openRoot",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/app/setHideAccessibilityApp",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/create",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/powerOn",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/restart",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/reset",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/powerOff",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/edit/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/setProxy",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/delete/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/newMachine",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/info",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/queryByAndroidId",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/enableRoot",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/screenCap",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/screenCapBase64",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/brand/models",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/updateAdb",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/batchAdbInfo",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/exeCommand",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/template/market/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/template/personal/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/task/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/task/save",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/onceTask/save",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/task/cancel",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/subTask/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/subTask/detail/{id}",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/rpa/subTask/cancel/{id}",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/touch/click",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/touch/doubleClick",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/touch/longClick",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/touch/swipe",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudphone/touch/drag",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/proxyInfo/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/proxyInfo/add",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/proxyInfo/update",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/proxyInfo/delete",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envgroup/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envgroup/edit",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envgroup/create",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envgroup/delete",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envtag/all",
+      "method": "GET",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envtag/create",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envtag/edit",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/envtag/delete",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/webhook/config",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/info",
+      "method": "GET",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/file/page",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/upload/init",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/upload/complete",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/file/delete/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/file/tag/set",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/file/tag/add",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/file/tag/query",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/tag/all",
+      "method": "GET",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/tag/create",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/tag/edit",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    },
+    {
+      "route": "/api/cloudstorage/tag/delete/batch",
+      "method": "POST",
+      "multipart": false,
+      "transport": {
+        "success": "pass",
+        "business": "pass",
+        "http": "pass",
+        "confirmation": "pass"
+      },
+      "fixtureSource": "bundled-request-schema",
+      "responseFixture": "synthetic-transport-envelope",
+      "liveBusiness": "not-run"
+    }
+  ],
+  "namedCommands": [
+    {
+      "scope": "browser",
+      "command": "list",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "start",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "close",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "status",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "detail",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "refresh-fingerprint",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "clear-cache",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "clean-cloud-cache",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "create-quick",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "delete",
+      "status": "pass"
+    },
+    {
+      "scope": "browser",
+      "command": "kernel-download",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudbrowser",
+      "command": "start",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudbrowser",
+      "command": "stop",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudbrowser",
+      "command": "list",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudbrowser",
+      "command": "connect",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "list",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "create",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "start",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "stop",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "info",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "adb-info",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "update-adb",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "new-machine",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "app-installed",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "app-start",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "app-stop",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "app-restart",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "app-uninstall",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "restart",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "reset",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "screenshot",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "screenshot-base64",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "monthly-skus",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "monthly-activate",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "live-start",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "live-status",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "live-stop",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "team-apps",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "app-root",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "set-proxy",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "find-android",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "root",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "adb-batch",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "tap",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "double-tap",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "long-press",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "swipe",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudphone",
+      "command": "drag",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "info",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "list",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "upload-init",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "upload-complete",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "delete",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "set-tags",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "add-tags",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "file-tags",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "tag-list",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "tag-create",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "tag-edit",
+      "status": "pass"
+    },
+    {
+      "scope": "cloudstorage",
+      "command": "tag-delete",
+      "status": "pass"
+    },
+    {
+      "scope": "account",
+      "command": "balance",
+      "status": "pass"
+    },
+    {
+      "scope": "webhook",
+      "command": "config",
+      "status": "pass"
+    },
+    {
+      "scope": "proxy",
+      "command": "list",
+      "status": "pass"
+    },
+    {
+      "scope": "proxy",
+      "command": "add",
+      "status": "pass"
+    },
+    {
+      "scope": "proxy",
+      "command": "update",
+      "status": "pass"
+    },
+    {
+      "scope": "proxy",
+      "command": "delete",
+      "status": "pass"
+    },
+    {
+      "scope": "group",
+      "command": "list",
+      "status": "pass"
+    },
+    {
+      "scope": "group",
+      "command": "create",
+      "status": "pass"
+    },
+    {
+      "scope": "group",
+      "command": "edit",
+      "status": "pass"
+    },
+    {
+      "scope": "group",
+      "command": "delete",
+      "status": "pass"
+    },
+    {
+      "scope": "tag",
+      "command": "list",
+      "status": "pass"
+    },
+    {
+      "scope": "tag",
+      "command": "create",
+      "status": "pass"
+    },
+    {
+      "scope": "tag",
+      "command": "edit",
+      "status": "pass"
+    },
+    {
+      "scope": "tag",
+      "command": "delete",
+      "status": "pass"
+    }
+  ]
+}

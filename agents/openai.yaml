@@ -1,0 +1,6 @@
+interface:
+  display_name: "MoreLogin Local API"
+  short_description: "Use the MoreLogin desktop Local API safely"
+  default_prompt: "Use $morelogin-local-api to inspect the requested MoreLogin resources."
+policy:
+  allow_implicit_invocation: true

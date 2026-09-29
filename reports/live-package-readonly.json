@@ -1,0 +1,133 @@
+{
+  "date": "2026-09-29T14:24:41.079Z",
+  "mode": "live-read-only-installed-project-tarball",
+  "runtime": "v25.6.1",
+  "platform": "darwin",
+  "package": "morelogin-cli-1.1.0.tgz",
+  "sha256": "70d0038ba0d5b497f5f116be0137c3a5d0481808c22ed4d873cb3df5e7915322",
+  "planned": 17,
+  "executed": 17,
+  "passed": 17,
+  "liveWrites": "not-run",
+  "results": [
+    {
+      "name": "health",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "browser profiles",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "browser screens",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": 0,
+      "reason": "ok"
+    },
+    {
+      "name": "browser processes",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": 0,
+      "reason": "ok"
+    },
+    {
+      "name": "browser debug info",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": 0,
+      "reason": "ok"
+    },
+    {
+      "name": "browser core versions",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": 0,
+      "reason": "ok"
+    },
+    {
+      "name": "platforms",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": 0,
+      "reason": "ok"
+    },
+    {
+      "name": "mobile devices",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": 0,
+      "reason": "ok"
+    },
+    {
+      "name": "cloud browsers",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "cloud phones",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "groups",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "tags",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "proxies",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "schedules",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": 0,
+      "reason": "ok"
+    },
+    {
+      "name": "storage quota",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "storage files",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    },
+    {
+      "name": "storage labels",
+      "passed": true,
+      "exitCode": 0,
+      "businessCode": null,
+      "reason": "ok"
+    }
+  ]
+}

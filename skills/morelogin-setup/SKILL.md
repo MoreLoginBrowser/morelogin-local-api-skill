@@ -9,6 +9,12 @@ description: Use when preparing, installing, updating, or verifying MoreLogin Cl
 
 Prepare MoreLogin Client and MoreLogin CLI for the current machine.
 
+For a direct Local API-only request, prepare the Client only and skip CLI
+download, PATH changes and CLI bootstrap. Verify the Client with POST /status
+(healthy response: {"status":"ok"}). If workspace rules require ml-cli, retain
+the CLI workflow below. Existing user authorization for the same setup action
+counts; do not ask again solely because this guide mentions confirmation.
+
 The skill may download files, reveal or open installers, set executable permission on downloaded CLI binaries, and verify installation. It must not accept Terms of Services, EULA, UAC, Gatekeeper, administrator prompts, sudo prompts, privacy permissions, firewall prompts, or other security/user confirmations on behalf of the user.
 
 ## Platform Detection

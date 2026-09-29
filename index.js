@@ -1,13 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * OpenClaw MoreLogin skill entrypoint.
- *
- * Direct mode: execute bin/morelogin.js in-process.
- * This makes `openclaw morelogin ...` equivalent to:
- * `node bin/morelogin.js ...`
+ * Optional Node entrypoint. Does not register any third-party agent command.
  */
 
 const { main } = require('./bin/morelogin');
 
-main(process.argv.slice(2));
+if (require.main === module) main(process.argv.slice(2));
+module.exports = { main };

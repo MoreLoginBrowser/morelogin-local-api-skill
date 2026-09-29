@@ -2,6 +2,7 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
+const { context } = require('./policy');
 const {
   DEFAULT_BASE_URL,
   normalizeStringArray,
@@ -24,8 +25,8 @@ function fail(message, code = 1) {
   process.exit(code);
 }
 
-async function callApi(endpoint, { method = 'POST', body } = {}) {
-  const response = await requestApi(endpoint, { method, body });
+async function callApi(endpoint, { method = 'POST', body, timeoutMs } = {}) {
+  const response = await requestApi(endpoint, { method, body, timeoutMs });
   const result = unwrapApiResult(response);
   if (!result.success) {
     throw new Error(result.message || 'API request failed');
@@ -49,7 +50,11 @@ Base URL: ${DEFAULT_BASE_URL}
 
 Usage:
   morelogin browser <command> [options]
+  morelogin cloudbrowser <command> [options]
   morelogin cloudphone <command> [options]
+  morelogin account balance
+  morelogin cloudstorage <command> [options]
+  morelogin webhook config --url <https-url> --enabled true
   morelogin proxy <command> [options]
   morelogin group <command> [options]
   morelogin tag <command> [options]
@@ -66,6 +71,10 @@ Browser:
   clear-cache             Clear local cache (/api/env/removeLocalCache)
   clean-cloud-cache       Clean cloud cache (/api/env/cache/cleanCloud)
   delete                  Batch delete to recycle bin (/api/env/removeToRecycleBin/batch)
+  kernel-download         Download browser kernels (/api/env/core/download)
+
+CloudBrowser:
+  start|stop|list|connect Manage cloud browser runtimes
 
 CloudPhone:
   list                    List (/api/cloudphone/page)
@@ -78,6 +87,16 @@ CloudPhone:
   new-machine             New machine one-click (/api/cloudphone/newMachine)
   app-installed           Installed apps list (/api/cloudphone/app/installedList)
   app-start|app-stop|app-restart|app-uninstall
+  restart|reset|set-proxy|find-android|root
+  monthly-skus|monthly-activate
+  live-start|live-status|live-stop
+  team-apps|app-root|screenshot|screenshot-base64|adb-batch
+  tap|double-tap|long-press|swipe|drag
+
+CloudStorage:
+  info|list|upload-init|upload-complete|delete
+  set-tags|add-tags|file-tags
+  tag-list|tag-create|tag-edit|tag-delete
 
 
 Proxy:
@@ -108,6 +127,10 @@ Legacy commands (backward compatible):
 Security defaults:
   - cloudphone exec command is removed
   - proxy and cloud phone outputs are redacted by default; pass --raw-output to print original data
+  - destructive operations require the matching --confirm-<action> true flag
+  - api passthrough uses the same confirmation policy as named commands
+  - --timeout-ms <milliseconds> overrides the endpoint-specific timeout
+  - api --endpoint /api/cloudphone/uploadFile --data '{"id":"..."}' --file <path> sends multipart
 `);
 }
 
@@ -123,16 +146,16 @@ function showConnectTips(data) {
 function validateProxyAddPayload(body) {
   requirePlainObject(body, 'proxy add payload');
   requireNonEmptyString(body.proxyIp, 'proxyIp');
-  parseRequiredInt(body.proxyPort, 'proxyPort', { min: 1, max: 65535 });
-  requireNonEmptyString(body.proxyProvider, 'proxyProvider');
+  body.proxyPort = parseRequiredInt(body.proxyPort, 'proxyPort', { min: 1, max: 65535 });
+  body.proxyProvider = parseRequiredInt(body.proxyProvider, 'proxyProvider', { min: 0, max: 17 });
 }
 
 function validateProxyUpdatePayload(body) {
   requirePlainObject(body, 'proxy update payload');
   requireNonEmptyString(body.id, 'id');
   requireNonEmptyString(body.proxyIp, 'proxyIp');
-  parseRequiredInt(body.proxyPort, 'proxyPort', { min: 1, max: 65535 });
-  requireNonEmptyString(body.proxyProvider, 'proxyProvider');
+  body.proxyPort = parseRequiredInt(body.proxyPort, 'proxyPort', { min: 1, max: 65535 });
+  body.proxyProvider = parseRequiredInt(body.proxyProvider, 'proxyProvider', { min: 0, max: 17 });
 }
 
 function validateGroupCreatePayload(body) {
@@ -181,6 +204,10 @@ function buildCloudCachePayload(options) {
 function normalizeProfileIdentityPayload(payload, options, actionName) {
   const body = payload || ensureProfileIdentity(options);
   requirePlainObject(body, `${actionName} payload`);
+  if (body.envId !== undefined && body.uniqueId !== undefined) throw new Error('Use exactly one profile identity');
+  if (['status', 'detail', 'refresh-fingerprint', 'clear-cache'].includes(actionName) && body.envId === undefined) {
+    throw new Error(`${actionName} requires envId; resolve the profile using browser list first`);
+  }
   if (body.envId !== undefined) {
     body.envId = requireNonEmptyString(body.envId, 'envId');
     return body;
@@ -220,25 +247,26 @@ function validateCloudCachePayload(payload) {
   };
 }
 
-function validatePagePayload(payload, { defaultPageNo = 1, defaultPageSize = 20 } = {}) {
+function validatePagePayload(payload, { defaultPageNo = 1, defaultPageSize = 20, maxPageSize = 200 } = {}) {
   requirePlainObject(payload, 'payload');
   const pageNo = payload.pageNo === undefined
     ? defaultPageNo
     : parseRequiredInt(payload.pageNo, 'pageNo', { min: 1 });
   const pageSize = payload.pageSize === undefined
     ? defaultPageSize
-    : parseRequiredInt(payload.pageSize, 'pageSize', { min: 1, max: 200 });
+    : parseRequiredInt(payload.pageSize, 'pageSize', { min: 1, max: maxPageSize });
   return { ...payload, pageNo, pageSize };
 }
 
 async function handleBrowser(command, options) {
   switch (command) {
+    case 'help': showHelp(); return;
     case 'list': {
       const inputPayload = parseJsonInput(options.payload, '--payload');
       const payload = inputPayload
-        ? validatePagePayload(inputPayload)
+        ? validatePagePayload(inputPayload, { maxPageSize: 100 })
         : {
-            ...parsePageOptions(options),
+            ...parsePageOptions(options, { maxPageSize: 100 }),
             envName: options.name ? String(options.name).trim() : '',
           };
       const data = await callApi('/api/env/page', { body: payload });
@@ -283,7 +311,7 @@ async function handleBrowser(command, options) {
       requirePlainObject(payload, 'create-quick payload');
       payload.browserTypeId = parseRequiredInt(payload.browserTypeId, 'browserTypeId', { min: 1 });
       payload.operatorSystemId = parseRequiredInt(payload.operatorSystemId, 'operatorSystemId', { min: 1 });
-      payload.quantity = parseRequiredInt(payload.quantity, 'quantity', { min: 1, max: 100 });
+      payload.quantity = parseRequiredInt(payload.quantity, 'quantity', { min: 1, max: 50 });
       const data = await callApi('/api/env/create/quick', { body: payload });
       console.log('✅ Profile created successfully');
       printObject(data);
@@ -322,6 +350,11 @@ async function handleBrowser(command, options) {
       const data = await callApi('/api/env/removeToRecycleBin/batch', { body: payload });
       console.log('✅ Delete request submitted');
       printObject(data);
+      return;
+    }
+    case 'kernel-download': {
+      const { createExtendedBrowserHandler } = require('./extended-commands');
+      await createExtendedBrowserHandler({ callApi, fail })(command, options);
       return;
     }
     default:
@@ -369,6 +402,12 @@ async function handleProxy(command, options) {
         fail('proxy delete requires --ids "<id1,id2>" or --payload');
       }
       body = normalizeStringArray(body, 'ids');
+      // This endpoint's schema requires JSON int64 tokens, not quoted strings.
+      // JSON.rawJSON preserves decimal digits beyond Number.MAX_SAFE_INTEGER.
+      body = body.map((id) => {
+        if (!/^[1-9][0-9]*$/.test(id) || BigInt(id) > 9223372036854775807n) throw new Error('proxy IDs must be positive int64 decimal strings');
+        return JSON.rawJSON(id);
+      });
       const data = await callApi('/api/proxyInfo/delete', { body });
       printObject(data);
       return;
@@ -506,14 +545,14 @@ async function handleApi(options) {
 
   const rawData = options.data !== undefined ? options.data : options.payload;
   const body = rawData === undefined ? undefined : parseJsonInput(rawData, '--data');
-  const response = await requestApi(endpoint, { method, body });
+  const response = await requestApi(endpoint, { method, body, file: options.file });
   printObject(response.body, { redact: !options['raw-output'] });
-  if (!response.ok || (response.body && typeof response.body.code === 'number' && response.body.code !== 0)) {
+  if (!unwrapApiResult(response, { endpoint }).success) {
     process.exit(1);
   }
 }
 
-async function main(argv = process.argv.slice(2)) {
+async function mainImpl(argv = process.argv.slice(2)) {
   const [scope, command, ...rest] = argv;
 
   if (!scope || scope === 'help' || scope === '--help') {
@@ -540,7 +579,11 @@ async function main(argv = process.argv.slice(2)) {
   } else if (scope === 'api') {
     optionsSource = [command, ...rest].filter((item) => item !== undefined);
   }
-  const { options } = parseArgs(optionsSource);
+  const { options, positional } = parseArgs(optionsSource);
+  if (effectiveCommand === '--help') effectiveCommand = 'help';
+  require('./options').validateOptions(effectiveScope, effectiveCommand, options, positional);
+  if (options['raw-output'] !== undefined) options['raw-output'] = toBoolean(options['raw-output']);
+  context.enterWith(options);
   if (options['profile-id'] && !options['env-id']) {
     options['env-id'] = options['profile-id'];
   }
@@ -559,6 +602,30 @@ async function main(argv = process.argv.slice(2)) {
       const { createCloudPhoneHandler } = require('./cloudphone-commands');
       const handleCloudPhone = createCloudPhoneHandler({ callApi, fail });
       await handleCloudPhone(effectiveCommand, options);
+      return;
+    }
+    if (effectiveScope === 'cloudbrowser') {
+      if (!effectiveCommand) fail('Missing cloudbrowser subcommand');
+      const { createCloudBrowserHandler } = require('./extended-commands');
+      await createCloudBrowserHandler({ callApi, fail })(effectiveCommand, options);
+      return;
+    }
+    if (effectiveScope === 'account') {
+      if (!effectiveCommand) fail('Missing account subcommand');
+      const { createAccountHandler } = require('./extended-commands');
+      await createAccountHandler({ callApi, fail })(effectiveCommand, options);
+      return;
+    }
+    if (effectiveScope === 'cloudstorage') {
+      if (!effectiveCommand) fail('Missing cloudstorage subcommand');
+      const { createCloudStorageHandler } = require('./extended-commands');
+      await createCloudStorageHandler({ callApi, fail })(effectiveCommand, options);
+      return;
+    }
+    if (effectiveScope === 'webhook') {
+      if (!effectiveCommand) fail('Missing webhook subcommand');
+      const { createWebhookHandler } = require('./extended-commands');
+      await createWebhookHandler({ callApi, fail })(effectiveCommand, options);
       return;
     }
 
@@ -585,6 +652,12 @@ async function main(argv = process.argv.slice(2)) {
   } catch (error) {
     fail(error.message);
   }
+}
+
+async function main(argv = process.argv.slice(2)) {
+  return context.run({}, async () => {
+    try { await mainImpl(argv); } catch (error) { fail(error.message); }
+  });
 }
 
 if (require.main === module) {

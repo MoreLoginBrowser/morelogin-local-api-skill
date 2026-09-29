@@ -10,8 +10,7 @@ const {
 } = require('./common');
 
 function toCloudPhoneNumericId(idValue) {
-  const n = Number(idValue);
-  return Number.isNaN(n) ? idValue : n;
+  return requireNonEmptyString(idValue, 'id');
 }
 
 function validateCloudPhoneCreatePayload(body, fail) {
@@ -25,20 +24,28 @@ function validateCloudPhoneCreatePayload(body, fail) {
 }
 
 function createCloudPhoneHandler({ callApi, fail }) {
+  const { createExtendedCloudPhoneHandler } = require('./extended-commands');
+  const handleExtendedCloudPhone = createExtendedCloudPhoneHandler({ callApi, fail });
   async function findCloudPhoneById(id) {
     const targetId = String(id);
-    const first = await callApi('/api/cloudphone/page', {
-      body: { keyword: targetId, pageNo: 1, pageSize: 20 },
-    });
-    const fromFirst = (first.dataList || []).find((item) => String(item.id) === targetId);
-    if (fromFirst) return fromFirst;
-
-    const fallback = await callApi('/api/cloudphone/page', { body: { pageNo: 1, pageSize: 100 } });
-    const fromFallback = (fallback.dataList || []).find((item) => String(item.id) === targetId);
-    if (!fromFallback) {
-      throw new Error(`Cloud phone not found: ${targetId}`);
+    const seenPages = new Set();
+    const deadline = Date.now() + 120000;
+    for (let pageNo = 1; pageNo <= 100; pageNo++) {
+      if (Date.now() >= deadline) throw new Error('Cloud phone lookup deadline reached; result incomplete');
+      const page = await callApi('/api/cloudphone/page', { body: { pageNo, pageSize: 100 } });
+      if (!Array.isArray(page?.dataList)) throw new Error('Invalid cloud phone page response');
+      const matches = page.dataList.filter((item) => String(item.id) === targetId);
+      if (matches.length > 1) throw new Error('Ambiguous cloud phone ID in page response');
+      if (matches.length === 1) return matches[0];
+      const signature = JSON.stringify(page.dataList.map((item) => item.id));
+      if (seenPages.has(signature)) throw new Error('Cloud phone pagination repeated; result incomplete');
+      seenPages.add(signature);
+      const pages = page.pages === undefined ? undefined : parseRequiredInt(page.pages, 'pages', { min: 0 });
+      if (!page.dataList.length || (pages !== undefined ? pageNo >= pages : page.dataList.length < 100)) {
+        throw new Error(`Cloud phone not found: ${targetId}`);
+      }
     }
-    return fromFallback;
+    throw new Error('Cloud phone lookup exceeded 100 pages; result incomplete');
   }
 
   async function getCloudPhoneInfoById(id) {
@@ -56,7 +63,7 @@ function createCloudPhoneHandler({ callApi, fail }) {
 CloudPhone subcommands:
   list --page 1 --page-size 20
   create --payload '{"skuId":"10002", ...}'
-  start --id <cloudPhoneId>
+  start --id <cloudPhoneId> [--headless false] [--disable-money-saving-mode false]
   stop --id <cloudPhoneId>
   info --id <cloudPhoneId>
   adb-info --id <cloudPhoneId>
@@ -67,6 +74,20 @@ CloudPhone subcommands:
   app-stop --id <cloudPhoneId> --package-name com.example.app
   app-restart --id <cloudPhoneId> --package-name com.example.app
   app-uninstall --id <cloudPhoneId> --package-name com.example.app
+  restart|reset --id <cloudPhoneId>
+  monthly-skus
+  monthly-activate --ids id1,id2 --confirm-charge true
+  live-start --id <cloudPhoneId> --file-id <cloudStorageFileId>
+  live-status|live-stop --id <cloudPhoneId>
+  team-apps --page 1 --page-size 20 [--name text]
+  app-root --id <cloudPhoneId> --package-names com.example.app
+  set-proxy --payload '{"ids":["..."],"proxy":{...}}'
+  find-android --android-id <androidId>
+  root --id <cloudPhoneId> --enable true|false
+  screenshot|screenshot-base64 --id <cloudPhoneId>
+  adb-batch --ids id1,id2
+  tap|double-tap|long-press --id <id> --pos x,y [--duration ms]
+  swipe|drag --id <id> --from x,y --to x,y [--duration ms]
 `);
         return;
       case 'list': {
@@ -94,11 +115,17 @@ CloudPhone subcommands:
         return;
       }
       case 'start': {
-        const body = payload || { id: options.id };
+        const body = payload || { id: options.id,
+          ...(options.headless !== undefined ? { headless: toBoolean(options.headless) } : {}),
+          ...(options['disable-money-saving-mode'] !== undefined ? { disableMoneySavingMode: toBoolean(options['disable-money-saving-mode']) } : {}),
+        };
         requirePlainObject(body, 'start payload');
         body.id = requireNonEmptyString(body.id, 'id');
+        for (const field of ['headless', 'disableMoneySavingMode']) {
+          if (body[field] !== undefined) body[field] = toBoolean(body[field]);
+        }
         const data = await callApi('/api/cloudphone/powerOn', { body });
-        console.log('✅ Cloud phone started');
+        console.log('✅ Startup request accepted; poll cloudphone info until envStatus is 4');
         printObject(data);
         return;
       }
@@ -183,6 +210,7 @@ CloudPhone subcommands:
         return;
       }
       default:
+        if (await handleExtendedCloudPhone(command, options)) return;
         fail(`Unknown cloudphone command: ${command}`);
     }
   };

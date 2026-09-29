@@ -1,0 +1,879 @@
+openapi: 3.1.0
+info:
+  title: Cloud Storage Local API
+  description: >
+    Manage MoreLogin cloud storage files, uploads, deletions, and file tags
+    through the MoreLogin Local API.
+
+
+    **Base URL**: `http://127.0.0.1:40000`
+
+
+    Local API paths use the `/api` prefix.
+  version: '2026-09-05'
+servers:
+  - url: http://127.0.0.1:40000
+tags:
+  - name: Cloud Storage
+    description: Query storage quota and usage
+  - name: Cloud Storage Files
+    description: Query, upload, and delete cloud storage files
+  - name: Cloud Storage File Tags
+    description: Manage tags attached to cloud storage files
+x-tagGroups:
+  - name: Cloud Storage
+    tags:
+      - Cloud Storage
+      - Cloud Storage Files
+      - Cloud Storage File Tags
+paths:
+  /api/cloudstorage/info:
+    get:
+      summary: Query Cloud Storage Information
+      description: >-
+        Return the team's Cloud Storage quota and current usage.
+
+
+        - **Preconditions**: the team must already have a Cloud Storage record.
+        **A team that has never had Cloud Storage provisioned gets an error, not
+        a zero-capacity reading** — the record is created when storage is
+        purchased, not lazily by this call.
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Units**: `capacity` and `usedCapacity` are byte counts.
+
+        - **Accuracy**: `usedCapacity` is a running counter maintained on upload
+        and delete, not a live sum over the file table, so it can drift from the
+        total of `fileSize` in `/cloudstorage/file/page`.
+
+        - **Values**: `capacityStatus` is `1` only when a positive quota is
+        fully consumed; `isExpired` compares the expiry date to now. Files whose
+        upload was never confirmed do not count toward `usedCapacity`.
+
+
+        Documented business errors: `39001`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: queryCloudStorageInfoLocal
+      tags:
+        - Cloud Storage
+      responses:
+        '200':
+          $ref: '#/components/responses/StorageInfoResponse'
+  /api/cloudstorage/file/page:
+    post:
+      summary: Page Cloud Storage Files
+      description: >-
+        List Cloud Storage files, page by page.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Visibility**: **only files whose upload was confirmed are listed** —
+        a file with a pre-signed URL that was never completed does not appear.
+        Members without the all-data permission see only files they uploaded.
+
+        - **Filtering**: `fileName` matches partially; `tagIds` is an OR match;
+        results are ordered newest first and the order cannot be changed.
+
+        - **Caveat**: an entry in `tagInfo` can be null when a tag was deleted
+        while still attached to the file.
+      operationId: pageCloudStorageFilesLocal
+      tags:
+        - Cloud Storage Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilePageRequest'
+            example:
+              pageNo: 1
+              pageSize: 20
+              fileName: report
+              tagIds:
+                - '1800000000000001'
+      responses:
+        '200':
+          $ref: '#/components/responses/FilePageResponse'
+  /api/cloudstorage/upload/init:
+    post:
+      summary: Batch Request Presigned Upload URLs
+      description: >-
+        Reserve Cloud Storage records and get pre-signed upload URLs.
+
+
+        - **Preconditions**: the team must have a Cloud Storage record and it
+        must not be expired. Each base file name is limited to 60 characters and
+        must be unique both within the request and against every existing file
+        in the team — **matched on the name without its extension**, so `a.png`
+        collides with an existing `a.mp4`.
+
+        - **Limits**: at most 100 uploads may sit unconfirmed at once across the
+        team.
+
+        - **Effect**: inserts one file record per name with an uploading status
+        and a zero size, and returns `{id, fileName, presignedUrl}` for each.
+
+        - **Quota**: **space is not checked here.** It is charged when you
+        confirm the upload, so init can succeed and complete can still fail for
+        lack of space.
+
+        - **Completion**: synchronous. **Each pre-signed URL is valid for one
+        hour**; `PUT` the bytes to it, then call
+        `/cloudstorage/upload/complete`.
+
+
+        Documented business errors: `39001`, `39037`, `39044`, `39045`, `39047`,
+        `39050`, `39051`. See [Error Codes](../Getting%20Started/error-codes.md)
+        for what each code means. Any operation can additionally return the
+        common codes.
+      operationId: batchRequestCloudStoragePresignedUploadUrlsLocal
+      tags:
+        - Cloud Storage Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadInitRequest'
+            example:
+              fileNames:
+                - example.jpg
+      responses:
+        '200':
+          $ref: '#/components/responses/UploadInitResponse'
+  /api/cloudstorage/upload/complete:
+    post:
+      summary: Confirm Upload Completion
+      description: >-
+        Confirm an uploaded Cloud Storage file.
+
+
+        - **Preconditions**: the file record must belong to your team and the
+        object must already be in storage — the service reads its ETag and
+        length to verify. Size must be greater than 0 and under 2 GB.
+
+        - **Effect**: charges the team's storage quota atomically, then marks
+        the record uploaded and stores the real size. Until this succeeds the
+        file **does not appear in `/cloudstorage/file/page`** and keeps
+        occupying one of the 100 pending slots.
+
+        - **On failure the uploaded object is deleted.** Calling this too early,
+        over the size limit, or with no space left removes the bytes from
+        storage and leaves the record unconfirmed. Recovery is a fresh
+        `/cloudstorage/upload/init` and a re-upload, not a retry of this call.
+
+        - **Completion**: synchronous and idempotent once it has succeeded — a
+        second call returns the same file without charging quota again.
+
+        - **Note**: a record that is never confirmed is cleaned up automatically
+        after 24 hours.
+
+
+        Documented business errors: `39001`, `39011`, `39014`, `39041`, `39046`,
+        `39047`. See [Error Codes](../Getting%20Started/error-codes.md) for what
+        each code means. Any operation can additionally return the common codes.
+      operationId: confirmCloudStorageUploadCompleteLocal
+      tags:
+        - Cloud Storage Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadCompleteRequest'
+            example:
+              id: '1800000000000001'
+      responses:
+        '200':
+          $ref: '#/components/responses/UploadCompleteResponse'
+  /api/cloudstorage/file/delete/batch:
+    post:
+      summary: Batch Delete Cloud Storage Files
+      description: >-
+        Delete Cloud Storage files by id.
+
+
+        - **Preconditions**: every id must resolve within your team; **the whole
+        batch is rejected and rolled back if any one does not**, including ids
+        that were already deleted.
+
+        - **Effect**: a soft delete. Quota is released in the same transaction,
+        and the stored objects are removed on a best-effort basis — a storage
+        failure is logged but does not fail the call, so an object can outlive
+        its record. Tag assignments are not cleaned up.
+
+        - **Completion**: synchronous. Confirm released space with
+        `/cloudstorage/info`.
+
+
+        Documented business errors: `39011`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: batchDeleteCloudStorageFilesLocal
+      tags:
+        - Cloud Storage Files
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileDeleteRequest'
+            example:
+              ids:
+                - '1800000000001001'
+                - '1800000000001002'
+      responses:
+        '200':
+          $ref: '#/components/responses/VoidDataResponse'
+  /api/cloudstorage/file/tag/set:
+    post:
+      summary: Set File Tags
+      description: >-
+        Replace the tags on a Cloud Storage file.
+
+
+        - **Preconditions**: one `fileId` per call, and `tagIds` must be
+        non-empty and reference Cloud Storage tags belonging to your team.
+        Profile tags are rejected.
+
+        - **Effect**: tags not present in the request are removed from the file
+        and missing ones are added. **There is no way to clear all tags here**
+        because an empty list is rejected.
+
+        - **Completion**: synchronous and idempotent for the same body.
+
+
+        Documented business errors: `39011`, `39048`, `39049`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: setCloudStorageFileTagsLocal
+      tags:
+        - Cloud Storage File Tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileTagChangeRequest'
+            example:
+              fileId: '1800000000001001'
+              tagIds:
+                - '1800000000000101'
+                - '1800000000000102'
+      responses:
+        '200':
+          $ref: '#/components/responses/VoidDataResponse'
+  /api/cloudstorage/file/tag/add:
+    post:
+      summary: Add File Tags
+      description: >-
+        Add tags to a Cloud Storage file without removing existing ones.
+
+
+        - **Preconditions**: one `fileId` per call, and `tagIds` must be
+        non-empty and reference Cloud Storage tags belonging to your team.
+
+        - **Effect**: only adds; existing tags are left in place. Use the set
+        variant to replace them.
+
+        - **Completion**: synchronous and idempotent — adding a tag the file
+        already has changes nothing.
+
+
+        Documented business errors: `39011`, `39048`, `39049`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: addCloudStorageFileTagsLocal
+      tags:
+        - Cloud Storage File Tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileTagChangeRequest'
+            example:
+              fileId: '1800000000001001'
+              tagIds:
+                - '1800000000000103'
+      responses:
+        '200':
+          $ref: '#/components/responses/VoidDataResponse'
+  /api/cloudstorage/file/tag/query:
+    post:
+      summary: Query File Tags
+      description: >-
+        Return the tags attached to one or more Cloud Storage files.
+
+
+        - **Preconditions**: every `fileId` must resolve within your team; **one
+        unknown id fails the whole call** rather than returning partial data.
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Caveat**: `tagIds` is read from the assignments while the tag
+        details come from live tags, so a tag deleted while still attached
+        appears in `tagIds` with no matching entry in the details. The two can
+        differ in length.
+      operationId: queryCloudStorageFileTagsLocal
+      tags:
+        - Cloud Storage File Tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileTagQueryRequest'
+            example:
+              fileIds:
+                - '1800000000001001'
+      responses:
+        '200':
+          $ref: '#/components/responses/FileTagsResponse'
+  /api/cloudstorage/tag/all:
+    get:
+      summary: Query All Cloud Storage File Tags
+      description: >-
+        Return every Cloud Storage file tag in the team.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Note**: not paginated, and Cloud Storage tags have no server-side
+        count limit, so the response grows with the number of tags your team
+        creates.
+      operationId: queryAllCloudStorageFileTagsLocal
+      tags:
+        - Cloud Storage File Tags
+      responses:
+        '200':
+          $ref: '#/components/responses/TagListResponse'
+  /api/cloudstorage/tag/create:
+    post:
+      summary: Create Cloud Storage File Tag
+      description: >-
+        Create a Cloud Storage file tag.
+
+
+        - **Preconditions**: `tagName` must not be blank.
+
+        - **Effect**: creates the tag with a colour picked from a fixed palette.
+        **Names are not checked for duplicates and there is no count limit**, so
+        repeating the call creates a second tag with the same name.
+
+        - **Completion**: synchronous; the response carries the new tag.
+      operationId: createCloudStorageFileTagLocal
+      tags:
+        - Cloud Storage File Tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagCreateRequest'
+            example:
+              tagName: Invoice
+      responses:
+        '200':
+          $ref: '#/components/responses/TagResponse'
+  /api/cloudstorage/tag/edit:
+    post:
+      summary: Edit Cloud Storage File Tag
+      description: >-
+        Rename a Cloud Storage file tag.
+
+
+        - **Preconditions**: the tag must exist in your team and be a Cloud
+        Storage tag.
+
+        - **Effect**: only the name changes; the colour and every existing
+        assignment are kept, so files show the new name immediately.
+
+        - **Completion**: synchronous. No optimistic locking — concurrent
+        renames are last-write-wins.
+      operationId: editCloudStorageFileTagLocal
+      tags:
+        - Cloud Storage File Tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagEditRequest'
+            example:
+              id: '1800000000000101'
+              tagName: Invoice 2026
+      responses:
+        '200':
+          $ref: '#/components/responses/BooleanDataResponse'
+  /api/cloudstorage/tag/delete/batch:
+    post:
+      summary: Delete Cloud Storage File Tags
+      description: >-
+        Delete Cloud Storage file tags.
+
+
+        - **Preconditions**: every id must be a Cloud Storage tag in your team;
+        **one invalid id fails the whole batch**.
+
+        - **Effect**: the tags are deleted but **their file assignments are not
+        cleaned up**. Two consequences to expect: `/cloudstorage/file/tag/query`
+        keeps returning the deleted tag id with no matching detail, and
+        `tagInfo` in `/cloudstorage/file/page` can contain null entries.
+        Filtering files by a deleted tag id returns nothing.
+
+        - **Completion**: synchronous, and not wrapped in a transaction.
+      operationId: deleteCloudStorageFileTagsLocal
+      tags:
+        - Cloud Storage File Tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagDeleteRequest'
+            example:
+              ids:
+                - '1800000000000101'
+      responses:
+        '200':
+          $ref: '#/components/responses/BooleanDataResponse'
+security: []
+components:
+  schemas:
+    ApiResponseBase:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: >-
+            Return result code. `0` means success; other codes indicate
+            exceptions.
+          example: 0
+        msg:
+          type:
+            - string
+            - 'null'
+          description: Error message.
+          example: null
+        requestId:
+          type: string
+          description: >-
+            Operation request ID. This field may be present when the request
+            passes through the API gateway.
+          example: 1d4f3ea968664593860b94b35d4ebf5e
+      required:
+        - code
+        - msg
+    StorageInfo:
+      type: object
+      properties:
+        capacity:
+          type: string
+          description: Total cloud storage capacity in bytes.
+          example: '10737418240'
+        usedCapacity:
+          type: string
+          description: Used cloud storage capacity in bytes.
+          example: '536870912'
+        expireDate:
+          type: string
+          pattern: ^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$
+          description: Cloud storage expiration date.
+        capacityStatus:
+          type: integer
+          description: 'Capacity status: 0 = normal, 1 = full.'
+          example: 0
+        isExpired:
+          type: boolean
+          description: Whether the subscription plan has expired.
+          example: false
+    FilePageRequest:
+      type: object
+      properties:
+        pageNo:
+          type: integer
+          description: Current page number, starting from 1. Default is 1.
+          minimum: 1
+          default: 1
+          example: 1
+        pageSize:
+          type: integer
+          description: Number of items per page. Default is 10.
+          minimum: 1
+          default: 10
+          example: 20
+        fileName:
+          type: string
+          description: File name keyword for fuzzy search.
+          example: report
+        tagIds:
+          type: array
+          description: Filter files by tag IDs.
+          items:
+            type: string
+          example:
+            - '1800000000000101'
+        fileType:
+          type: integer
+          description: >-
+            File type filter: 0 = image, 1 = video, 2 = application, 3 = audio,
+            4 = document, 5 = other.
+          example: 0
+        fileIds:
+          type: array
+          description: Filter files by file IDs.
+          items:
+            type: string
+          example:
+            - '1800000000001001'
+    TagInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Tag ID.
+          example: '1800000000000101'
+        tagSource:
+          type: string
+          description: Tag source, e.g. ENV, PROXY.
+          example: ENV
+        tagName:
+          type: string
+          description: Tag name.
+          example: Invoice
+        tagType:
+          type: string
+          description: 'Tag type: TAG or GROUP.'
+          example: TAG
+        tagIcon:
+          type: string
+          description: Tag icon.
+          example: ''
+    CloudStorageFile:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Cloud storage file ID.
+          example: '1800000000001001'
+        fileName:
+          type: string
+          description: File name (without extension).
+          example: example
+        fileExt:
+          type: string
+          description: File extension.
+          example: jpg
+        fileSize:
+          type: string
+          description: File size in bytes.
+          example: '204800'
+        fileType:
+          type: integer
+          description: >-
+            File type: 0 = image, 1 = video, 2 = application, 3 = audio, 4 =
+            document, 5 = other.
+          example: 0
+        tagInfo:
+          type: array
+          description: Tag details attached to the file.
+          items:
+            $ref: '#/components/schemas/TagInfo'
+        createDate:
+          type: string
+          pattern: ^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$
+          description: Upload time.
+        updateDate:
+          type: string
+          pattern: ^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$
+          description: Update time.
+    FilePageData:
+      type: object
+      properties:
+        current:
+          type: string
+          example: '1'
+        pages:
+          type: string
+          example: '7'
+        total:
+          type: string
+          example: '128'
+        dataList:
+          type: array
+          items:
+            $ref: '#/components/schemas/CloudStorageFile'
+      required:
+        - current
+        - pages
+        - total
+        - dataList
+    UploadInitRequest:
+      type: object
+      properties:
+        fileNames:
+          type: array
+          minItems: 1
+          description: >-
+            List of file names to upload (with extensions), e.g. photo.jpg,
+            video.mp4.
+          items:
+            type: string
+          example:
+            - photo.jpg
+            - video.mp4
+      required:
+        - fileNames
+    UploadInitResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Cloud storage file ID.
+          example: '1800000000000001'
+        fileName:
+          type: string
+          description: File name (with extension).
+          example: photo.jpg
+        presignedUrl:
+          type: string
+          description: S3 presigned upload URL. Use HTTPS PUT to upload the file content.
+          example: https://example.com/presigned-upload-url
+    UploadCompleteRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Cloud storage file ID returned by the presigned upload URL API.
+          example: '1800000000000001'
+      required:
+        - id
+    FileDeleteRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+          description: Cloud storage file IDs to delete.
+          example:
+            - '1800000000001001'
+            - '1800000000001002'
+      required:
+        - ids
+    FileTagChangeRequest:
+      type: object
+      properties:
+        fileId:
+          type: string
+          description: Cloud storage file ID.
+          example: '1800000000001001'
+        tagIds:
+          type: array
+          minItems: 1
+          items:
+            type: string
+          description: Tag IDs.
+          example:
+            - '1800000000000101'
+            - '1800000000000102'
+      required:
+        - fileId
+        - tagIds
+    FileTagQueryRequest:
+      type: object
+      properties:
+        fileIds:
+          type: array
+          minItems: 1
+          items:
+            type: string
+          description: Cloud storage file IDs.
+          example:
+            - '1800000000001001'
+      required:
+        - fileIds
+    FileTagResultData:
+      type: object
+      properties:
+        fileId:
+          type: string
+          description: Cloud storage file ID.
+          example: '1800000000001001'
+        tagIds:
+          type: array
+          items:
+            type: string
+          description: Tag IDs attached to the file.
+          example:
+            - '1800000000000101'
+        tagInfo:
+          type: array
+          description: Tag details.
+          items:
+            $ref: '#/components/schemas/TagInfo'
+    TagCreateRequest:
+      type: object
+      properties:
+        tagName:
+          type: string
+          description: Tag name.
+          example: Invoice
+      required:
+        - tagName
+    TagEditRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Tag ID.
+          example: '1800000000000101'
+        tagName:
+          type: string
+          description: Tag name.
+          example: Invoice 2026
+      required:
+        - id
+        - tagName
+    TagDeleteRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          minItems: 1
+          items:
+            type: string
+          description: Tag IDs to delete.
+          example:
+            - '1800000000000101'
+      required:
+        - ids
+  responses:
+    StorageInfoResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/StorageInfo'
+                required:
+                  - data
+    FilePageResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/FilePageData'
+                required:
+                  - data
+    UploadInitResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UploadInitResult'
+                required:
+                  - data
+    UploadCompleteResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CloudStorageFile'
+                required:
+                  - data
+    VoidDataResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    type: 'null'
+                    example: null
+    FileTagsResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FileTagResultData'
+                required:
+                  - data
+    TagListResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TagInfo'
+                required:
+                  - data
+    TagResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/TagInfo'
+                required:
+                  - data
+    BooleanDataResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    type: boolean
+                    example: true
+                required:
+                  - data

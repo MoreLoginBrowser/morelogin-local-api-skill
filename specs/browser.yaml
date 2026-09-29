@@ -1,0 +1,4158 @@
+openapi: 3.1.0
+info:
+  title: Local API
+  description: >
+    Manage MoreLogin browser profiles from the machine running the MoreLogin
+    desktop client.
+
+
+    **Base URL**: `http://127.0.0.1:40000`
+
+
+    The Local API can launch a profile **on this machine** (`/api/env/start`)
+    and can also start the same
+
+    profile as a **cloud runtime** that runs on MoreLogin infrastructure
+    (`/api/cloudbrowser/start`).
+
+    Either way you drive the browser over the Chrome DevTools Protocol (CDP)
+    with Puppeteer, Playwright,
+
+    or Selenium.
+
+
+    To manage the same profiles from a server without the desktop client, use
+    the
+
+    [Browser Open API](./open-api.yaml).
+
+
+    **ID encoding**: MoreLogin IDs are 64-bit integers on the server, but they
+    are serialized in JSON as
+
+    decimal strings to avoid precision loss in JavaScript.
+  version: '2026-09-05'
+servers:
+  - url: http://127.0.0.1:40000
+    description: Local API
+tags:
+  - name: Profiles
+    description: Create, update, query, and delete browser profile configurations.
+  - name: Runtime
+    description: Launch and control browser profiles on this machine.
+  - name: Cloud Runtime
+    description: >-
+      Start, stop, query, and connect to browser profiles running in the
+      MoreLogin cloud.
+  - name: Fingerprint & Device Config
+    description: >-
+      Browser kernel versions, user agents, resolutions, languages, time zones,
+      and device models.
+  - name: Cache & Window
+    description: Clear profile cache and arrange profile windows.
+paths:
+  /api/env/start:
+    post:
+      summary: Start browser profile
+      operationId: startBrowserProfileUsingPOST
+      deprecated: false
+      description: >-
+        Used to start the profile; you must specify the profile ID. After
+
+        successful startup, you can obtain the profile debug interface for
+
+        executing Selenium and Puppeteer automation. For Selenium, use the
+
+        WebDriver matching the corresponding kernel version. The WebDriver path
+
+        can be retrieved from the response after profile startup. Requires
+
+        MoreLogin client version 2.15.0 or higher.
+
+
+        Documented business errors: `19099`, `19143`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Runtime
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                envId:
+                  type: string
+                  description: >
+                    Environment ID. At least one of `envId` or `uniqueId` must
+                    be provided.
+
+                    If both are given, `envId` takes precedence.
+                  example: '1993244721490239488'
+                uniqueId:
+                  type: integer
+                  description: >
+                    Environment serial number (small integer ID). At least one
+                    of `envId` or `uniqueId` must be provided.
+
+                    If both are given, `envId` takes precedence.
+                  example: 1
+                encryptKey:
+                  type: string
+                  description: >
+                    Encryption key. Required only if end-to-end encryption is
+                    enabled for the environment.
+                  example: xxx
+                isHeadless:
+                  type: boolean
+                  description: >
+                    Whether to start in headless mode. Defaults to `false` if
+                    omitted.
+
+                    Note: Requires client version v2.36.0 or higher.
+                  default: false
+                  example: false
+                cdpEvasion:
+                  type: boolean
+                  description: |
+                    Enable CDP fingerprint evasion to reduce detection risk.
+                    Only applies to PC environments.
+                    default:`false`.
+                    Note: Requires client version v2.36.0 or higher.
+                  default: false
+                  example: false
+                closeCheckIPPage:
+                  type: boolean
+                  description: |
+                    Whether to skip opening the detection page.
+                    true: Proxy detection before execution
+                    false: Proxy detection after execution
+                    Note: Requires client version v2.56.0 or higher.
+                  default: false
+                  example: false
+                checkIPErrorHandle:
+                  type: integer
+                  description: >
+                    Action to take if proxy detection fails
+
+                    Numeric type: 1 or 2
+
+                    1: Do not start the environment if proxy detection fails
+
+                    2: Start the environment even if proxy detection fails
+
+                    If closeCheckIPPage is passed a parameter, this parameter is
+                    omitted; default: 1
+
+                    Note: Requires client version v2.56.0 or higher.
+                  default: 1
+                  example: 1
+            example:
+              envId: '1993244721490239488'
+              isHeadless: false
+              cdpEvasion: true
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an object with the fields `envId`, `debugPort`,
+            `type`, `version` and `webdriver`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      envId:
+                        type: string
+                        description: profile
+                      debugPort:
+                        type: string
+                      type:
+                        type: string
+                      version:
+                        type: integer
+                      webdriver:
+                        type: string
+                    required:
+                      - envId
+                      - debugPort
+                      - type
+                      - version
+                      - webdriver
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+                required:
+                  - data
+              example:
+                code: 0
+                msg: null
+                data:
+                  envId: '1673823102599682'
+                  debugPort: '9222'
+                  type: string
+                  version: 1
+                  webdriver: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/close:
+    post:
+      operationId: closeBrowserProfileLocal
+      summary: Stop browser profile
+      deprecated: false
+      description: >-
+        Close a running browser profile.
+
+
+        - **Where it runs**: the MoreLogin desktop client handles this entirely
+        on your machine. There is no server-side implementation, so there are no
+        account, team or state preconditions beyond the client having the
+        profile open, and nothing is recorded in the cloud.
+
+        - **Effect**: limited to local browser processes and windows. Profile
+        data, fingerprints and cloud cache are untouched.
+
+        - **Completion**: synchronous — the client answers once it has acted.
+
+        - **Availability**: Local API only. There is no Open API equivalent,
+        because the Open API has no local browser to operate on. Use the cloud
+        runtime endpoints instead.
+
+        - **Note**: because the client owns this, the response shape depends on
+        the installed client version rather than on a service contract.
+      tags:
+        - Runtime
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                envId:
+                  description: >-
+                    Environment ID or serial number — at least one must be
+                    provided; if both, envId takes precedence.
+                  type: string
+                uniqueId:
+                  description: >-
+                    Environment serial number — at least one of 'envId' or
+                    'uniqueId' must be provided; if both, 'envId' takes
+                    precedence.
+                  type: integer
+            example:
+              envId: '1869649942658850816'
+              uniqueId: 0
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an object with the fields `envId` and
+            `debugPort`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      envId:
+                        type: string
+                      debugPort:
+                        type: string
+                    required:
+                      - envId
+                      - debugPort
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+                required:
+                  - code
+                  - msg
+                  - data
+              example:
+                code: 0
+                msg: null
+                data:
+                  envId: '1673823102599682'
+                  debugPort: '9222'
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/create/quick:
+    post:
+      operationId: createBrowserProfileQuickLocal
+      summary: Quick create browser profile
+      deprecated: false
+      description: >-
+        Create 1 to 200 browser profiles that share one configuration.
+
+
+        - **Preconditions**: the team plan must have enough remaining profiles,
+        and the daily creation quota must not be exhausted. `isEncrypt=1`
+        requires the team to have an encryption key configured. Firefox is only
+        available on Windows and macOS. A `groupId` must already exist, but
+        passing `groupName` instead creates the group automatically.
+
+        - **Effect**: inserts the profiles, consumes plan capacity, and
+        increments the daily creation counter. Passing proxy connection details
+        can also create a proxy record.
+
+        - **Completion**: synchronous. `data` holds the new profile IDs in
+        creation order.
+
+        - **Retry**: not idempotent, and there is no idempotency key. Confirm
+        with `/env/page` instead of retrying.
+
+        - **Local API**: kernel candidates are filtered by the running desktop
+        client version, and concurrent calls from one team are serialized by a
+        team-level lock.
+
+
+        Documented business errors: `19002`, `19063`, `19064`, `19104`, `19106`,
+        `19107`, `19108`, `19111`, `19112`, `14023`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                browserTypeId:
+                  description: 1:Chrome, 2:Firefox
+                  type: integer
+                  example: 1
+                groupId:
+                  description: Environment group ID; default:ungrouped (0)
+                  type: string
+                  example: '0'
+                groupName:
+                  description: >-
+                    Group name (max 50 characters). If provided, the system
+                    first checks groupId: if a valid group is found, it is used;
+                    otherwise, it searches by groupName. If a group with that
+                    name exists, it is referenced; if not, a new group is
+                    created. Each team is limited to 1,000 groups.
+                  type: string
+                  maxLength: 50
+                  example: ''
+                isEncrypt:
+                  description: Enable end-to-end encryption? 0:No, 1:Yes; default:0
+                  type: integer
+                operatorSystemId:
+                  description: OS type 1:Windows, 2:macOS, 3:Android, 4:iOS
+                  type: integer
+                  example: 1
+                quantity:
+                  description: Number of environments to create; range:[1–50]
+                  type: integer
+                  minimum: 1
+                  maximum: 50
+                  example: 1
+                browserCore:
+                  description: >-
+                    Browser kernel version; default:0 (auto-match). Obtain
+                    available versions via '/api/env/advanced/ua/versions'
+                  type: integer
+                  example: 140
+                proxy:
+                  type: object
+                  properties:
+                    proxyId:
+                      description: Proxy ID
+                      type: string
+                    proxyName:
+                      description: Proxy name (maximum 600 characters)
+                      type: string
+                    proxyType:
+                      description: >-
+                        Proxy type, 0: http, 1: https. Cannot be empty when
+                        proxyProvider is 7/8
+                      type: integer
+                    proxyProvider:
+                      description: >-
+                        Proxy type 0: http, 1: https, 2: socks5, 3: ssh, 4:
+                        Oxylabs, 5: Proxys.io, 7: Luminati, 8: Lumauto, 9:
+                        Oxylabsauto, 10: Trojan, 11: Shadowsocks, 13: ABCPROXY,
+                        14: LunaProxy, 15: IPHTML, 16: PiaProxy, 17: 922S5, 18:
+                        360Proxy
+                      type: string
+                    proxyIp:
+                      description: >-
+                        Proxy IP. Can be empty when proxyProvider is 16/17/18;
+                        required for others
+                      type: string
+                    proxyPort:
+                      description: >-
+                        Proxy port (only numbers 1-65535 allowed). Can be empty
+                        when proxyProvider is 16/17/18; required for others
+                      type: integer
+                    username:
+                      description: Username (maximum 200 characters)
+                      type: string
+                    password:
+                      description: Password (maximum 100 characters)
+                      type: string
+                    refreshUrl:
+                      description: Refresh URL
+                      type: string
+                    country:
+                      description: >-
+                        Country code (e.g. `us`). See [Country Time Zone
+                        Table](/api-reference/appendix/country-time-zone) for
+                        supported codes. Required when proxyProvider is 16/17/18
+                      type: string
+                    city:
+                      description: City
+                      type: string
+                    state:
+                      description: State/Province
+                      type: string
+                    encryptionType:
+                      description: >-
+                        Encryption method. Cannot be empty when proxyProvider is
+                        11. 1: aes-128-gcm, 2: aes-192-gcm, 3: aes-256-gcm, 4:
+                        aes-128-cfb, 5: aes-192-cfb, 6: aes-256-cfb, 7:
+                        aes-128-ctr, 8: aes-192-ctr, 9: aes-256-ctr, 10:
+                        rc4-md5, 11: chacha20-ietf, 12: xchacha20, 13:
+                        chacha20-ietf-poly1305, 14: xchacha20-ietf-poly1305
+                      type: integer
+                    ipMonitor:
+                      description: 'Enable IP change monitoring? true: On, false: Off'
+                      type: boolean
+                    ipChangeAction:
+                      description: 'IP change monitoring 0: Block access, 1: Warn'
+                      type: integer
+                  description: Proxy information
+              required:
+                - browserTypeId
+                - operatorSystemId
+                - quantity
+            example:
+              browserTypeId: 1
+              operatorSystemId: 1
+              quantity: 1
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of strings, and an empty array when
+            there is nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: string
+                  requestId:
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data:
+                  - string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/create/advanced:
+    post:
+      operationId: createBrowserProfileAdvancedLocal
+      summary: Advanced create browser profile
+      deprecated: false
+      description: >-
+        Create one browser profile with a full fingerprint configuration.
+
+
+        - **Preconditions**: same plan and daily quota checks as quick create.
+        The profile name must be unique within the team, coordinates must fall
+        outside mainland China, and `advancedSetting.ua` must agree with
+        `uaVersion`. A supplied `proxyId` must already exist in the team.
+
+        - **Effect**: inserts the profile, its account credentials (encrypted at
+        rest) and post-start configuration; consumes plan capacity and the daily
+        creation counter. A custom platform URL also creates a site record.
+
+        - **Completion**: synchronous. `data` holds the new profile ID.
+
+        - **Retry**: not idempotent. A second call with the same explicit
+        `envName` fails on the uniqueness check; without a name it creates a
+        duplicate. There is no idempotency key. Do not retry blindly after a
+        timeout — query state first.
+
+        - **Local API**: kernel candidates are filtered by the running desktop
+        client version, and concurrent calls from one team are serialized by a
+        team-level lock.
+
+
+        Documented business errors: `19001`, `19002`, `19004`, `19005`, `19063`,
+        `19064`, `19100`, `19101`, `19102`, `19103`, `19104`, `19105`, `19106`,
+        `19107`, `19108`, `19109`, `19110`, `19111`, `19112`, `19141`, `19175`.
+        See [Error Codes](../Getting%20Started/error-codes.md) for what each
+        code means. Any operation can additionally return the common codes.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEnvironmentRequest'
+            example:
+              browserTypeId: 1
+              operatorSystemId: 1
+              isEncrypt: 1
+      responses:
+        '200':
+          description: Success. `data` is a single string value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: string
+                  requestId:
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/update:
+    post:
+      operationId: updateBrowserProfileLocal
+      summary: Modify browser profile
+      deprecated: false
+      description: >-
+        Update an existing browser profile. Only the fields present in the
+        request are changed.
+
+
+        - **Preconditions**: the profile must exist in the team. End-to-end
+        encrypted profiles cannot be updated. The operating system and browser
+        type cannot be changed. A running profile can be updated.
+
+        - **Effect**: writes the profile row, its expanded settings and cookies,
+        and merges the advanced fingerprint settings (existing values are kept
+        unless overwritten).
+
+        - **Completion**: synchronous.
+
+        - **Retry**: safe to repeat with the same body. Note there is no
+        optimistic locking: concurrent updates to one profile are
+        last-write-wins, and the fingerprint merge reads before it writes, so
+        concurrent callers can lose changes.
+
+
+        Documented business errors: `19001`, `19039`, `19104`, `19105`, `19106`,
+        `19107`, `19108`, `19142`, `19159`, `19160`, `19175`, `19193`. See
+        [Error Codes](../Getting%20Started/error-codes.md) for what each code
+        means. Any operation can additionally return the common codes.
+      tags:
+        - Profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEnvironmentRequest'
+            example:
+              browserTypeId: 1
+              operatorSystemId: 1
+              isEncrypt: 1
+              envId: '1661515884160372'
+      responses:
+        '200':
+          description: >-
+            Success. `data` is always null for this operation; the outcome is
+            carried by `code`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: 'null'
+                  requestId:
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data: null
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/removeToRecycleBin/batch:
+    post:
+      summary: Delete browser profile
+      operationId: batchDeleteBrowserProfilesUsingPOST
+      deprecated: false
+      description: >-
+        Move one or more browser profiles to the recycle bin.
+
+
+        - **Preconditions**: the profile must not already be in the recycle bin,
+        must not be running, and must not be mid-transfer. Close the browser
+        first.
+
+        - **Effect**: a soft delete. The row, fingerprint and cloud cache are
+        kept and the profile is flagged as recycled with a timestamp. Plan
+        capacity is released immediately, but the daily creation counter is not
+        refunded.
+
+        - **Completion**: synchronous.
+
+        - **Recovery**: restoring from the recycle bin is not exposed on the API
+        surface — use the MoreLogin client or web console.
+
+        - **Retry**: repeating the call reports the profile as already deleted;
+        it cannot double-delete.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - envIds
+              properties:
+                envIds:
+                  type: array
+                  description: List of environment (browser profile) IDs to delete.
+                  items:
+                    type: string
+                    example: '1868548141708648448'
+                  minItems: 1
+                  example:
+                    - '1868548141708648448'
+                    - '1868548141708648449'
+                removeEnvData:
+                  type: boolean
+                  description: |
+                    Also delete local configuration files?
+                    Supported in v2.28.0+.
+                  default: false
+                  example: false
+            example:
+              envIds:
+                - '1868548141708648448'
+              removeEnvData: false
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                  requestId:
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data: true
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/page:
+    post:
+      summary: Get a list of browser profiles
+      operationId: listBrowserProfilesUsingPOST
+      deprecated: false
+      description: >-
+        List the browser profiles visible to the authenticated member, page by
+        page.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Filtering**: `keyword` matches profile name, remark, tag name and
+        group name. `groupId` of `0` means ungrouped.
+
+        - **Note**: proxy passwords are withheld for ordinary members and for
+        platform or dynamic proxies.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                envName:
+                  type: string
+                  description: >-
+                    Filter by environment (profile) name. Empty string returns
+                    all.
+                  example: ''
+                groupId:
+                  type: string
+                  description: Filter by group ID. Use 0 for ungrouped profiles.
+                  default: 0
+                  example: '0'
+                envId:
+                  type: string
+                  description: |
+                    Filter by specific environment ID.
+                    If provided, other filters may be ignored.
+                  example: '1869988538611834880'
+                pageNo:
+                  type: integer
+                  description: Page number (1-based index).
+                  default: 1
+                  minimum: 1
+                  example: 1
+                pageSize:
+                  type: integer
+                  description: Number of items per page.
+                  default: 10
+                  minimum: 1
+                  maximum: 100
+                  example: 10
+            example:
+              pageNo: 1
+              pageSize: 10
+      responses:
+        '200':
+          description: >-
+            Success. `data.dataList` holds the records for the requested page
+            and is an empty array when there are no matches; `data.total`,
+            `data.current` and `data.pages` describe the paging.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: string
+                      current:
+                        type: string
+                      pages:
+                        type: string
+                      dataList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Browser profile ID
+                            envName:
+                              type: string
+                              description: Profile name
+                            groupId:
+                              type: string
+                              description: Group ID
+                            groupName:
+                              type:
+                                - string
+                                - 'null'
+                              description: Group name. `null` when the profile is ungrouped
+                            tagInfos:
+                              type: array
+                              description: >-
+                                Tag details. Empty array when no tags are
+                                assigned
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                    description: Tag ID
+                                  tagName:
+                                    type: string
+                                    description: Tag name
+                                required:
+                                  - id
+                                  - tagName
+                            envRemark:
+                              type:
+                                - string
+                                - 'null'
+                              description: Profile remark
+                            proxyId:
+                              type: string
+                              description: Proxy ID. `0` means no proxy
+                            proxy:
+                              type:
+                                - object
+                                - 'null'
+                              description: >-
+                                Proxy configuration. `null` when no proxy is
+                                assigned
+                              properties:
+                                id:
+                                  type: string
+                                  description: Proxy ID
+                                proxyName:
+                                  type: string
+                                  description: Proxy name
+                                proxyType:
+                                  type: integer
+                                  description: Proxy type
+                                proxyProvider:
+                                  type: integer
+                                  description: Proxy type
+                                proxyCategoryType:
+                                  type: integer
+                                  description: Proxy category type
+                                proxyCheckStatus:
+                                  type: integer
+                                  description: Proxy check status
+                                proxyStatus:
+                                  type: integer
+                                  description: Proxy status
+                                state:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: >-
+                                    Proxy state or province. Uses detected
+                                    exit-IP location when available, otherwise
+                                    the configured location; may be null or
+                                    empty.
+                                  example: California
+                                city:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: >-
+                                    Proxy city. Uses detected exit-IP location
+                                    when available, otherwise the configured
+                                    location; may be null or empty.
+                                  example: Los Angeles
+                                proxyPort:
+                                  type:
+                                    - integer
+                                    - 'null'
+                                  format: int32
+                                  description: >-
+                                    Proxy connection port, not a port inferred
+                                    from the proxy name. May be null when
+                                    unavailable.
+                                  example: 1080
+                                proxyIp:
+                                  type: string
+                                  description: Proxy IP address
+                                exportIp:
+                                  type: string
+                                  description: Export IP address
+                                countryCode:
+                                  type: string
+                                  description: Country code
+                                expiryTime:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: Expiry timestamp
+                                username:
+                                  type: string
+                                  description: Proxy username
+                                password:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: Proxy password
+                                refreshUrl:
+                                  type:
+                                    - string
+                                    - 'null'
+                                  description: Proxy refresh URL
+                    required:
+                      - total
+                      - current
+                      - pages
+                      - dataList
+                  requestId:
+                    type: string
+                required:
+                  - code
+                  - msg
+                  - data
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data:
+                  total: '1'
+                  current: '1'
+                  pages: '1'
+                  dataList:
+                    - id: '1673823102599682'
+                      envName: example-name
+                      groupId: '1673823102599682'
+                      groupName: example-name
+                      tagInfos:
+                        - id: '1673823102599682'
+                          tagName: example-name
+                      envRemark: example remark
+                      proxyId: '1673823102599682'
+                      proxy:
+                        id: '1673823102599682'
+                        proxyName: example-name
+                        proxyType: 1
+                        proxyProvider: 1
+                        proxyCategoryType: 1
+                        proxyCheckStatus: 1
+                        proxyStatus: 1
+                        state: California
+                        city: Los Angeles
+                        proxyPort: 1080
+                        proxyIp: string
+                        exportIp: '9222'
+                        countryCode: string
+                        expiryTime: '2026-09-01 12:00:00'
+                        username: example-name
+                        password: string
+                        refreshUrl: https://example.com/resource
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/detail:
+    post:
+      summary: Get browser profile details
+      operationId: getBrowserProfileDetailsUsingPOST
+      deprecated: false
+      description: >-
+        Return the full configuration of a single browser profile, including
+        advanced fingerprint settings and cookies.
+
+
+        - **Preconditions**: the profile must exist in the team and the caller
+        must be authorized for it.
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Note**: account passwords and 2FA secrets are only returned to the
+        team owner, or when the profile is not configured to hide them.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - envId
+              properties:
+                envId:
+                  type: string
+                  description: Target environment (browser profile) ID
+                  example: '1869988538611834880'
+            example:
+              envId: '1869988538611834880'
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an object with the fields `id`, `envName`,
+            `browserTypeId`, `operatorSystemId`, `groupId`, `groupName`, ….
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      envName:
+                        type: string
+                      browserTypeId:
+                        type: integer
+                      operatorSystemId:
+                        type: integer
+                      groupId:
+                        type: string
+                      groupName:
+                        type:
+                          - string
+                          - 'null'
+                        description: Group name. `null` when the profile is ungrouped
+                      tagInfos:
+                        type: array
+                        description: Tag details. Empty array when no tags are assigned
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: Tag ID
+                            tagName:
+                              type: string
+                              description: Tag name
+                          required:
+                            - id
+                            - tagName
+                      proxyId:
+                        type: string
+                      isEncrypt:
+                        type: integer
+                      envRemark:
+                        type: string
+                      uaVersion:
+                        type: integer
+                      browserCore:
+                        type: integer
+                      accountInfo:
+                        type: object
+                        properties:
+                          username:
+                            type: string
+                          password:
+                            type: string
+                          siteId:
+                            type: string
+                          platformId:
+                            type: string
+                          customerUrl:
+                            type: string
+                          otpSecret:
+                            type: 'null'
+                        required:
+                          - username
+                          - password
+                          - siteId
+                          - platformId
+                          - customerUrl
+                          - otpSecret
+                      isShowAccount:
+                        type: integer
+                      afterStartupConfig:
+                        type: object
+                        properties:
+                          afterStartup:
+                            type: integer
+                          autoOpenUrls:
+                            type: array
+                            items: {}
+                          platformUrl:
+                            type: 'null'
+                        required:
+                          - afterStartup
+                          - autoOpenUrls
+                          - platformUrl
+                      startupParams:
+                        type: 'null'
+                      cookies:
+                        type: 'null'
+                      advancedSetting:
+                        type: object
+                        properties: {}
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data:
+                  id: '1673823102599682'
+                  envName: example-name
+                  browserTypeId: 1
+                  operatorSystemId: 1
+                  groupId: '1673823102599682'
+                  groupName: example-name
+                  tagInfos:
+                    - id: '1673823102599682'
+                      tagName: example-name
+                  proxyId: '1673823102599682'
+                  isEncrypt: 1
+                  envRemark: example remark
+                  uaVersion: 1
+                  browserCore: 1
+                  accountInfo:
+                    username: example-name
+                    password: string
+                    siteId: '1673823102599682'
+                    platformId: '1673823102599682'
+                    customerUrl: https://example.com/resource
+                    otpSecret: null
+                  isShowAccount: 1
+                  afterStartupConfig:
+                    afterStartup: 1
+                    autoOpenUrls: []
+                    platformUrl: null
+                  startupParams: null
+                  cookies: null
+                  advancedSetting: {}
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/advanced/ua/versions:
+    get:
+      operationId: listAdvancedUaVersionsLocal
+      summary: Get a list of browser kernel versions
+      deprecated: false
+      description: >-
+        Return the published browser kernel and user-agent major versions.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Contents**: the Open API surface returns published kernels only,
+        while the Local API surface filters by the running client version, so
+        the two surfaces can return different sets. The list changes as new
+        kernels are published.
+
+        - **Note**: an upstream failure yields an empty list rather than an
+        error, so treat an empty result as inconclusive.
+
+        - **Local API**: the list is filtered by the running desktop client
+        version.
+      tags:
+        - Fingerprint & Device Config
+      parameters: []
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `browserType`
+            and `versions`, and an empty array when there is nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        browserType:
+                          type: integer
+                        versions:
+                          type: array
+                          items:
+                            type: integer
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data:
+                  - browserType: 1
+                    versions:
+                      - 1
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/advanced/ua/get:
+    post:
+      summary: Get browser profile UA
+      operationId: getBrowserProfileUAUsingPOST
+      deprecated: false
+      description: >-
+        Generate a user agent matching the requested operating system and
+        browser type.
+
+
+        - **Preconditions**: Firefox is only valid with Windows or macOS, and
+        `osVersion` must be one of the supported releases.
+
+        - **Effect**: none, but **the result is not deterministic** — the same
+        request returns a different user agent each time. Do not use it as a
+        cache key.
+
+        - **Completion**: synchronous. Safe to retry.
+      tags:
+        - Fingerprint & Device Config
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - os
+              properties:
+                os:
+                  type: integer
+                  description: |
+                    Operating system type.
+                    1 = Windows, 2 = macOS, 3 = Android, 4 = iOS
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                  example: 1
+                osVersion:
+                  type: string
+                  description: |
+                    OS version (e.g., "Windows 11", "macOS 14").
+                  example: Windows 11
+                vendor:
+                  type: integer
+                  description: |
+                    Browser type.
+                    1 = Chrome, 2 = Firefox
+                  enum:
+                    - 1
+                    - 2
+                  example: 1
+            example:
+              os: 1
+              osVersion: Windows 11
+              vendor: 1
+      responses:
+        '200':
+          description: >-
+            Success. `data` is always null for this operation; the outcome is
+            carried by `code`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: 'null'
+                  resolution:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      value:
+                        type: string
+                    required:
+                      - id
+                      - value
+                  ua:
+                    type: string
+                  requestId:
+                    type: string
+                  error:
+                    type: object
+                    properties: {}
+                required:
+                  - resolution
+                  - ua
+              example:
+                code: 0
+                msg: null
+                data: null
+                resolution:
+                  id: '1673823102599682'
+                  value: string
+                ua: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+                error: {}
+          headers: {}
+      security: []
+  /api/env/base/resolution/list:
+    post:
+      summary: Get resolution
+      operationId: listResolutionsUsingPOST
+      deprecated: false
+      description: >-
+        Return the screen resolutions available for a user agent or operating
+        system.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Contents**: served from the fingerprint base-data service, so the
+        list changes as that data is updated.
+      tags:
+        - Fingerprint & Device Config
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                os:
+                  type: integer
+                  description: OS type (1=Windows, 2=macOS, 3=Android, 4=iOS)
+                  example: 1
+                ua:
+                  type: string
+                  description: User-Agent string (optional)
+                  example: ''
+              required:
+                - os
+            example:
+              os: 1
+              ua: ''
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `id` and
+            `value`, and an empty array when there is nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        value:
+                          type: string
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data:
+                  - id: '1673823102599682'
+                    value: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/system/platform/list:
+    get:
+      operationId: listSystemPlatformsLocal
+      summary: Get configurable platforms
+      deprecated: false
+      description: >-
+        Return the platforms and sites that can be bound to a browser profile.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Contents**: system platforms and sites marked for display, plus the
+        calling team's own custom site URLs. It therefore changes both when
+        MoreLogin publishes new platforms and when your team adds a custom URL
+        through advanced create.
+      tags:
+        - Fingerprint & Device Config
+      parameters: []
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `id`,
+            `categoryId`, `groupName`, `groups`, `isCustomer`, `logo`, …, and an
+            empty array when there is nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Platform ID
+                        categoryId:
+                          type: string
+                          description: Category ID
+                        groupName:
+                          type: string
+                          description: Group name
+                        groups:
+                          type: string
+                          description: Group，0：Amazon
+                        isCustomer:
+                          type: boolean
+                          description: Whether to customize the platform
+                        logo:
+                          type: string
+                          description: Platform logo
+                        name:
+                          type: string
+                          description: Platform name
+                        orderNo:
+                          type: string
+                          description: Sort Number
+                        sites:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                description: Site ID
+                              host:
+                                type: string
+                                description: Site Domain Name
+                              name:
+                                type: string
+                                description: Size name
+                              nameBak:
+                                type: string
+                                description: Size name backup
+                              logo:
+                                type: string
+                                description: Logo
+                              url:
+                                type: string
+                                description: Size URL
+                              isDefault:
+                                type: boolean
+                              country:
+                                type: string
+                                description: Country
+                            required:
+                              - id
+                              - host
+                              - name
+                              - logo
+                              - nameBak
+                              - url
+                              - isDefault
+                              - country
+                          description: Sites information
+                      required:
+                        - id
+                        - categoryId
+                        - groupName
+                        - groups
+                        - isCustomer
+                        - logo
+                        - name
+                        - orderNo
+                        - sites
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data:
+                  - id: '1673823102599682'
+                    categoryId: '1673823102599682'
+                    groupName: example-name
+                    groups: string
+                    isCustomer: true
+                    logo: string
+                    name: example-name
+                    orderNo: string
+                    sites:
+                      - id: '1673823102599682'
+                        host: string
+                        name: example-name
+                        nameBak: example-name
+                        logo: string
+                        url: https://example.com/resource
+                        isDefault: true
+                        country: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/lock/query:
+    post:
+      summary: Get browser security lock status
+      operationId: queryBrowserLockStatusUsingPOST
+      deprecated: false
+      description: >-
+        Report whether a browser profile is currently held by another team
+        member.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Semantics**: `true` requires all of — the team has the security lock
+        feature enabled, a lock exists, and the holder is someone other than the
+        caller. A lock is held per member with an expiry, so it can lapse on its
+        own.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - envId
+              properties:
+                envId:
+                  type: string
+                  description: Unique environment (browser profile) ID
+                  example: '1869988538611834880'
+            example:
+              envId: '1869988538611834880'
+      responses:
+        '200':
+          description: Success. `data` is an object with the fields `envId` and `locked`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      envId:
+                        type: string
+                      locked:
+                        type: boolean
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data:
+                  envId: '1673823102599682'
+                  locked: true
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/base/list:
+    post:
+      summary: Get a list of timezone and language
+      operationId: listTimezoneAndLanguageUsingPOST
+      deprecated: false
+      description: >-
+        Return the time zones and languages available for browser profiles.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Note**: the response is currently independent of the request body —
+        the service does not forward the requested operating system or language
+        downstream, so the same list is returned regardless of input.
+      tags:
+        - Fingerprint & Device Config
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - os
+              properties:
+                os:
+                  type: integer
+                  description: |
+                    Operating system type.
+                    1 = Windows, 2 = macOS, 3 = Android, 4 = iOS
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                  example: 1
+            example:
+              os: 1
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an object with the fields `time_zone_list` and
+            `language_list`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      time_zone_list:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            value:
+                              type: string
+                      language_list:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            value:
+                              type: string
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data:
+                  time_zone_list:
+                    - id: '1673823102599682'
+                      value: string
+                  language_list:
+                    - id: '1673823102599682'
+                      value: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/removeLocalCache:
+    post:
+      summary: Clear local profile cache
+      operationId: clearLocalProfileCacheUsingPOST
+      deprecated: false
+      description: >-
+        Ask the local MoreLogin client to clear cached data for a browser
+        profile.
+
+
+        - **Preconditions**: identify the profile by `envId` or `uniqueId` and
+        select at least one cache type. Firefox profiles must select every type
+        at once.
+
+        - **Effect**: the service validates the request and records it; **the
+        deletion itself is performed by the desktop client on local disk.**
+        Cloud-side cache is untouched — use the cloud cache endpoint for that.
+
+        - **Completion**: the response confirms the request was accepted by the
+        service, not that local files were removed. No endpoint reports local
+        disk state.
+      tags:
+        - Cache & Window
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - envId
+              properties:
+                envId:
+                  type: string
+                  description: >
+                    Environment ID. Exactly one of `envId` or `uniqueId` must be
+                    provided.
+                localStorage:
+                  type: boolean
+                  description: Clear LocalStorage Default:false
+                  default: false
+                indexedDB:
+                  type: boolean
+                  description: Clear IndexedDB Default:false
+                  default: false
+                cookie:
+                  type: boolean
+                  description: Clear cookies Default:false
+                  default: false
+                extension:
+                  type: boolean
+                  description: |
+                    Clear extension data. If `extensionFile` is not provided,
+                    clears both extension name and data. Default:false
+                  default: false
+                extensionFile:
+                  type: boolean
+                  description: |
+                    Clear extension files (effective from v3.36).
+                  default: false
+            example:
+              envId: '1924340272932134912'
+              localStorage: false
+              indexedDB: false
+              cookie: false
+              extension: false
+              extensionFile: true
+      responses:
+        '200':
+          description: Success. `data` is an object with the fields `envId`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      envId:
+                        type: string
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+              example:
+                code: 0
+                msg: null
+                data:
+                  envId: '1673823102599682'
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+      security: []
+  /api/env/cache/cleanCloud:
+    post:
+      operationId: cleanCloudCacheLocal
+      summary: Clean Environment Cloud Cache
+      deprecated: false
+      description: >-
+        Clear the cloud-side cache of a browser profile.
+
+
+        - **Preconditions**: identify the profile by `envId` or `uniqueId`,
+        select at least one cache class, and the profile must not be
+        mid-transfer. Local client cache is untouched.
+
+        - **Effect**: clearing the general class removes cloud LocalStorage,
+        IndexedDB and extension data, unbinds the profile's extensions, and
+        **resets the profile encryption type**; clearing cookies resets the
+        cookie encryption type. Both changes are persisted, so an encrypted
+        profile becomes unencrypted for the cleared class.
+
+        - **Completion**: synchronous — the cloud storage service has accepted
+        and returned before the response. There is no task id to poll.
+
+
+        Documented business errors: `19039`, `19149`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Cache & Window
+      parameters:
+        - name: Accept-Language
+          in: header
+          description: Default request language
+          required: false
+          example: zh-CN
+          schema:
+            type: string
+            default: zh-CN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                cookie:
+                  description: Whether to clear cookies
+                  type: boolean
+                envId:
+                  description: Environment ID, must fill one with serial ID
+                  type: string
+                others:
+                  description: Whether to clear other cache
+                  type: boolean
+                uniqueId:
+                  description: Serial ID, must fill one with environment ID
+                  type: integer
+            example:
+              cookie: true
+              envId: '1661515884160372'
+              others: true
+        required: true
+      responses:
+        '200':
+          description: >-
+            Success. `data` is always null for this operation; the outcome is
+            carried by `code`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: 'null'
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data: null
+                requestId: ca3b32431c264b6c94187fde14d23229
+          headers: {}
+      security: []
+  /api/env/fingerprint/refresh:
+    post:
+      summary: Refresh fingerprint
+      operationId: refreshFingerprintUsingPOST
+      deprecated: false
+      description: >-
+        Regenerate the fingerprint of a browser profile.
+
+
+        - **Preconditions**: identify the profile by `envId` or `uniqueId`.
+        Encrypted profiles are rejected. A running profile is not blocked, but
+        the new fingerprint applies from the next start.
+
+        - **Effect**: generates a fresh fingerprint, randomises host name and
+        MAC address, and re-matches the browser kernel. Values supplied in the
+        request win over the generated ones.
+
+        - **Completion**: synchronous.
+
+        - **Retry**: **never retry automatically.** Each call produces a
+        different random fingerprint, so a blind retry after a timeout changes
+        the profile a second time. Compare `/env/detail` first.
+
+
+        Documented business errors: `19039`, `19104`, `19105`, `19106`, `19107`,
+        `19108`, `19111`, `19142`, `19193`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Fingerprint & Device Config
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - envId
+              properties:
+                envId:
+                  type: string
+                  description: >
+                    Profile ID (environment ID). Exactly one of `envId` or
+                    `uniqueId` must be provided.
+                uniqueId:
+                  type: string
+                  description: >
+                    Profile serial number (unique ID). Exactly one of `envId` or
+                    `uniqueId` must be provided.
+                uaVersion:
+                  type: integer
+                  description: |
+                    Target User-Agent version (e.g., Chrome 129). 
+                    If omitted, uses the current UA version from the profile.
+                  example: 129
+                browserTypeId:
+                  type: integer
+                  description: |
+                    Browser type. 1 = Chrome, 2 = Firefox.
+                  enum:
+                    - 1
+                    - 2
+                operatorSystemId:
+                  type: integer
+                  description: >
+                    Operating system type. 1 = Windows, 2 = macOS, 3 = Android,
+                    4 = iOS.
+                  enum:
+                    - 1
+                    - 2
+                    - 3
+                    - 4
+                advancedSetting:
+                  $ref: '#/components/schemas/AdvancedSetting'
+            example:
+              envId: '1869988538611834880'
+              uniqueId: ''
+              uaVersion: 129
+              browserTypeId: 1
+              operatorSystemId: 2
+              advancedSetting: {}
+      responses:
+        '200':
+          description: >-
+            Success. `data` is always null for this operation; the outcome is
+            carried by `code`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: 'null'
+                  requestId:
+                    type: string
+              example:
+                code: 0
+                msg: null
+                data: null
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/status:
+    post:
+      operationId: getBrowserProfileStatusLocal
+      summary: Get the browser profile running status
+      deprecated: false
+      description: >-
+        Return the live running state of one or more browser profiles.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Values**: each profile reports either `running` or `stopped`. This
+        is the completion signal for start and close operations.
+
+        - **Note**: ids that do not resolve are dropped silently; the call only
+        fails when none of them resolve.
+      tags:
+        - Runtime
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                envId:
+                  description: Browser environment ID
+                  type: string
+              required:
+                - envId
+            example:
+              envId: '1957985601221750784'
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an object with the fields `envId`, `debugPort`,
+            `status`, `localStatus` and `webdriver`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: object
+                    properties:
+                      envId:
+                        type: string
+                        description: env Id
+                      status:
+                        type: string
+                      localStatus:
+                        type: string
+                      debugPort:
+                        type: string
+                      webdriver:
+                        type: string
+                    required:
+                      - envId
+                      - debugPort
+                      - status
+                      - localStatus
+                      - webdriver
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+                required:
+                  - code
+                  - msg
+                  - data
+              example:
+                code: 0
+                msg: null
+                data:
+                  envId: '1673823102599682'
+                  status: '0'
+                  localStatus: '0'
+                  debugPort: '9222'
+                  webdriver: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/getAllScreen:
+    post:
+      operationId: getAllBrowserScreensLocal
+      summary: Get screen list
+      deprecated: false
+      description: >-
+        List the displays the client can arrange windows on.
+
+
+        - **Where it runs**: the MoreLogin desktop client handles this entirely
+        on your machine. There is no server-side implementation, so there are no
+        account, team or state preconditions beyond the client having the
+        profile open, and nothing is recorded in the cloud.
+
+        - **Effect**: limited to local browser processes and windows. Profile
+        data, fingerprints and cloud cache are untouched.
+
+        - **Completion**: synchronous — the client answers once it has acted.
+
+        - **Availability**: Local API only. There is no Open API equivalent,
+        because the Open API has no local browser to operate on. Use the cloud
+        runtime endpoints instead.
+
+        - **Note**: because the client owns this, the response shape depends on
+        the installed client version rather than on a service contract.
+      tags:
+        - Cache & Window
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example: {}
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `id`,
+            `scaleFactor`, `width`, `height`, `internal`, `x`, …, and an empty
+            array when there is nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Unique identifier of the screen
+                        scaleFactor:
+                          type: integer
+                          description: Screen scaling factor
+                        width:
+                          type: integer
+                          description: Screen pixel width
+                        height:
+                          type: integer
+                          description: Screen pixel height
+                        internal:
+                          type: boolean
+                          description: Indicates whether the screen is built-in
+                        x:
+                          type: integer
+                          description: >-
+                            Screen position on the X-axis in the virtual
+                            coordinate system
+                        'y':
+                          type: integer
+                          description: >-
+                            Screen position on the Y-axis in the virtual
+                            coordinate system
+                        current:
+                          type: boolean
+                          description: Identifier of the currently active screen
+                        realWidth:
+                          type: integer
+                          description: Actual physical width of the screen
+                        realHeight:
+                          type: integer
+                          description: Actual physical height of the screen
+                        workAreaWidth:
+                          type: integer
+                          description: Pixel width of the screen's work area
+                        workAreaHeight:
+                          type: integer
+                          description: Pixel height of the screen's work area
+                        workAreaRealWidth:
+                          type: integer
+                          description: Actual physical width of the work area
+                        workAreaRealHeight:
+                          type: integer
+                          description: Actual physical height of the work area
+                        rectWorkAreaWidth:
+                          type: integer
+                          description: Corrected width of the work area
+                        rectWorkAreaHeight:
+                          type: integer
+                          description: Corrected height of the work area
+                        rectWorkAreaRealWidth:
+                          type: integer
+                          description: Actual physical width of the corrected work area
+                        rectWorkAreaRealHeight:
+                          type: integer
+                          description: Actual physical height of the corrected work area
+                        rectWorkAreaX:
+                          type: integer
+                          description: X-axis position of the corrected work area
+                        rectWorkAreaY:
+                          type: integer
+                          description: Y-axis position of the corrected work area
+                        depthPerComponent:
+                          type: integer
+                          description: Color precision per pixel on the screen
+                        isPrimaryScreen:
+                          type: boolean
+                          description: Whether the screen is the primary display
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+              example:
+                code: 0
+                msg: null
+                data:
+                  - width: 1920
+                    height: 1080
+                    internal: false
+                    x: 0
+                    'y': 0
+                    current: true
+                    scaleFactor: 1
+                    id: '2528732444'
+                    realWidth: 1920
+                    realHeight: 1080
+                    workAreaWidth: 1920
+                    workAreaHeight: 1032
+                    rectWorkAreaWidth: 1920
+                    rectWorkAreaHeight: 1032
+                    rectWorkAreaRealWidth: 1920
+                    rectWorkAreaRealHeight: 1032
+                    rectWorkAreaX: 0
+                    rectWorkAreaY: 0
+                    depthPerComponent: 8
+                    workAreaRealWidth: 1920
+                    workAreaRealHeight: 1032
+                    isPrimaryScreen: true
+          headers: {}
+      security: []
+  /api/env/arrangeWindows:
+    post:
+      operationId: arrangeBrowserWindowsLocal
+      summary: One-click adaptive window arrangement
+      deprecated: false
+      description: >-
+        Arrange the windows of running browser profiles on screen.
+
+
+        - **Where it runs**: the MoreLogin desktop client handles this entirely
+        on your machine. There is no server-side implementation, so there are no
+        account, team or state preconditions beyond the client having the
+        profile open, and nothing is recorded in the cloud.
+
+        - **Effect**: limited to local browser processes and windows. Profile
+        data, fingerprints and cloud cache are untouched.
+
+        - **Completion**: synchronous — the client answers once it has acted.
+
+        - **Availability**: Local API only. There is no Open API equivalent,
+        because the Open API has no local browser to operate on. Use the cloud
+        runtime endpoints instead.
+
+        - **Note**: because the client owns this, the response shape depends on
+        the installed client version rather than on a service contract.
+      tags:
+        - Cache & Window
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                arrangeType:
+                  description: >-
+                    Arrangement type: 1 for Tiled, 2 for Stacked, defaults to
+                    Tiled if not specified
+                  type: integer
+                envIds:
+                  type: array
+                  items:
+                    type: string
+                  description: >-
+                    Environment IDs, if not specified, all environment windows
+                    are selected by default
+                screenIds:
+                  type: array
+                  items:
+                    type: integer
+                  description: >-
+                    Screen IDs, array type, if not specified, arrange on the
+                    screen where the mouse cursor is located
+            example:
+              arrangeType: 1
+              envIds:
+                - string
+              screenIds:
+                - 1
+        required: true
+      responses:
+        '200':
+          description: >-
+            Standard response envelope. Success is reported through `code`; this
+            operation does not document an additional payload.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                    description: Error message; null on success
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+                required:
+                  - code
+                  - msg
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/setGroup/batch:
+    post:
+      operationId: setBrowserGroupsBatchLocal
+      summary: Batch modify profiles group
+      deprecated: false
+      description: >-
+        Move browser profiles into a group by group name.
+
+
+        - **Preconditions**: provide at least one of `envIds` or `uniqueIds`;
+        `groupName` is required and at most 50 characters. There is no way to
+        clear a profile's group through this endpoint.
+
+        - **Effect**: the group is created automatically when the name does not
+        exist, which **counts against the 1000-group team limit** and fails once
+        that is reached. A profile belongs to exactly one group, so the previous
+        group is replaced. When your team authorizes access per group, a group
+        created here is also granted to you.
+
+        - **Completion**: synchronous. Group creation is serialized per team, so
+        concurrent calls with a new name do not create duplicates.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                envIds:
+                  type: array
+                  items:
+                    type: string
+                    description: >-
+                      Environment IDs, array type, must choose one between this
+                      and serial IDs
+                groupName:
+                  description: Group name, string type, required
+                  type: string
+                uniqueIds:
+                  type: array
+                  items:
+                    type: string
+                  description: >-
+                    Serial IDs, array type, must choose one between this and
+                    environment IDs
+              required:
+                - groupName
+            example:
+              groupName: example-name
+        required: true
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                  requestId:
+                    type: string
+                required:
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data: true
+                requestId: a416bb98f6d240c3bb79e7b2cf6e7ad4
+          headers: {}
+      security: []
+  /api/env/setProxy/batch:
+    post:
+      operationId: setBrowserProxiesBatchLocal
+      summary: Batch modify profiles proxy
+      deprecated: false
+      description: >-
+        Bind a proxy to multiple browser profiles.
+
+
+        - **Preconditions**: provide at least one of `envIds` or `uniqueIds`. A
+        supplied `proxyId` must already exist in the team, otherwise the call is
+        rejected rather than creating one.
+
+        - **Effect**: writes `proxyId` on each profile. When `proxyId` is
+        omitted or `0`, an existing proxy with identical connection details is
+        reused, and if none matches **a new proxy record is created in the
+        calling team**.
+
+        - **Completion**: synchronous. Running browsers keep the proxy they
+        started with.
+
+        - **Retry**: rebinding the same `proxyId` is idempotent, but repeating a
+        call that carries raw connection details can create another proxy record
+        each time deduplication misses.
+
+
+        Documented business errors: `19106`, `19193`, `14023`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                envIds:
+                  type: array
+                  items:
+                    type: string
+                  description: Choose one with serial IDs, must fill one
+                proxy:
+                  type: object
+                  properties:
+                    city:
+                      type: string
+                      description: City
+                    state:
+                      type: string
+                      description: State/Province
+                    country:
+                      type: string
+                      description: >-
+                        Country code (e.g. `us`). See [Country Time Zone
+                        Table](/api-reference/appendix/country-time-zone) for
+                        supported codes. Required when proxyProvider is 16/17/18
+                    encryptionType:
+                      type: integer
+                      description: >-
+                        Encryption method. Cannot be empty when proxyProvider is
+                        11. 1: aes-128-gcm, 2: aes-192-gcm, 3: aes-256-gcm, 4:
+                        aes-128-cfb, 5: aes-192-cfb, 6: aes-256-cfb, 7:
+                        aes-128-ctr, 8: aes-192-ctr, 9: aes-256-ctr, 10:
+                        rc4-md5, 11: chacha20-ietf, 12: xchacha20, 13:
+                        chacha20-ietf-poly1305, 14: xchacha20-ietf-poly1305
+                    proxyId:
+                      type: string
+                      description: Proxy ID
+                    proxyIp:
+                      description: >-
+                        Proxy IP. Can be empty when proxyProvider is 16/17/18;
+                        required for others
+                      type: string
+                    proxyPort:
+                      type: integer
+                      description: >-
+                        Proxy port (only numbers 1-65535 allowed). Can be empty
+                        when proxyProvider is 16/17/18; required for others
+                    proxyType:
+                      type: integer
+                      description: >-
+                        Proxy type, 0: http, 1: https. Cannot be empty when
+                        proxyProvider is 7/8
+                    proxyProvider:
+                      type: string
+                      description: >-
+                        Proxy type 0: http, 1: https, 2: socks5, 3: ssh, 4:
+                        Oxylabs, 5: Proxys.io, 7: Luminati, 8: Lumauto, 9:
+                        Oxylabsauto, 10: Trojan, 11: Shadowsocks, 13: ABCPROXY,
+                        14: LunaProxy, 15: IPHTML, 16: PiaProxy, 17: 922S5, 18:
+                        360Proxy
+                    proxyName:
+                      type: string
+                      description: Proxy name (maximum 600 characters)
+                    password:
+                      type: string
+                      description: Password (maximum 100 characters)
+                    refreshUrl:
+                      type: string
+                      description: Refresh URL
+                    ipMonitor:
+                      type: boolean
+                      description: 'Enable IP change monitoring? true: On, false: Off'
+                    ipChangeAction:
+                      type: integer
+                      description: 'IP change monitoring 0: Block access, 1: Warn'
+                    username:
+                      type: string
+                      description: Username (maximum 200 characters)
+                  required:
+                    - city
+                    - country
+                    - encryptionType
+                    - ipChangeAction
+                    - ipMonitor
+                    - password
+                    - proxyId
+                    - proxyIp
+                    - proxyName
+                    - proxyPort
+                    - proxyProvider
+                    - proxyType
+                    - refreshUrl
+                    - state
+                    - username
+                  description: >-
+                    Used to change the bound proxy for environments. If proxyId
+                    is provided, bind to the proxy represented by that ID;
+                    otherwise, bind to a newly added proxy. If proxy information
+                    remains unchanged, no rebinding occurs (any change in
+                    proxyIp, proxyPort, proxyType, or proxyProvider is
+                    considered a new proxy, and rebinding succeeds)
+                uniqueIds:
+                  type: array
+                  items:
+                    type: string
+                  description: Choose one with environment ID, must fill one
+              required:
+                - proxy
+            example:
+              proxy:
+                city: string
+                country: string
+                encryptionType: 1
+                ipChangeAction: 1
+                ipMonitor: true
+                password: string
+                proxyId: '1661515884160372'
+                proxyIp: string
+                proxyName: example-name
+                proxyPort: 1
+                proxyProvider: string
+                proxyType: 1
+                refreshUrl: https://example.com/resource
+                state: string
+                username: example-name
+        required: true
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                  requestId:
+                    type: string
+                required:
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data: true
+                requestId: d57cfecfc6904fcaa57da9f65b2a15fd
+          headers: {}
+      security: []
+  /api/env/setRemark/batch:
+    post:
+      operationId: setBrowserRemarksBatchLocal
+      summary: Batch modify profile remark
+      deprecated: false
+      description: >-
+        Set the remark on multiple browser profiles. An empty string clears it.
+
+
+        - **Preconditions**: provide at least one of `envIds` or `uniqueIds`;
+        the caller must be authorized for each profile.
+
+        - **Effect**: writes the remark field only.
+
+        - **Completion**: synchronous. Fully idempotent for the same body.
+      tags:
+        - Profiles
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                envIds:
+                  type: array
+                  items:
+                    type: string
+                  description: Environment IDs, must choose one between this and serial IDs
+                envRemark:
+                  description: Remark, required
+                  type: string
+                uniqueIds:
+                  type: array
+                  items:
+                    type: string
+                  description: Serial IDs, must choose one between this and environment IDs
+              required:
+                - envRemark
+            example:
+              envRemark: string
+        required: true
+      responses:
+        '200':
+          description: Success. `data` is a single boolean value.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: boolean
+                  requestId:
+                    type: string
+                required:
+                  - requestId
+              example:
+                code: 0
+                msg: null
+                data: true
+                requestId: 8172c8ff6ae048a9bb2546760832a460
+          headers: {}
+      security: []
+  /api/env/closeAll:
+    post:
+      operationId: closeAllBrowserProfilesLocal
+      summary: Close all opened profiles
+      deprecated: false
+      description: >-
+        Close every browser profile this client has running.
+
+
+        - **Where it runs**: the MoreLogin desktop client handles this entirely
+        on your machine. There is no server-side implementation, so there are no
+        account, team or state preconditions beyond the client having the
+        profile open, and nothing is recorded in the cloud.
+
+        - **Effect**: limited to local browser processes and windows. Profile
+        data, fingerprints and cloud cache are untouched.
+
+        - **Completion**: synchronous — the client answers once it has acted.
+
+        - **Availability**: Local API only. There is no Open API equivalent,
+        because the Open API has no local browser to operate on. Use the cloud
+        runtime endpoints instead.
+
+        - **Note**: because the client owns this, the response shape depends on
+        the installed client version rather than on a service contract.
+      tags:
+        - Runtime
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example: {}
+        required: true
+      responses:
+        '200':
+          description: >-
+            Success. This operation returns no payload; the outcome is carried
+            by `code`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+              example:
+                code: 0
+                msg: Closed successfully
+          headers: {}
+      security: []
+  /api/env/getAllProcessIds:
+    post:
+      operationId: getAllBrowserProcessIdsLocal
+      summary: Get process IDs of all opened profiles
+      deprecated: false
+      description: >-
+        List the process IDs of running browser profiles.
+
+
+        - **Where it runs**: the MoreLogin desktop client handles this entirely
+        on your machine. There is no server-side implementation, so there are no
+        account, team or state preconditions beyond the client having the
+        profile open, and nothing is recorded in the cloud.
+
+        - **Effect**: limited to local browser processes and windows. Profile
+        data, fingerprints and cloud cache are untouched.
+
+        - **Completion**: synchronous — the client answers once it has acted.
+
+        - **Availability**: Local API only. There is no Open API equivalent,
+        because the Open API has no local browser to operate on. Use the cloud
+        runtime endpoints instead.
+
+        - **Note**: because the client owns this, the response shape depends on
+        the installed client version rather than on a service contract.
+      tags:
+        - Runtime
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example: {}
+        required: true
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `envId`,
+            `uniqueId`, `envName` and `pid`, and an empty array when there is
+            nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        envId:
+                          type: string
+                          description: Environment ID
+                        uniqueId:
+                          type: integer
+                          description: Sequence ID
+                        envName:
+                          type: string
+                          description: Environment Name
+                        pid:
+                          type: integer
+                          description: pid
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+              example:
+                code: 0
+                msg: null
+                data:
+                  - envId: '2014664375044337664'
+                    uniqueId: 1788
+                    envName: P-1788
+                    pid: 22460
+          headers: {}
+      security: []
+  /api/env/getAllDebugInfo:
+    post:
+      operationId: getAllBrowserDebugInfoLocal
+      summary: Get remote debugging info for all opened profiles
+      deprecated: false
+      description: >-
+        List the debugging endpoints of running browser profiles.
+
+
+        - **Where it runs**: the MoreLogin desktop client handles this entirely
+        on your machine. There is no server-side implementation, so there are no
+        account, team or state preconditions beyond the client having the
+        profile open, and nothing is recorded in the cloud.
+
+        - **Effect**: limited to local browser processes and windows. Profile
+        data, fingerprints and cloud cache are untouched.
+
+        - **Completion**: synchronous — the client answers once it has acted.
+
+        - **Availability**: Local API only. There is no Open API equivalent,
+        because the Open API has no local browser to operate on. Use the cloud
+        runtime endpoints instead.
+
+        - **Note**: because the client owns this, the response shape depends on
+        the installed client version rather than on a service contract.
+      tags:
+        - Runtime
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example: {}
+        required: true
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `envId`,
+            `uniqueId`, `envName`, `debugPort`, `webdriver` and `pid`, and an
+            empty array when there is nothing to return.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        envId:
+                          type: string
+                          description: Environment ID
+                        uniqueId:
+                          type: integer
+                          description: ' Sequence ID'
+                        envName:
+                          type: string
+                          description: Environment Name
+                        debugPort:
+                          type: string
+                          description: Debug Port
+                        webdriver:
+                          type: string
+                          description: webdriver
+                        pid:
+                          type: integer
+                          description: pid
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+              example:
+                code: 0
+                msg: null
+                data:
+                  - envId: '2014664375044337664'
+                    uniqueId: 1788
+                    envName: P-1788
+                    debugPort: '63536'
+                    webdriver: >-
+                      C:\Users\EDY\AppData\Roaming\MoreLogin\env-kit\Core\chrome_64_142.9\webdriver.exe
+                    pid: 22460
+          headers: {}
+      security: []
+  /api/env/base/mobile/devices:
+    post:
+      operationId: listMobileDeviceModelsLocal
+      summary: Get phone model list
+      deprecated: false
+      description: >-
+        Return the mobile device models available for Android and iOS browser
+        profiles.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Contents**: the intersection of the MoreLogin device table and the
+        fingerprint base-data service. Models present in only one of the two are
+        omitted, and the returned `id` belongs to the fingerprint service, not
+        the device table.
+      tags:
+        - Fingerprint & Device Config
+      parameters: []
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an array of objects with the fields `id`, `name`,
+            `resolution`, `os` and `platform`, and an empty array when there is
+            nothing to return.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BrowserPhoneList'
+              example:
+                code: 0
+                msg: null
+                data:
+                  - id: '1673823102599682'
+                    name: example-name
+                    resolution: string
+                    os: 1
+                    platform: string
+                requestId: 0d8b6f1c-9f4e-4d02-9d1a-7c3f5a1b2c3d
+          headers: {}
+      security: []
+  /api/env/core/download:
+    post:
+      operationId: downloadBrowserKernelsLocal
+      summary: Download browser kernel
+      deprecated: false
+      description: >
+        Download and install browser kernel(s). Supports batch downloading up to
+        20 kernels per request. The timeout for this operation can be up to
+        approximately 30 minutes; callers should set their timeout to greater
+        than 1805 seconds.
+
+
+        Requires MoreLogin client version **2.61.1** or higher.
+
+
+        ### Duplicate Request Handling
+
+
+        - If the same browser type and major version appears multiple times in a
+        single request, only one lookup and download is performed, but each
+        entry gets its own result.
+
+        - Concurrent requests for the same version will join the in-flight task
+        instead of starting a new download.
+
+        - If the requested version is already installed with the latest minor
+        version, the status will be `already_installed`.
+
+        - If an older minor version is installed, it will be updated to the
+        latest available minor version.
+
+
+        ### Error Code Reference
+
+
+        | errorCode | Description |
+
+        |---|---|
+
+        | `INVALID_JSON` | Malformed JSON body |
+
+        | `INVALID_REQUEST` | Invalid request structure |
+
+        | `BATCH_LIMIT_EXCEEDED` | `Cores` array exceeds 20 items |
+
+        | `UNSUPPORTED_BROWSER_TYPE` | Unsupported browser type |
+
+        | `INVALID_VERSION` | Invalid version format |
+
+        | `METADATA_LOOKUP_FAILED` | Failed to query kernel metadata |
+
+        | `UNSUPPORTED_VERSION` | Kernel version does not exist or is not
+        supported on this platform |
+
+        | `CLIENT_NOT_READY` | Client not ready |
+
+        | `SDK_NOT_READY` | SDK not initialized |
+
+        | `INSUFFICIENT_DISK_SPACE` | Insufficient disk space |
+
+        | `DOWNLOAD_FAILED` | Download failed |
+
+        | `CHECKSUM_MISMATCH` | MD5 checksum verification failed |
+
+        | `EXTRACTION_FAILED` | Extraction or installation failed |
+
+        | `TIMEOUT` | Operation timed out |
+
+        | `UNKNOWN` | Unknown error |
+      tags:
+        - Runtime
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Cores:
+                  type: array
+                  description: List of kernels to download (1–20 items)
+                  items:
+                    type: object
+                    properties:
+                      BrowserType:
+                        type: integer
+                        description: Browser type. `1`:Chrome, `2`:Firefox
+                      Version:
+                        type: string
+                        description: Kernel major version number, e.g. `"124"`, `"146"`
+                    required:
+                      - BrowserType
+                      - Version
+              required:
+                - Cores
+            example:
+              Cores:
+                - BrowserType: 1
+                  Version: '124'
+      responses:
+        '200':
+          description: >-
+            Success. `data` is an object with the fields `total`, `succeeded`,
+            `failed` and `results`.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    description: >-
+                      Response code. `0`:all succeeded; `-1`:partial success;
+                      `-2`:all failed
+                  msg:
+                    type:
+                      - string
+                      - 'null'
+                    description: Request-level error message; normally `null` on success
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        description: Total number of requested tasks
+                      succeeded:
+                        type: integer
+                        description: >-
+                          Number of succeeded tasks (including already
+                          installed)
+                      failed:
+                        type: integer
+                        description: Number of failed tasks
+                      results:
+                        type: array
+                        description: >-
+                          Execution result for each input item, in the same
+                          order as the request
+                        items:
+                          type: object
+                          properties:
+                            index:
+                              type: integer
+                              description: >-
+                                Corresponding index in the `Cores` array
+                                (0-based)
+                            browserType:
+                              type:
+                                - integer
+                                - 'null'
+                              description: Browser type
+                            requestedVersion:
+                              type:
+                                - string
+                                - 'null'
+                              description: The requested major version
+                            resolvedVersion:
+                              type: string
+                              description: >-
+                                The actual full version resolved; returned on
+                                success or when metadata is resolved
+                            status:
+                              type: string
+                              description: >-
+                                Task status:`installed`, `already_installed`, or
+                                `failed`
+                            source:
+                              type: string
+                              description: >-
+                                Download source:`downloaded`,
+                                `already_installed`, or `joined_in_flight`
+                            errorCode:
+                              type: string
+                              description: >-
+                                Stable error classification code returned on
+                                failure
+                            serverCode:
+                              type: integer
+                              description: >-
+                                Optional. Original business error code from the
+                                platform service
+                            msg:
+                              type: string
+                              description: >-
+                                Display message; may vary by client language. Do
+                                not use for programmatic result checking
+                    required:
+                      - total
+                      - succeeded
+                      - failed
+                      - results
+                  requestId:
+                    type: string
+                    description: >-
+                      Unique request identifier; include it when contacting
+                      support
+                required:
+                  - code
+                  - data
+              example:
+                code: 0
+                msg: null
+                data:
+                  total: 1
+                  succeeded: 1
+                  failed: 0
+                  results:
+                    - index: 0
+                      browserType: 1
+                      requestedVersion: '124'
+                      resolvedVersion: '124.5'
+                      status: installed
+                      source: downloaded
+                      msg: Download successful
+          headers: {}
+      security: []
+  /api/cloudbrowser/start:
+    post:
+      summary: Start cloud runtime
+      description: >-
+        Start a browser profile as a cloud runtime.
+
+
+        - **Preconditions**: the profile must exist in your team and must not be
+        end-to-end encrypted or mid-transfer. **A proxy is required** and its
+        reachability is checked before the start is accepted. The browser kernel
+        must be one the cloud browser supports, which rules out Firefox. Team
+        open limits are enforced, and on deployments with cloud-browser billing
+        enabled the AI credit balance is checked too.
+
+        - **One run per profile**: a member may hold only one active run for a
+        profile. When the team enables the security lock, another member's run
+        blocks yours.
+
+        - **Completion**: **accepted, not complete.** `data` is empty; the
+        runtime is provisioned asynchronously. Poll `/cloudbrowser/page` until
+        `cloudBrowserStatus` is `RUNNING`, then call `/cloudbrowser/connect` for
+        `cdpUrl`. A start can be accepted and still fail later, which surfaces
+        on that page.
+
+        - **Concurrency**: concurrent starts for one profile are serialized by a
+        lock; the loser is rejected rather than queued.
+
+        - **Retry**: after a timeout, read `/cloudbrowser/page` — do not resend.
+
+
+        Documented business errors: `19039`, `19065`, `40001`, `40003`, `40015`,
+        `40016`, `40021`, `40023`, `40024`, `40025`, `40026`, `40027`, `40028`,
+        `40029`, `40037`. See [Error Codes](../Getting%20Started/error-codes.md)
+        for what each code means. Any operation can additionally return the
+        common codes.
+      operationId: startCloudRuntimeLocal
+      tags:
+        - Cloud Runtime
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudBrowserStartRequest'
+            example:
+              envId: '1800000000000001'
+      responses:
+        '200':
+          $ref: '#/components/responses/VoidDataResponse'
+      security: []
+  /api/cloudbrowser/stop:
+    post:
+      summary: Stop cloud runtime
+      description: >-
+        Stop the cloud runtime a profile is running in.
+
+
+        - **Preconditions**: there must be an active run started by you for that
+        profile. Calling it while the runtime is already stopped or releasing
+        succeeds without doing anything.
+
+        - **Effect**: stops billing, settles usage, releases the profile lock,
+        and asks the client to archive the profile and cookies back to the cloud
+        before the runtime is released.
+
+        - **Completion**: **accepted, not complete.** Poll `/cloudbrowser/page`
+        until `cloudBrowserStatus` is `CLOSED` and `cloudBrowserArchiveStatus`
+        reaches `COMPLETED` or `FAILED`.
+
+        - **When archiving fails**: the run stays billable and still shows as
+        `RUNNING`. `force` is honoured **only** in that state: it skips
+        archiving and releases the runtime, which discards this session's
+        profile changes.
+
+        - **Concurrency**: concurrent stops for one run are serialized, so a
+        duplicate call is safe.
+
+
+        Documented business errors: `40002`, `40006`, `40008`, `40020`. See
+        [Error Codes](../Getting%20Started/error-codes.md) for what each code
+        means. Any operation can additionally return the common codes.
+      operationId: stopCloudRuntimeLocal
+      tags:
+        - Cloud Runtime
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudBrowserStopRequest'
+            example:
+              envId: '1800000000000001'
+              force: false
+      responses:
+        '200':
+          $ref: '#/components/responses/VoidDataResponse'
+      security: []
+  /api/cloudbrowser/page:
+    post:
+      summary: Page cloud runtimes
+      description: >-
+        List browser profiles together with the cloud runtime state for the
+        calling member.
+
+
+        - **Effect**: none. Read-only. Safe to retry with bounded backoff.
+
+        - **Status values**: `cloudBrowserStatus` is only ever `STARTING`,
+        `RUNNING` or `CLOSED`. **`RUNNING` does not mean the browser is usable**
+        — a runtime that is stopping, archiving, or that failed to stop is also
+        reported as `RUNNING`. `cloudBrowserArchiveStatus` (`PENDING`,
+        `ARCHIVING`, `COMPLETED`, `FAILED`) tells the two apart and is null when
+        there is no activity.
+
+        - **Consistency**: the runtime lookup is all-or-nothing. If it cannot be
+        resolved for the whole page the call fails rather than returning partial
+        data.
+      operationId: pageCloudRuntimesLocal
+      tags:
+        - Cloud Runtime
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudBrowserPageRequest'
+            example:
+              pageNo: 1
+              pageSize: 10
+              keyword: marketing
+      responses:
+        '200':
+          $ref: '#/components/responses/CloudBrowserPageResponse'
+      security: []
+  /api/cloudbrowser/connect:
+    post:
+      summary: Connect cloud runtime
+      description: >-
+        Return the connection details for a running cloud runtime.
+
+
+        - **Preconditions**: the runtime must be exactly in the `RUNNING` state
+        and must have been started by you. A runtime that is stopping or
+        archiving is rejected even though `/cloudbrowser/page` still reports
+        `RUNNING`.
+
+        - **Effect**: mints a fresh desktop access token and records you as the
+        connected member.
+
+        - **Repeat calls**: the returned `cdpUrl` is stable and existing CDP
+        sessions keep working, but each call issues a new desktop token and
+        overwrites the recorded connected member. **Earlier desktop URLs are not
+        revoked**, so treat every returned URL as a live credential: do not log
+        or persist them.
+
+        - **Session limit**: the runtime is stopped automatically once it
+        reaches its maximum duration, and archiving starts shortly before that,
+        so a long-lived automation run must handle the runtime disappearing.
+
+        - **Use**: attach Puppeteer, Playwright or Selenium to `cdpUrl`.
+
+
+        Documented business errors: `40008`, `40009`, `40010`. See [Error
+        Codes](../Getting%20Started/error-codes.md) for what each code means.
+        Any operation can additionally return the common codes.
+      operationId: connectCloudRuntimeLocal
+      tags:
+        - Cloud Runtime
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CloudBrowserConnectRequest'
+            example:
+              envId: '1800000000000001'
+      responses:
+        '200':
+          $ref: '#/components/responses/CloudBrowserConnectResponse'
+      security: []
+components:
+  schemas:
+    CreateEnvironmentRequest:
+      allOf:
+        - $ref: '#/components/schemas/EnvironmentBase'
+        - type: object
+          required:
+            - browserTypeId
+            - operatorSystemId
+          properties:
+            proxy:
+              type: object
+              properties:
+                proxyId:
+                  description: Proxy ID
+                  type: string
+                proxyName:
+                  description: Proxy name (maximum 600 characters)
+                  type: string
+                proxyType:
+                  description: >-
+                    Proxy type, 0: http, 1: https. Cannot be empty when
+                    proxyProvider is 7/8
+                  type: integer
+                proxyProvider:
+                  description: >-
+                    Proxy type 0: http, 1: https, 2: socks5, 3: ssh, 4: Oxylabs,
+                    5: Proxys.io, 7: Luminati, 8: Lumauto, 9: Oxylabsauto, 10:
+                    Trojan, 11: Shadowsocks, 13: ABCPROXY, 14: LunaProxy, 15:
+                    IPHTML, 16: PiaProxy, 17: 922S5, 18: 360Proxy
+                  type: string
+                proxyIp:
+                  description: >-
+                    Proxy IP. Can be empty when proxyProvider is 16/17/18;
+                    required for others
+                  type: string
+                proxyPort:
+                  description: >-
+                    Proxy port (only numbers 1-65535 allowed). Can be empty when
+                    proxyProvider is 16/17/18; required for others
+                  type: integer
+                username:
+                  description: Username (maximum 200 characters)
+                  type: string
+                password:
+                  description: Password (maximum 100 characters)
+                  type: string
+                refreshUrl:
+                  description: Refresh URL
+                  type: string
+                country:
+                  description: >-
+                    Country code (e.g. `us`). See [Country Time Zone
+                    Table](/api-reference/appendix/country-time-zone) for
+                    supported codes. Required when proxyProvider is 16/17/18
+                  type: string
+                city:
+                  description: City
+                  type: string
+                state:
+                  description: State/Province
+                  type: string
+                encryptionType:
+                  description: >-
+                    Encryption method. Cannot be empty when proxyProvider is 11.
+                    1: aes-128-gcm, 2: aes-192-gcm, 3: aes-256-gcm, 4:
+                    aes-128-cfb, 5: aes-192-cfb, 6: aes-256-cfb, 7: aes-128-ctr,
+                    8: aes-192-ctr, 9: aes-256-ctr, 10: rc4-md5, 11:
+                    chacha20-ietf, 12: xchacha20, 13: chacha20-ietf-poly1305,
+                    14: xchacha20-ietf-poly1305
+                  type: integer
+                ipMonitor:
+                  description: 'Enable IP change monitoring? true: On, false: Off'
+                  type: boolean
+                ipChangeAction:
+                  description: 'IP change monitoring 0: Block access, 1: Warn'
+                  type: integer
+              description: Proxy information
+    UpdateEnvironmentRequest:
+      allOf:
+        - $ref: '#/components/schemas/EnvironmentBase'
+        - type: object
+          required:
+            - envId
+          properties:
+            envId:
+              type: string
+              description: Environment ID
+    EnvironmentBase:
+      type: object
+      properties:
+        browserTypeId:
+          type: integer
+          description: Browser type ID; 1=Chrome, 2=Firefox
+        operatorSystemId:
+          type: integer
+          description: OS type ID; 1:Windows 2:macOS 3:Android 4:IOS 5:Linux
+        isEncrypt:
+          type: integer
+          description: Whether to encrypt the profile; 0=No, 1=Yes
+        startupParams:
+          type: array
+          items:
+            type: string
+          description: Additional browser startup parameters
+        accountInfo:
+          description: Account information
+          $ref: '#/components/schemas/AccountInfo'
+        advancedSetting:
+          description: Advanced browser fingerprint settings
+          $ref: '#/components/schemas/AdvancedSetting'
+        afterStartupConfig:
+          description: Configurations after startup
+          $ref: '#/components/schemas/AfterStartupConfig'
+        browserCore:
+          type: integer
+          description: >-
+            Kernel version; default:0 (auto-match). Fetch available versions via
+            `/api/env/advanced/ua/versions`.
+        cookies:
+          type: string
+          description: Cookie string to preload (optional)
+        envName:
+          type: string
+          description: Environment name
+        envRemark:
+          type: string
+          description: Environment remark; max length:1500 chars
+        groupId:
+          type: string
+          description: Environment group ID; default:ungrouped (0)
+        groupName:
+          type: string
+          maxLength: 50
+          description: >-
+            Group name (max 50 characters). If provided, the system first checks
+            groupId: if a valid group is found, it is used; otherwise, it
+            searches by groupName. If a group with that name exists, it is
+            referenced; if not, a new group is created. Each team is limited to
+            1,000 groups.
+        proxyId:
+          type: string
+          description: Proxy ID; default:0
+        tagIds:
+          type: array
+          items:
+            type: string
+          description: Tag IDs; default:none
+        uaVersion:
+          type: integer
+          description: UA preset version; default:0 (all)
+        disableAudio:
+          type: integer
+          description: Disable audio:0 = off, 1 = on
+        disableImg:
+          type: integer
+          description: Disable image loading:0 = off, 1 = on
+        disableVideo:
+          type: integer
+          description: Disable video loading:0 = off, 1 = on
+        imgLimitSize:
+          type: integer
+          description: Max image size (KB)
+    AccountInfo:
+      type: object
+      properties:
+        customerUrl:
+          type: string
+          description: >-
+            Custom platform URL — required if platformId=9999, must be a valid
+            URL
+        password:
+          type: string
+          description: Password; max length:50 characters
+        platformId:
+          type: string
+          description: >-
+            Platform ID; use 9999 for custom URL. Refer to
+            /api/system/platform/list.
+        siteId:
+          type: string
+          description: >-
+            Site ID; obtain via ""Get Configurable Platforms"" API
+            (/api/system/platform/list)
+        username:
+          type: string
+          maxLength: 64
+          description: Username; max length:64 characters
+    AdvancedSetting:
+      type: object
+      description: Advanced browser fingerprint and behavior configuration.
+      properties:
+        ua:
+          type: string
+          description: >
+            Customize the profile User-Agent (UA). Must follow standard UA
+            format.
+
+            Available via the “Get Browser UA” API.
+        time_zone:
+          description: Timezone settings
+          $ref: '#/components/schemas/TimeZoneConfig'
+        web_rtc:
+          description: WebRTC settings
+          $ref: '#/components/schemas/WebRTCConfig'
+        geo_location:
+          description: Geolocation settings
+          $ref: '#/components/schemas/GeoLocationConfig'
+        language:
+          description: Language
+          $ref: '#/components/schemas/LanguageConfig'
+        resolution:
+          description: Resolution settings
+          $ref: '#/components/schemas/ResolutionConfig'
+        font:
+          description: Font settings
+          $ref: '#/components/schemas/FontConfig'
+        canvas:
+          description: Canvas fingerprinting setting
+          $ref: '#/components/schemas/CanvasConfig'
+        webgl_image:
+          description: WebGL image settings
+          $ref: '#/components/schemas/WebGLImageConfig'
+        webgl_metadata:
+          description: WebGL metadata settings
+          $ref: '#/components/schemas/WebGLMetadataConfig'
+        audio_context:
+          description: 'AudioContext: 1 = noise, 2 = authentic'
+          $ref: '#/components/schemas/AudioContextConfig'
+        media_device:
+          description: 'Media device: 1 = noise, 2 = authentic'
+          $ref: '#/components/schemas/MediaDeviceConfig'
+        client_rects:
+          description: 'ClientRects: 1 = noise, 2 = authentic'
+          $ref: '#/components/schemas/ClientRectsConfig'
+        speech_voise:
+          description: 'Speech voice: 1 = privacy, 2 = authentic'
+          $ref: '#/components/schemas/SpeechVoiseConfig'
+        hardware_concurrency:
+          type: integer
+          description: |
+            Simulated number of logical CPU cores.
+            default:4. Options: 0 (real), 2, 3, 4, 6, 8, 10, 12.
+        memery_device:
+          type: integer
+          description: |
+            Simulated device memory (GB).
+            default:8. Options: 0 (real), 2, 4, 6, 8.
+        do_not_track:
+          type: integer
+          description: Do Not Track setting. Default:2. 1 = on, 2 = off.
+        bluetooth:
+          description: 'Bluetooth: 1 = privacy, 2 = authentic'
+          $ref: '#/components/schemas/BluetoothConfig'
+        battery:
+          description: 'Battery: 1 = privacy, 2 = authentic'
+          $ref: '#/components/schemas/BatteryConfig'
+        port_scan_protection:
+          description: Port scan protection
+          $ref: '#/components/schemas/PortScanProtectionConfig'
+        os_version:
+          type: string
+          description: macOS system version (e.g., macOS 12, macOS 13, macOS 14).
+        web_gpu:
+          description: WebGPU settings
+          $ref: '#/components/schemas/WebGPUConfig'
+        ciphers:
+          description: Cipher suite configurations
+          $ref: '#/components/schemas/CiphersConfig'
+        mobile_device:
+          type: string
+          description: |
+            Phone model ID (as string). Obtain via "Get Phone Model List" API.
+            Example: "1826502391344832512"
+    TimeZoneConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Timezone option. Default:1. 1 = Match IP, 2 = Custom.
+        value:
+          type: string
+          description: |
+            Required when switcher=2.
+            Timezone ID from “Get Timezone & Language List” API.
+    WebRTCConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: >
+            WebRTC policy. Default:2. 1 = Privacy, 2 = Replacement, 3 = Real, 4
+            = Disabled, 5 = Forwarding.
+    GeoLocationConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Geolocation policy. Default:1. 1 = Prompt, 2 = Disabled.
+        base_on_ip:
+          type: boolean
+          description: >-
+            Generate location based on IP? Default:true. true = prompt, false =
+            manual.
+        latitude:
+          type: number
+          format: float
+          description: Latitude. Required if base_on_ip=false.
+        longitude:
+          type: number
+          format: float
+          description: Longitude. Required if base_on_ip=false.
+        accuracy:
+          type: number
+          format: float
+          description: Accuracy in meters. Required if base_on_ip=false.
+    LanguageConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Language policy. Default:1. 1 = Match IP, 2 = Custom.
+        value:
+          type: string
+          description: >
+            Required when switcher=2.
+
+            Comma-separated language IDs from “Get Timezone & Language List”
+            API.
+    ResolutionConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Resolution policy. Default:1. 1 = Real, 2 = Custom.
+        id:
+          type: string
+          description: |
+            Required when switcher=2.
+            Resolution ID from “Get Resolution List” API.
+    FontConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Font policy. Default:1. 1 = Real, 2 = Custom.
+        value:
+          type: string
+          description: Comma-separated custom font names (required if switcher=2).
+    CanvasConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Canvas policy. Default:1. 1 = Noise, 2 = Real.
+    WebGLImageConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: WebGL image policy. Default:1. 1 = Noise, 2 = Real.
+    WebGLMetadataConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: >-
+            WebGL metadata policy. Default:3. 1 = Real, 2 = Disable HW
+            acceleration, 3 = Custom.
+        provider:
+          type: string
+          description: WebGL renderer brand string (e.g., "Google Inc.")
+        render:
+          type: string
+          description: WebGL renderer string (e.g., "ANGLE (...)")
+    AudioContextConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: AudioContext policy. Default:1. 1 = Noise, 2 = Realistic.
+    MediaDeviceConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Media device policy. Default:1. 1 = Noise, 2 = Real.
+    ClientRectsConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: ClientRects policy. Default:1. 1 = Noise, 2 = Real.
+    SpeechVoiseConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: SpeechVoices policy. Default:1. 1 = Privacy, 2 = Real
+    BluetoothConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Bluetooth policy. Default:1. 1 = Privacy, 2 = Authenticity.
+    BatteryConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Battery policy. Default:1. 1 = Privacy, 2 = Authenticity.
+    PortScanProtectionConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: Port scan protection. Default:1. 1 = On, 2 = Off.
+        value:
+          type: string
+          description: Allowed local network ports to connect (comma-separated).
+    WebGPUConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: >-
+            WebGPU policy. Default:1. 1 = WebGL-based matching, 2 = true, 3 =
+            disabled.
+    AfterStartupConfig:
+      type: object
+      properties:
+        afterStartup:
+          type: integer
+          format: int32
+          description: |
+            Action after startup. Default:1.
+            1 = Continue last page,
+            2 = Open specified URLs,
+            3 = Open URLs + platform,
+            4 = Continue last page + platform.
+        autoOpenUrls:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: List of valid URLs to open automatically (required for options 2–3).
+    CiphersConfig:
+      type: object
+      properties:
+        switcher:
+          type: integer
+          description: TLS cipher policy. Default:1. 1 = Default, 2 = Custom.
+        value:
+          type: string
+          description: >
+            Required when switcher=2.
+
+            Comma-separated list of TLS protocols to disable (e.g.,
+            "TLSv1,TLSv1.1").
+    BrowserPhoneList:
+      type: object
+      properties:
+        code:
+          description: Return result code 0:Normal Other codes are exceptions.
+          type: integer
+        msg:
+          description: Error message
+          type:
+            - string
+            - 'null'
+        data:
+          description: Response data
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              resolution:
+                type: string
+              os:
+                type: integer
+              platform:
+                type: string
+        requestId:
+          description: Operation request ID
+          type: string
+      required:
+        - code
+        - msg
+        - data
+        - requestId
+    EnvironmentId:
+      type: string
+      pattern: ^[1-9]\d*$
+      description: >
+        Browser profile (environment) ID. Serialized as a decimal string to
+        avoid JavaScript
+
+        precision loss on 64-bit integers.
+      example: '1800000000000001'
+    CloudBrowserStartRequest:
+      type: object
+      properties:
+        envId:
+          $ref: '#/components/schemas/EnvironmentId'
+      required:
+        - envId
+    ApiResponseBase:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: >-
+            Return result code. `0` means success; other codes indicate
+            exceptions.
+          example: 0
+        msg:
+          type:
+            - string
+            - 'null'
+          description: Error message. Usually `null` on success.
+          example: null
+        requestId:
+          type: string
+          description: >-
+            Operation request ID. This field may be present when the request
+            passes through the API gateway.
+          example: 1d4f3ea968664593860b94b35d4ebf5e
+      required:
+        - code
+        - msg
+    CloudBrowserStopRequest:
+      type: object
+      properties:
+        envId:
+          $ref: '#/components/schemas/EnvironmentId'
+        force:
+          type: boolean
+          description: >
+            Whether to forcibly release the cloud runtime. Only takes effect
+            when the current run has
+
+            an archive status of `FAILED`; in that case the archive step is
+            skipped and runtime
+
+            resources are reclaimed. Ignored in all other cases.
+          default: false
+          example: false
+      required:
+        - envId
+    CloudBrowserPageRequest:
+      type: object
+      properties:
+        uniqueIds:
+          type: array
+          description: Environment sequence numbers. Up to 100 items.
+          maxItems: 100
+          items:
+            type: integer
+            format: int32
+          example:
+            - 1001
+            - 1002
+        envId:
+          allOf:
+            - $ref: '#/components/schemas/EnvironmentId'
+          description: Environment ID. The request also accepts the field alias `id`.
+        envName:
+          type: string
+          description: Environment name.
+          example: marketing-01
+        keyword:
+          type: string
+          description: >-
+            Keyword filter. Matches environment name, group name, tag name, and
+            remark.
+          example: marketing
+        groupId:
+          type: string
+          pattern: ^\d+$
+          description: Group ID. `0` means ungrouped.
+          example: '0'
+        pageNo:
+          type: integer
+          format: int64
+          description: Current page number, starting from 1. Default is 1.
+          minimum: 1
+          default: 1
+          example: 1
+        pageSize:
+          type: integer
+          format: int64
+          description: Number of items per page. Default is 10, maximum 100.
+          minimum: 1
+          maximum: 100
+          default: 10
+          example: 10
+      required:
+        - pageNo
+        - pageSize
+    CloudBrowserStatus:
+      type: string
+      description: |
+        Cloud runtime status:
+        - `STARTING` — starting up
+        - `RUNNING` — running and ready to connect
+        - `CLOSED` — not started, closed, or failed to start
+      enum:
+        - STARTING
+        - RUNNING
+        - CLOSED
+      example: RUNNING
+    CloudBrowserArchiveStatus:
+      type:
+        - string
+        - 'null'
+      description: >
+        Archive status of the current cloud run. `null` when there is no active
+        run record:
+
+        - `PENDING` — pending archive
+
+        - `ARCHIVING` — archiving
+
+        - `COMPLETED` — archive completed
+
+        - `FAILED` — archive failed
+      enum:
+        - PENDING
+        - ARCHIVING
+        - COMPLETED
+        - FAILED
+        - null
+      example: null
+    CloudBrowserPageItem:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EnvironmentId'
+        envName:
+          type: string
+          description: Environment name.
+          example: marketing-01
+        proxyId:
+          type:
+            - string
+            - 'null'
+          pattern: ^\d+$
+          description: >-
+            Proxy ID currently bound to the profile. `null` when no proxy is
+            configured.
+          example: '1800000000000101'
+        cloudBrowserStatus:
+          $ref: '#/components/schemas/CloudBrowserStatus'
+        cloudBrowserArchiveStatus:
+          $ref: '#/components/schemas/CloudBrowserArchiveStatus'
+        startDate:
+          type:
+            - string
+            - 'null'
+          pattern: ^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$
+          description: >-
+            Cloud runtime start time. `null` while starting, or when not started
+            or closed.
+          example: '2026-01-15 10:30:00'
+      required:
+        - id
+        - envName
+        - cloudBrowserStatus
+    CloudBrowserPageData:
+      type: object
+      properties:
+        total:
+          type: string
+          pattern: ^\d+$
+          description: Total number of records.
+          example: '42'
+        current:
+          type: string
+          pattern: ^\d+$
+          description: Current page number.
+          example: '1'
+        pages:
+          type: string
+          pattern: ^\d+$
+          description: Total number of pages.
+          example: '5'
+        dataList:
+          type: array
+          description: >-
+            Environments on the current page. Empty array when there are no
+            results.
+          items:
+            $ref: '#/components/schemas/CloudBrowserPageItem'
+      required:
+        - total
+        - current
+        - pages
+        - dataList
+    CloudBrowserConnectRequest:
+      type: object
+      properties:
+        envId:
+          $ref: '#/components/schemas/EnvironmentId'
+      required:
+        - envId
+    CloudBrowserConnectResult:
+      type: object
+      properties:
+        cdpUrl:
+          type: string
+          description: >
+            Full CDP (Chrome DevTools Protocol) address including the access
+            `token` parameter. Pass this
+
+            URL to an automation framework such as Puppeteer, Playwright, or
+            Selenium to attach to the
+
+            remote browser.
+          example: >-
+            https://runtime1.morelogin.com:16167?token=c62fedaaac524e41a0f02fc4345d41cb
+        accessUrl:
+          type:
+            - string
+            - 'null'
+          description: >
+            Cloud browser page wrapper address. Open it in a browser to view and
+            control the cloud
+
+            browser desktop. `null` when the page wrapper is not configured.
+
+
+            The `token` parameter is a Base64-encoded payload carrying the
+            desktop URL, desktop token,
+
+            expiry, and team, user, member, and environment IDs. The `envName`
+            and `lang` parameters set
+
+            the displayed environment name and interface language.
+          example: >-
+            https://official-website.morelogin.com/browser-remote?token=eyJkZXNrdG9wVXJsIjoi...ZW52SWQiOiIyMDczMzk1NDg5NzM4OTE5OTM2In0%3D&envName=P-1267&lang=en-US
+      required:
+        - cdpUrl
+  responses:
+    VoidDataResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    type: 'null'
+                    example: null
+    CloudBrowserPageResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CloudBrowserPageData'
+                required:
+                  - data
+    CloudBrowserConnectResponse:
+      description: Success
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ApiResponseBase'
+              - type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/CloudBrowserConnectResult'
+                required:
+                  - data
+          example:
+            code: 0
+            msg: null
+            data:
+              cdpUrl: >-
+                https://runtime1.morelogin.com:16167?token=c62fedaaac524e41a0f02fc4345d41cb
+              accessUrl: >-
+                https://official-website.morelogin.com/browser-remote?token=eyJkZXNrdG9wVXJsIjoi...ZW52SWQiOiIyMDczMzk1NDg5NzM4OTE5OTM2In0%3D&envName=P-1267&lang=en-US
+            requestId: 1d4f3ea968664593860b94b35d4ebf5e
